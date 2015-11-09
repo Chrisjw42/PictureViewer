@@ -2,12 +2,14 @@
 using System.IO; // Path
 using System.Drawing; // Bitmap
 using System.Drawing.Imaging; // Imageformat
-using System.Windows.Forms; //PictureBox
+using System.Windows.Forms; // PictureBox
+using System.Collections.Generic; // Stack
 
 namespace WfaPictureViewer
 {
     public class LoadedImage
     {
+        private PicViewer PicViewer { get; set; }
         private Bitmap originalVer { get; set; }
         private Bitmap currentVer { get; set; }
         private Bitmap previousVer { get; set; }
@@ -18,10 +20,15 @@ namespace WfaPictureViewer
         private ImageFormat originalFormat { get; set; }
         private ImageFormat tmpExportFormat { get; set; }
         private double correctRatio { get; set; }
+        private Stack<Bitmap> undo { get; set; }
+        private Stack<Bitmap> redo { get; set; }
+        public int curIndex { get; set; } // THIS IS NOT HOW THIS WILL BE
 
         // CONSTRUCTOR
         public LoadedImage(string path, Bitmap baseImage, PicViewer sender, int index)
         {
+            PicViewer = sender; 
+            curIndex = index;
             originalVer = currentVer = baseImage; // baseImage already converted to ARGB
 
             name = Path.GetFileNameWithoutExtension(path);
@@ -29,11 +36,8 @@ namespace WfaPictureViewer
             defaultDir = Path.GetDirectoryName(path);
             correctRatio = (float)currentVer.Width / (float)currentVer.Height;
 
-            UpdateCurrentThumbnail();
-
+            // Create label to dock over thumbnail
             lblThumb = new Label();
-            // Docking the label over the thumbnail
-            thumbnail.Controls.Add(lblThumb);
             lblThumb.Dock = DockStyle.Left;
             lblThumb.Size = new Size(15, 15);
             lblThumb.Font = new Font(lblThumb.Font, FontStyle.Bold);
@@ -41,12 +45,17 @@ namespace WfaPictureViewer
             lblThumb.TextAlign = ContentAlignment.TopLeft;
             lblThumb.BackColor = Color.FromArgb(50, 0, 0, 0);
 
+            UpdateThumbnail();
+
             // Names are given the index as a string, they will eventually be converted back to ints and used as indexing definitions.
-            thumbnail.Name = lblThumb.Name = index.ToString();
+            //thumbnail.Name = lblThumb.Name = index.ToString();
 
             // Add eventhandler references to clicks
-            thumbnail.Click += sender.picBox_Click;
-            lblThumb.Click += sender.picBox_Click;
+            thumbnail.Click += PicViewer.picBox_Click;
+            lblThumb.Click += PicViewer.picBox_Click;
+
+            undo = new Stack<Bitmap>();
+            redo = new Stack<Bitmap>();
         }
 
         // Return one of the three bitmap properties.
@@ -76,48 +85,24 @@ namespace WfaPictureViewer
             }
         }
 
-        public void UpdateBitmap(string ver, Bitmap img)
+        public void UpdateBitmap(Bitmap img)
         {
             // Can be used for validating passed image
             if (true)
             {
-                switch (ver)
-                {
-                    case "o":
-                        {
-                            originalVer = img;
-                        }
-                        break;
-                    case "c":
-                        {
-                            currentVer = img;
-                        }
-                        break;
-                    case "p":
-                        {
-                            previousVer = img;
-                        }
-                        break;
-                    default:
-                        {
-                            MessageBox.Show("An invalid Bitmap type was defined, please input o, c or p.");
-                            Environment.Exit(21);
-                        }
-                        break;
-                }
+                redo.Clear(); // Destroy redo stack
+                undo.Push(currentVer); // Add curent state to undo stack
+                currentVer = img;
+                UpdateThumbnail(); // Update thumbnail
             }
         }
 
         public PictureBox GetThumbnail()
         {
-            if (thumbnail != null)
-                return thumbnail;
-            else
-                MessageBox.Show("Thumbail {0} not found", name);
-                return null;
+            return thumbnail;        
         }
 
-        public void UpdateCurrentThumbnail() // Uses current Image to create a new thumbnail
+        public void UpdateThumbnail() // Uses current Image to create a new thumbnail
         {
             thumbnail = new PictureBox();
             // New image height given that thumbnail width is 100: original height / original width x 100 = new height
@@ -129,13 +114,27 @@ namespace WfaPictureViewer
             thumbnail.Size = new Size(thumbnail.Image.Size.Width, thumbnail.Image.Size.Height);
             thumbnail.BorderStyle = BorderStyle.Fixed3D;
             thumbnail.Dock = DockStyle.Top;
-            thumbnail.SizeMode = PictureBoxSizeMode.AutoSize;            
+            thumbnail.SizeMode = PictureBoxSizeMode.AutoSize;
+
+            thumbnail.Controls.Add(lblThumb);
+            thumbnail.Click += PicViewer.picBox_Click;
+            PicViewer.UpdateGallery();
         }
 
-        // This should probably grow into a more far reaching state system, with multiple levels of undos, an array of states with undo/redo?
-        public void CreatePreviousVer()
+        public void StepForward()
         {
-            previousVer = currentVer;
+            undo.Push(currentVer); // Add the currentVersion of the image to the undo.
+            currentVer = redo.Pop(); // Consume the next redo object
+            UpdateThumbnail();
+            PicViewer.UpdateImgOptions();
+        }
+
+        public void StepBackward()
+        {
+                redo.Push(currentVer); // Add the current version to the redo stack
+                currentVer = undo.Pop(); // consume the next object in the undo stack
+                UpdateThumbnail();
+                PicViewer.UpdateImgOptions();
         }
 
         public string GetName()
@@ -186,6 +185,30 @@ namespace WfaPictureViewer
         public void UpdateLblThumbName(string txt)
         {
             lblThumb.Name = txt;
+        }
+
+        public bool IsUndoEmpty()
+        {
+            if (undo.Count > 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool IsRedoEmpty()
+        {
+            if (redo.Count > 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

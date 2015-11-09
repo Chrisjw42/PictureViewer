@@ -83,6 +83,7 @@ namespace WfaPictureViewer
             UpdatePicboxInfoAndSizeMode();
             UpdateText();
             UpdateImgOptions();
+            UpdateGallery();
 
             pnlPicBox.AutoScrollMinSize = new Size(img.GetBitmap("c").Width - 10, img.GetBitmap("c").Height - 10);
 
@@ -90,7 +91,7 @@ namespace WfaPictureViewer
                 menuFitWindow.PerformClick();
         }
 
-        private void UpdateGallery()
+        public void UpdateGallery()
         {// An array of the columnstyles, used below to define width of a specific column
             TableLayoutColumnStyleCollection styleCollection = tableLayoutPanel1.ColumnStyles;
 
@@ -112,6 +113,7 @@ namespace WfaPictureViewer
                         // Update .Names to i, which matches their imgIndex, and will be used when clicked on to dictate the image that gets loaded
                         listLoadedImg[i].UpdateLblThumbName(i.ToString());
                         listLoadedImg[i].GetThumbnail().Name = i.ToString();
+                        listLoadedImg[i].curIndex = i;
 
                         flowGallery.Controls.Add(listLoadedImg[i].GetThumbnail());
 
@@ -142,9 +144,7 @@ namespace WfaPictureViewer
                 else if (listLoadedImg[i].GetThumbnail().BorderStyle != BorderStyle.None)
                     listLoadedImg[i].GetThumbnail().BorderStyle = BorderStyle.None;
             }
-        }
-
-        
+        }  
 
         public void StepThroughImgList(int numSteps)
         {
@@ -432,7 +432,7 @@ namespace WfaPictureViewer
         }
 
         // Update options that require an image to be loaded.
-        private void UpdateImgOptions()
+        public void UpdateImgOptions()
         {
             // Enable if image is currently loaded
             if (picBoxMain.Image != null)
@@ -504,6 +504,16 @@ namespace WfaPictureViewer
                     btnNavigateLeft.Enabled = false;
                 }
 
+                // Enable undo/redo based on images stacks.
+                if (listLoadedImg[curImgIndex].IsUndoEmpty())
+                    menuStepBackward.Enabled = false;
+                else
+                    menuStepBackward.Enabled = true;
+
+                if (listLoadedImg[curImgIndex].IsRedoEmpty())
+                    menuStepForward.Enabled = false;
+                else
+                    menuStepForward.Enabled = true;
             }
             // Disable if image is not currently loaded
             else
@@ -523,6 +533,8 @@ namespace WfaPictureViewer
                 btnNavigateLeft.Enabled = false;
                 btnNavigateRight.Enabled = false;
 
+                menuStepBackward.Enabled = false;
+                menuStepForward.Enabled = false;
                 menuBatch.Enabled = false;
             }
         }
@@ -562,6 +574,7 @@ namespace WfaPictureViewer
 
             // Here, an array of all the bytes that make up the pixles is created, The stride is the width of the array when also accounting for the extra buffering area.
             byte[] pixelByteArray = new byte[pixelData.Stride * pixelData.Height];
+            
 
             // Now the Marshal.Copy function copies pixel pixelData from pointer > byte array, preparing it for editing
             Marshal.Copy(pixelDataPointer, pixelByteArray, 0, pixelByteArray.Length);
@@ -590,7 +603,7 @@ namespace WfaPictureViewer
         {
             // Creating a new memory assignment, so the pointer(I think) doesn't chance the originalImg
             Bitmap sourceImg = new Bitmap(passedImg);
-
+            
             // Get the bit data from the image and draw it in to imgData
             BitmapData imgData = sourceImg.LockBits(new Rectangle(0, 0, sourceImg.Width, sourceImg.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
 
@@ -599,7 +612,7 @@ namespace WfaPictureViewer
 
             // An EMPTY array that will hold all of the data that makes up the image
             byte[] pixelByteBuffer = new byte[imgData.Stride * imgData.Height];
-
+             
             // Copy data from the pointer to the buffer
             Marshal.Copy(dataPointer, pixelByteBuffer, 0, pixelByteBuffer.Length);
 
@@ -654,7 +667,6 @@ namespace WfaPictureViewer
 
             // give data to buffer
             Marshal.Copy(dataPointer, imgBuffer, 0, imgBuffer.Length);
-
             float B, G, R;
 
             // Apply Sepia filtering
@@ -694,6 +706,51 @@ namespace WfaPictureViewer
             return sourceImg;
         }
 
+        // Experimenting with trying to compartmentalise parts of the ApplyEffect() process
+        private byte[] GetByteArray(Bitmap passedImg)
+        {
+            // Creating a new memory assignment, so the pointer(I think) doesn't chance the originalImg
+            Bitmap sourceImg = new Bitmap(passedImg);
+
+            // Using BitmapData, the Lockbits method can be used to extract the image's pixel pixelData
+            // Lockbits 'locks' a bitmap in to memory
+            BitmapData pixelData = sourceImg.LockBits(new Rectangle(0, 0, sourceImg.Width, sourceImg.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+            // From here on, whenever the pointer is changed, it is changing the data stored at the pointer address
+
+            // A pointer directed at the location of the first pixel read by LockBits. I believe this accesses the B, G, R, A info, as opposed to the pixels themselves
+            IntPtr pixelDataPointer = pixelData.Scan0;
+
+            // Here, an array of all the bytes that make up the pixles is created, The stride is the width of the array when also accounting for the extra buffering area.
+            byte[] imgBuffer = new byte[pixelData.Stride * pixelData.Height];
+            
+            // Now the Marshal.Copy function copies pixel pixelData from pointer > byte array, preparing it for editing
+            Marshal.Copy(pixelDataPointer, imgBuffer, 0, imgBuffer.Length);
+            /* 
+             // SWITCH FOR EFFECT
+
+             // Copy the byte pixelData back to the pointer, noting that the formatting of the 0 moves to follow the array
+             Marshal.Copy(imgBuffer, 0, pixelDataPointer, imgBuffer.Length);
+
+             // The data does not have to be passed to pixelData, because the pointer address was pointing to the data all along.
+
+             // The new edited pixels are passed back to the image
+             sourceImg.UnlockBits(pixelData);
+
+             imgBuffer = null;
+             pixelData = null;
+             */
+            return imgBuffer;
+        }
+
+        private void ApplyBatchEffect(string effectName)
+        {
+            foreach (LoadedImage img in listLoadedImg)
+            {
+                //
+            }
+        }
+
         // EVENT HANDLERS
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -726,7 +783,6 @@ namespace WfaPictureViewer
                     }
                     curImgIndex = 0; // change to equivalent of total length, or currently displayed??
                     UpdatePicbox(listLoadedImg[curImgIndex]);
-                    UpdateGallery();
                 }
             }
         }
@@ -758,12 +814,18 @@ namespace WfaPictureViewer
         {
             // Check what type the sender was (whether the user clicked on the label or the picturebox
             // The index is stored in the object as it's name, and is used to the dictate the curimg index
-
-            if (sender is PictureBox)
+            // Only UpdatePicbox if the clicked image != the one that's already selected
+            if (sender is PictureBox && curImgIndex != Int32.Parse(((PictureBox)sender).Name))
+            {
                 curImgIndex = Int32.Parse(((PictureBox)sender).Name);
-            else if (sender is Label)
+                UpdatePicbox(listLoadedImg[curImgIndex]);
+            }
+
+            else if (sender is Label && curImgIndex != Int32.Parse(((Label)sender).Name))
+            {
                 curImgIndex = Int32.Parse(((Label)sender).Name);
-            UpdatePicbox(listLoadedImg[curImgIndex]);
+                UpdatePicbox(listLoadedImg[curImgIndex]);
+            }
             UpdateGallerySelection();
         }
 
@@ -842,7 +904,6 @@ namespace WfaPictureViewer
                     UpdateText();
                     UpdatePicboxInfoAndSizeMode();
                     UpdateImgOptions();
-                    UpdateGallery();
                 }
                 // If there is still an image loaded
                 else
@@ -858,8 +919,8 @@ namespace WfaPictureViewer
                         curImgIndex -= 1;
                         UpdatePicbox(listLoadedImg[curImgIndex]);
                     }
-                    UpdateGallery();
                 }
+                UpdateGallery();
             }
             else
                 MessageBox.Show("No image currently being displayed");
@@ -925,12 +986,12 @@ namespace WfaPictureViewer
                     if (dlgResult == DialogResult.OK)
                     {
                         amount = dlgBright.getAmount();
-                        listLoadedImg[curImgIndex].CreatePreviousVer();
 
                         // tmp created for readability, with transparency is applied separately. The main picBox image is also updated here.
                         Bitmap tmp = ApplyTransparency(listLoadedImg[curImgIndex].GetBitmap("c"), amount);
-                        listLoadedImg[curImgIndex].UpdateBitmap("c", tmp);
-                        picBoxMain.Image = listLoadedImg[curImgIndex].GetBitmap("c");
+                        listLoadedImg[curImgIndex].UpdateBitmap(tmp);
+                        UpdatePicbox(listLoadedImg[curImgIndex]);
+                        //picBoxMain.Image = listLoadedImg[curImgIndex].GetBitmap("c");
                     }
                     else if (dlgResult == DialogResult.Cancel)
                     {
@@ -949,30 +1010,105 @@ namespace WfaPictureViewer
                 Grayscale dlgGrayscale = new Grayscale();
                 DialogResult dlgResult;
                 dlgResult = dlgGrayscale.ShowDialog();
-                listLoadedImg[curImgIndex].CreatePreviousVer();
 
                 // tmp created for readability, will eventually be applied to picBoxMain
-                Bitmap tmp;
+                Bitmap tmp = null;
 
                 // The 'Luminosity' button is set to "OK".
                 if (dlgResult == DialogResult.OK)
                 {
                     tmp = ApplyGrayscale(listLoadedImg[curImgIndex].GetBitmap("c"), "luminosity");
-                    listLoadedImg[curImgIndex].UpdateBitmap("c", tmp);
-                    picBoxMain.Image = tmp;
                 }
                 // The 'Average' button is set to "Yes".
                 else if (dlgResult == DialogResult.Yes)
                 {
                     tmp = ApplyGrayscale(listLoadedImg[curImgIndex].GetBitmap("c"), "average");
-                    listLoadedImg[curImgIndex].UpdateBitmap("c", tmp);
-                    picBoxMain.Image = tmp;
                 }
                 else
                 {
                     MessageBox.Show("An error has occured during the grayscale operation.");
                     Environment.Exit(22);
                 }
+                // If we reached here, a certain kind of grayscaling has been applied
+                listLoadedImg[curImgIndex].UpdateBitmap(tmp);
+                UpdatePicbox(listLoadedImg[curImgIndex]);
+            }
+        }
+
+        private void menuBatchGrayscale_Click(object sender, EventArgs e)
+        {
+            using (Grayscale dlgGrayscale = new Grayscale())
+            {
+                if (dlgGrayscale.ShowDialog() != DialogResult.Cancel)
+                {
+                    string algorithm = null;
+
+                    // "OK" is the result assigned to the luminosity button
+                    if (dlgGrayscale.DialogResult == DialogResult.OK)
+                    {
+                        algorithm = "luminosity";
+                    }
+                    else if (dlgGrayscale.DialogResult == DialogResult.Yes)
+                    {
+                        algorithm = "average";
+                    }
+                    else
+                    {
+                        // This should never happen
+                        dlgGrayscale.Close();
+                    }
+
+                    // Make changes initially before deciding on whether to save, etc. 
+                    foreach (LoadedImage img in listLoadedImg)
+                    {
+                        img.UpdateBitmap(ApplyGrayscale(img.GetBitmap("c"), algorithm));
+                    }
+                    UpdatePicbox(listLoadedImg[curImgIndex]);
+                    BatchFileProcess();
+                }
+            }
+        }
+
+        private void menuBatchTransparency_Click(object sender, EventArgs e)
+        {
+            if (picBoxMain.Image != null)
+            {
+                using (Brightness dlgTrans = new Brightness())
+                {
+                    if (dlgTrans.ShowDialog() == DialogResult.OK)
+                    {
+                        byte x = dlgTrans.getAmount();
+                        MessageBox.Show(x.ToString());
+
+                        foreach (LoadedImage img in listLoadedImg)
+                        {
+                            img.UpdateBitmap(ApplyTransparency(img.GetBitmap("c"), x));
+                        }
+                        UpdatePicbox(listLoadedImg[curImgIndex]);
+                        BatchFileProcess();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("You must first load an image.");
+            }
+        }
+
+        private void menuBatchSepia_Click(object sender, EventArgs e)
+        {
+            if (picBoxMain.Image != null)
+            {
+                foreach (LoadedImage img in listLoadedImg)
+                {
+                    img.UpdateBitmap(ApplySepia(img.GetBitmap("c")));
+                }
+                UpdatePicbox(listLoadedImg[curImgIndex]);
+                BatchFileProcess();
+            }
+            else
+            {
+                MessageBox.Show("You must first load an image.");
             }
         }
 
@@ -980,9 +1116,8 @@ namespace WfaPictureViewer
         {
             if (picBoxMain.Image != null)
             {
-                listLoadedImg[curImgIndex].CreatePreviousVer();
                 Bitmap tmp = ApplySepia(listLoadedImg[curImgIndex].GetBitmap("c"));
-                listLoadedImg[curImgIndex].UpdateBitmap("c", tmp);
+                listLoadedImg[curImgIndex].UpdateBitmap(tmp);
             }
         }
 
@@ -1027,8 +1162,7 @@ namespace WfaPictureViewer
             if (picBoxMain.Image != null)
             {
                 // Reverting the class' current image to match the original
-                listLoadedImg[curImgIndex].CreatePreviousVer();
-                listLoadedImg[curImgIndex].UpdateBitmap("c", listLoadedImg[curImgIndex].GetBitmap("o"));
+                listLoadedImg[curImgIndex].UpdateBitmap(listLoadedImg[curImgIndex].GetBitmap("o"));
                 UpdatePicbox(listLoadedImg[curImgIndex]);
             }
         }
@@ -1088,94 +1222,13 @@ namespace WfaPictureViewer
             }
         }
 
-        private void menuBatchGrayscale_Click(object sender, EventArgs e)
-        {
-            using (Grayscale dlgGrayscale = new Grayscale())
-            {
-                if (dlgGrayscale.ShowDialog() != DialogResult.Cancel)
-                {
-                    string algorithm = null;
-
-                    // "OK" is the result assigned to the luminosity button
-                    if (dlgGrayscale.DialogResult == DialogResult.OK)
-                    {
-                        algorithm = "luminosity";
-                    }
-                    else if (dlgGrayscale.DialogResult == DialogResult.Yes)
-                    {
-                        algorithm = "average";
-                    }
-                    else
-                    {
-                        // This should never happen
-                        dlgGrayscale.Close();
-                    }
-
-                    // Make changes initially before deciding on whether to save, etc. 
-                    foreach (LoadedImage img in listLoadedImg)
-                    {
-                        listLoadedImg[curImgIndex].CreatePreviousVer();
-                        img.UpdateBitmap("c", ApplyGrayscale(img.GetBitmap("c"), algorithm));
-                    }
-                    UpdatePicbox(listLoadedImg[curImgIndex]);
-                    BatchFileProcess();                    
-                }
-            }
-        }
-
-        private void menuBatchTransparency_Click(object sender, EventArgs e)
-        {
-            if (picBoxMain.Image != null)
-            {
-                using (Brightness dlgTrans = new Brightness())
-                {
-                    if (dlgTrans.ShowDialog() == DialogResult.OK)
-                    {
-                        byte x = dlgTrans.getAmount();
-                        MessageBox.Show(x.ToString());
-
-                        foreach (LoadedImage img in listLoadedImg)
-                        {
-                            listLoadedImg[curImgIndex].CreatePreviousVer();
-                            img.UpdateBitmap("c", ApplyTransparency(img.GetBitmap("c"), x));
-                        }
-                        UpdatePicbox(listLoadedImg[curImgIndex]);
-                        BatchFileProcess();
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("You must first load an image.");
-            }
-        }
-
-        private void menuBatchSepia_Click(object sender, EventArgs e)
-        {
-            if (picBoxMain.Image != null)
-            {
-                foreach (LoadedImage img in listLoadedImg)
-                {
-                    listLoadedImg[curImgIndex].CreatePreviousVer();
-                    img.UpdateBitmap("c", ApplySepia(img.GetBitmap("c")));
-                }
-                UpdatePicbox(listLoadedImg[curImgIndex]);
-                BatchFileProcess();
-            }
-            else
-            {
-                MessageBox.Show("You must first load an image.");
-            }
-        }
-
         private void menuBatchResetAdjustments_Click(object sender, EventArgs e)
         {
             if (picBoxMain.Image != null)
             {
                 foreach (LoadedImage img in listLoadedImg)
                 {
-                    listLoadedImg[curImgIndex].CreatePreviousVer();
-                    img.UpdateBitmap("c", img.GetBitmap("o"));
+                    img.UpdateBitmap(img.GetBitmap("o"));
                 }
                 UpdatePicbox(listLoadedImg[curImgIndex]);
                 BatchFileProcess();
@@ -1226,6 +1279,16 @@ namespace WfaPictureViewer
         {
             pnlGalleryHidden = !pnlGalleryHidden;
             UpdateGallery();
+        }
+
+        private void menuStepBackward_Click(object sender, EventArgs e)
+        {
+            listLoadedImg[curImgIndex].StepBackward();
+        }
+
+        private void menuStepForward_Click(object sender, EventArgs e)
+        {
+            listLoadedImg[curImgIndex].StepForward();
         }        
     }
 }

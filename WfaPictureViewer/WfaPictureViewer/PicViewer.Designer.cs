@@ -74,6 +74,9 @@
             this.menuDisplayBGInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuHideGallery = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStepBackward = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStepForward = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.pnlPicBox.SuspendLayout();
@@ -278,46 +281,49 @@
             // menuLoadImage
             // 
             this.menuLoadImage.Name = "menuLoadImage";
-            this.menuLoadImage.Size = new System.Drawing.Size(146, 22);
-            this.menuLoadImage.Text = "Load Image/s";
+            this.menuLoadImage.Size = new System.Drawing.Size(152, 22);
+            this.menuLoadImage.Text = "&Load Image/s";
             this.menuLoadImage.Click += new System.EventHandler(this.MenuLoadImage_Click);
             // 
             // menuClearImage
             // 
             this.menuClearImage.Name = "menuClearImage";
-            this.menuClearImage.Size = new System.Drawing.Size(146, 22);
-            this.menuClearImage.Text = "Clear Image";
+            this.menuClearImage.Size = new System.Drawing.Size(152, 22);
+            this.menuClearImage.Text = "&Clear Image";
             this.menuClearImage.Click += new System.EventHandler(this.MenuClearImage_Click);
             // 
             // menuCopyImage
             // 
             this.menuCopyImage.Name = "menuCopyImage";
-            this.menuCopyImage.Size = new System.Drawing.Size(146, 22);
+            this.menuCopyImage.Size = new System.Drawing.Size(152, 22);
             this.menuCopyImage.Text = "Copy";
             this.menuCopyImage.Click += new System.EventHandler(this.MenuCopyImage_Click);
             // 
             // menuSaveImage
             // 
             this.menuSaveImage.Name = "menuSaveImage";
-            this.menuSaveImage.Size = new System.Drawing.Size(146, 22);
+            this.menuSaveImage.Size = new System.Drawing.Size(152, 22);
             this.menuSaveImage.Text = "Save ";
             this.menuSaveImage.Click += new System.EventHandler(this.MenuSaveImage_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // menuClose
             // 
             this.menuClose.Name = "menuClose";
-            this.menuClose.Size = new System.Drawing.Size(146, 22);
+            this.menuClose.Size = new System.Drawing.Size(152, 22);
             this.menuClose.Text = "Close";
             this.menuClose.Click += new System.EventHandler(this.menuClose_Click);
             // 
             // menuImage
             // 
             this.menuImage.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuStepBackward,
+            this.menuStepForward,
+            this.toolStripSeparator2,
             this.menuBatch,
             this.toolStripSeparator4,
             this.menuChannels,
@@ -342,6 +348,7 @@
             this.toolStripSeparator5,
             this.menuBatchResetAdjustments});
             this.menuBatch.Name = "menuBatch";
+            this.menuBatch.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.menuBatch.Size = new System.Drawing.Size(208, 22);
             this.menuBatch.Text = "Batch";
             // 
@@ -490,6 +497,27 @@
             this.testToolStripMenuItem.Text = "test";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
+            // menuStepBackward
+            // 
+            this.menuStepBackward.Name = "menuStepBackward";
+            this.menuStepBackward.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.menuStepBackward.Size = new System.Drawing.Size(208, 22);
+            this.menuStepBackward.Text = "Step Backward";
+            this.menuStepBackward.Click += new System.EventHandler(this.menuStepBackward_Click);
+            // 
+            // menuStepForward
+            // 
+            this.menuStepForward.Name = "menuStepForward";
+            this.menuStepForward.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.menuStepForward.Size = new System.Drawing.Size(208, 22);
+            this.menuStepForward.Text = "Step Forward";
+            this.menuStepForward.Click += new System.EventHandler(this.menuStepForward_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(205, 6);
+            // 
             // PicViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -567,6 +595,9 @@
         private System.Windows.Forms.Panel pnlGallery;
         private System.Windows.Forms.ToolStripMenuItem MenuHideGallery;
         private System.Windows.Forms.FlowLayoutPanel flowGallery;
+        private System.Windows.Forms.ToolStripMenuItem menuStepBackward;
+        private System.Windows.Forms.ToolStripMenuItem menuStepForward;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 
