@@ -25,7 +25,7 @@ namespace WfaPictureViewer
         public Channels()
         {
             InitializeComponent();
-            // Stops manual editing of the combo box, meaning that somehting HAS to be selected
+            // Stops manual editing of the combo box, meaning that somehting HAS to be arrIsProcessed
             comboFileType.DropDownStyle = ComboBoxStyle.DropDownList;
             bypass = chkBypass.Checked;
             comboFileType.SelectedIndex = 0;

@@ -10,7 +10,7 @@
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param deaultName="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -52,7 +52,10 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuClose = new System.Windows.Forms.ToolStripMenuItem();
             this.menuImage = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuBatch = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStepBackward = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStepForward = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuBatchMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuBatchChannels = new System.Windows.Forms.ToolStripMenuItem();
             this.menuBatchGrayscale = new System.Windows.Forms.ToolStripMenuItem();
             this.menuBatchTransparency = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,9 +77,7 @@
             this.menuDisplayBGInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuHideGallery = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStepBackward = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStepForward = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuBatch = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.pnlPicBox.SuspendLayout();
@@ -281,40 +282,40 @@
             // menuLoadImage
             // 
             this.menuLoadImage.Name = "menuLoadImage";
-            this.menuLoadImage.Size = new System.Drawing.Size(152, 22);
+            this.menuLoadImage.Size = new System.Drawing.Size(146, 22);
             this.menuLoadImage.Text = "&Load Image/s";
             this.menuLoadImage.Click += new System.EventHandler(this.MenuLoadImage_Click);
             // 
             // menuClearImage
             // 
             this.menuClearImage.Name = "menuClearImage";
-            this.menuClearImage.Size = new System.Drawing.Size(152, 22);
+            this.menuClearImage.Size = new System.Drawing.Size(146, 22);
             this.menuClearImage.Text = "&Clear Image";
             this.menuClearImage.Click += new System.EventHandler(this.MenuClearImage_Click);
             // 
             // menuCopyImage
             // 
             this.menuCopyImage.Name = "menuCopyImage";
-            this.menuCopyImage.Size = new System.Drawing.Size(152, 22);
+            this.menuCopyImage.Size = new System.Drawing.Size(146, 22);
             this.menuCopyImage.Text = "Copy";
             this.menuCopyImage.Click += new System.EventHandler(this.MenuCopyImage_Click);
             // 
             // menuSaveImage
             // 
             this.menuSaveImage.Name = "menuSaveImage";
-            this.menuSaveImage.Size = new System.Drawing.Size(152, 22);
+            this.menuSaveImage.Size = new System.Drawing.Size(146, 22);
             this.menuSaveImage.Text = "Save ";
             this.menuSaveImage.Click += new System.EventHandler(this.MenuSaveImage_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // menuClose
             // 
             this.menuClose.Name = "menuClose";
-            this.menuClose.Size = new System.Drawing.Size(152, 22);
+            this.menuClose.Size = new System.Drawing.Size(146, 22);
             this.menuClose.Text = "Close";
             this.menuClose.Click += new System.EventHandler(this.menuClose_Click);
             // 
@@ -324,7 +325,7 @@
             this.menuStepBackward,
             this.menuStepForward,
             this.toolStripSeparator2,
-            this.menuBatch,
+            this.menuBatchMenu,
             this.toolStripSeparator4,
             this.menuChannels,
             this.menuGrayscale,
@@ -338,19 +339,40 @@
             this.menuImage.Size = new System.Drawing.Size(52, 20);
             this.menuImage.Text = "Image";
             // 
-            // menuBatch
+            // menuStepBackward
             // 
-            this.menuBatch.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuStepBackward.Name = "menuStepBackward";
+            this.menuStepBackward.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.menuStepBackward.Size = new System.Drawing.Size(208, 22);
+            this.menuStepBackward.Text = "Step Backward";
+            this.menuStepBackward.Click += new System.EventHandler(this.menuStepBackward_Click);
+            // 
+            // menuStepForward
+            // 
+            this.menuStepForward.Name = "menuStepForward";
+            this.menuStepForward.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.menuStepForward.Size = new System.Drawing.Size(208, 22);
+            this.menuStepForward.Text = "Step Forward";
+            this.menuStepForward.Click += new System.EventHandler(this.menuStepForward_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(205, 6);
+            // 
+            // menuBatchMenu
+            // 
+            this.menuBatchMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuBatchChannels,
             this.menuBatchGrayscale,
             this.menuBatchTransparency,
             this.menuBatchSepia,
             this.toolStripSeparator5,
             this.menuBatchResetAdjustments});
-            this.menuBatch.Name = "menuBatch";
-            this.menuBatch.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
-            this.menuBatch.Size = new System.Drawing.Size(208, 22);
-            this.menuBatch.Text = "Batch";
+            this.menuBatchMenu.Name = "menuBatchMenu";
+            this.menuBatchMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
+            this.menuBatchMenu.Size = new System.Drawing.Size(208, 22);
+            this.menuBatchMenu.Text = "Batch";
             // 
             // menuBatchChannels
             // 
@@ -492,31 +514,18 @@
             // 
             // testToolStripMenuItem
             // 
+            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuBatch});
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
             this.testToolStripMenuItem.Text = "test";
-            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
-            // menuStepBackward
+            // menuBatch
             // 
-            this.menuStepBackward.Name = "menuStepBackward";
-            this.menuStepBackward.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.menuStepBackward.Size = new System.Drawing.Size(208, 22);
-            this.menuStepBackward.Text = "Step Backward";
-            this.menuStepBackward.Click += new System.EventHandler(this.menuStepBackward_Click);
-            // 
-            // menuStepForward
-            // 
-            this.menuStepForward.Name = "menuStepForward";
-            this.menuStepForward.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.menuStepForward.Size = new System.Drawing.Size(208, 22);
-            this.menuStepForward.Text = "Step Forward";
-            this.menuStepForward.Click += new System.EventHandler(this.menuStepForward_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(205, 6);
+            this.menuBatch.Name = "menuBatch";
+            this.menuBatch.Size = new System.Drawing.Size(104, 22);
+            this.menuBatch.Text = "Batch";
+            this.menuBatch.Click += new System.EventHandler(this.menuBatch_Click);
             // 
             // PicViewer
             // 
@@ -577,7 +586,7 @@
         private System.Windows.Forms.ToolStripMenuItem menuResetAdjustments;
         private System.Windows.Forms.ToolStripMenuItem menuChannels;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem menuBatch;
+        private System.Windows.Forms.ToolStripMenuItem menuBatchMenu;
         private System.Windows.Forms.ToolStripMenuItem menuBatchChannels;
         private System.Windows.Forms.ToolStripMenuItem menuBatchGrayscale;
         private System.Windows.Forms.ToolStripMenuItem menuBatchTransparency;
@@ -598,6 +607,7 @@
         private System.Windows.Forms.ToolStripMenuItem menuStepBackward;
         private System.Windows.Forms.ToolStripMenuItem menuStepForward;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem menuBatch;
     }
 }
 

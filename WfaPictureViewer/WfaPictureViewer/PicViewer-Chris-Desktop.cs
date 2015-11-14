@@ -21,7 +21,7 @@ namespace WfaPictureViewer
         int curImgIndex, curGalleryHeight; // The height of the flowGallery
         bool pnlGalleryHidden;
 
-        //CONSTRUCTOR - Does not have a return type and shares a deaultName with the class
+        //CONSTRUCTOR - Does not have a return type and shares a name with the class
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public PicViewer()
         {
@@ -239,15 +239,15 @@ namespace WfaPictureViewer
             }
         }
 
-        // Utilises the Batch dialog window to exportToFile, provideName, apply file types to files AFTER processing
+        // Utilises the Batch dialog window to export, rename, apply file types to files AFTER processing
         private void BatchFileProcess()
         {
-            /*using (BatchSettings dlgBatch = new BatchSettings(this))
+            using (BatchSettings dlgBatch = new BatchSettings(this))
             {
                 if (dlgBatch.ShowDialog() == DialogResult.OK)
                 {
                     // If exporting is not turned on
-                    if (dlgBatch.exportToFile == false)
+                    if (dlgBatch.export == false)
                     {
                         // nowt
                     }
@@ -255,8 +255,7 @@ namespace WfaPictureViewer
                     else
                     {
                         // If isBypassing dialog is not activated
-                        //if (dlgBatch.bypass == false)
-                        if (true)
+                        if (dlgBatch.bypass == false)
                         {
                             foreach (LoadedImage img in listLoadedImg)
                             {
@@ -299,7 +298,7 @@ namespace WfaPictureViewer
 
                             for (int i = 0; i < listLoadedImg.Count(); i++)
                             {
-                                if (dlgBatch.provideName == true)
+                                if (dlgBatch.rename == true)
                                 {
                                     string path = Path.GetDirectoryName(dlgBatch.fileName) + "\\" + Path.GetFileNameWithoutExtension(dlgBatch.fileName) + "_grayscale_" + i + Path.GetExtension(dlgBatch.fileName);
                                     filename = path;
@@ -312,7 +311,7 @@ namespace WfaPictureViewer
                         }
                     }
                 }
-            }*/
+            }
         }
 
         // Combined method that updates the picbox label info display and the sizemode of the image
@@ -744,6 +743,14 @@ namespace WfaPictureViewer
             return imgBuffer;
         }
 
+        private void ApplyBatchEffect(string effectName)
+        {
+            foreach (LoadedImage img in listLoadedImg)
+            {
+                //
+            }
+        }
+
         // EVENT HANDLERS
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -769,7 +776,6 @@ namespace WfaPictureViewer
                 // only opens if the V user clicks OK
                 if (dlgOpen.ShowDialog() == DialogResult.OK)
                 {
-                    
                     // 'Filenames' is a property that holds an array of strings, iterating through the array each can be added to the LoadedImg list
                     foreach (string name in dlgOpen.FileNames)
                     {
@@ -807,7 +813,7 @@ namespace WfaPictureViewer
         public void picBox_Click(object sender, EventArgs e)
         {
             // Check what type the sender was (whether the user clicked on the label or the picturebox
-            // The index is stored in the object as it's deaultName, and is used to the dictate the curimg index
+            // The index is stored in the object as it's name, and is used to the dictate the curimg index
             // Only UpdatePicbox if the clicked image != the one that's already arrIsProcessed
             if (sender is PictureBox && curImgIndex != Int32.Parse(((PictureBox)sender).Name))
             {
@@ -956,104 +962,41 @@ namespace WfaPictureViewer
             menuResetBGColour.Enabled = true;
         }
 
-        // Here lies applications of image effects and file handling
-        private void menuBatch_Click(object sender, EventArgs e)
+        private void manuBatch_Click(object sender, EventArgs e)
         {
             using (BatchSettings bs = new BatchSettings(this))
             {
-                if (bs.ShowDialog() == DialogResult.OK)
+                // Apply effects only to previewVer of each image
+                if (bs.ShowDialog() != DialogResult.Cancel)
                 {
-                    // Distinguish new collection, which images to apply Batching to?
-                    List<LoadedImage> listBatch = new List<LoadedImage>();
+                    // Distinguish collection, which images to apply Batching to?
+                    // bs.arrIsProcessed;
 
                     for (int i = 0; i < listLoadedImg.Count; i++)
                     {
-                        // Add each item that is marked for processing to the new batch list
+                        // Is the image at this index is to be processed. 
                         if (bs.arrIsProcessed[i] == true)
-                        { 
-                            listBatch.Add(listLoadedImg[i]);
-                        }
-                    }
-
-                    // Apply effects only to previewVer of each 
-                    // TRANSFORMS
-
-                    // ADJUSTMENTS
-
-                    // Transparency
-                    if (bs.arrChkOptions[2][0].Checked == true)
-                    {
-                        foreach (LoadedImage batchImg in listBatch)
                         {
-                            // The byte value is necessary for the image adjustment
-                            byte amount = bs.transpInput;
-
-                            // tmp for readability, 
-                            Bitmap tmp = ApplyTransparency(batchImg.GetBitmap("c"), amount);
-                            batchImg.UpdatePreview(tmp);
-                        }
-                    }
-
-                    // FILTERS
-
-                    // CHANNELS
-
-                    int suffix = 1;
-
-                    // Update currentImgs with changes, save.
-                    foreach (LoadedImage img in listBatch)
-                    {
-                        // If a change has actually been made to the image
-                        if (img.GetBitmap("p") != null)
-                        {
-                            img.ApplyPreview();
-                        }
-
-                        if (bs.exportToFile)
-                        {
-                            // Values to be used here:
-                            //bs.provideDir, bs.ProvideName, bs.provideFormat, img.defaultName, img.defaultDir, img.originalFormat
                             
-                            // Grab the curent ImageFormat from the bs form
-                            ImageFormat expFormat = bs.GetImageFormat();
-                            string filename, fileDir, filePath;
-
-                            if (bs.provideDir)
-                            {
-                                fileDir = bs.GetValue("newFileDir");
-                            }
-                            else
-                            {
-                                fileDir = img.defaultDir;
-                            }
-
-                            // if providing new file deaultName, and there's more than one image being exported
-                            if (bs.provideName && listBatch.Count > 1)
-                            {
-                                filename = bs.GetValue("newFileName") + "_" + suffix++.ToString();
-                            }
-                            // If (for some reason) there is only one image in the batch
-                            else if (bs.provideName && listBatch.Count == 1)
-                            {
-                                filename = bs.GetValue("newFileName");
-                            }
-                            else
-                            {
-                                filename = img.deaultName;
-                            }
-
-                            // Generate a full path based on name + directory
-                            filePath = fileDir + "\\" +  filename + "." + expFormat.ToString();
-                            img.GetBitmap("c").Save(filePath);
+                            listLoadedImg[i].previewVer = listLoadedImg[i].GetBitmap("c");
                         }
                     }
-                    // Reset suffix
-                    suffix = 1;
 
-                    UpdatePicbox(listLoadedImg[curImgIndex]); 
-                }
+                    
+
+                    // Work through adjustments
+
+                    // Work through filters
+
+                    // Utilise fileExport options
+
+
+                    foreach (LoadedImage img in listLoadedImg)
+                    {
+                        // UpdateImg(previewVer), clear previewVer
+                    }
+                }                
             }
-            
         }
 
         private void MenuResetStretching_Click(object sender, EventArgs e)
@@ -1064,7 +1007,7 @@ namespace WfaPictureViewer
             this.Size = new Size(picWidth + 149, picHeight + 72);
         }
 
-        // Adjust the Transparency (and eventually Brightness/Contrast) 
+        // Adjust the Brightness (and eventually Contrast) 
         private void MenuTransparency(object sender, EventArgs e)
         {
             if (picBoxMain.Image != null)
@@ -1072,14 +1015,14 @@ namespace WfaPictureViewer
                 // The byte value is necessary for the image adjustments
                 byte amount = 0;
                 // Creating the Form that will be the dialog box
-                using (Transparency dlgTransp = new Transparency())
+                using (Brightness dlgBright = new Brightness())
                 {
                     // Result is saved before check, so the result can be checked in more than one bool statement
-                    DialogResult dlgResult = dlgTransp.ShowDialog();
+                    DialogResult dlgResult = dlgBright.ShowDialog();
 
                     if (dlgResult == DialogResult.OK)
                     {
-                        amount = dlgTransp.getAmount();
+                        amount = dlgBright.getAmount();
 
                         // tmp created for readability, with transparency is applied separately. The main picBox image is also updated here.
                         Bitmap tmp = ApplyTransparency(listLoadedImg[curImgIndex].GetBitmap("c"), amount);
@@ -1167,7 +1110,7 @@ namespace WfaPictureViewer
         {
             if (picBoxMain.Image != null)
             {
-                using (Transparency dlgTrans = new Transparency())
+                using (Brightness dlgTrans = new Brightness())
                 {
                     if (dlgTrans.ShowDialog() == DialogResult.OK)
                     {
@@ -1299,12 +1242,12 @@ namespace WfaPictureViewer
                     int tmp = curImgIndex;
                     curImgIndex = 0;
 
-                    // using for loop instead of foreach because the index is needed to get deaultName, filetype etc. in other methods. 
+                    // using for loop instead of foreach because the index is needed to get name, filetype etc. in other methods. 
                     // dlgChannels.Bypass is a bool that dictates whether to bypass dlg
                     for (curImgIndex = 0; curImgIndex < listLoadedImg.Count; curImgIndex++)
                     {
                         UpdatePicbox(listLoadedImg[curImgIndex]);
-                        // Assign the exportToFile format choice to the class
+                        // Assign the export format choice to the class
                         listLoadedImg[curImgIndex].UpdateExportFormat(dlgChannels.fileType);
                         ExportChannelMediator(dlgChannels.colourChannel, dlgChannels.bypass);
                         // Clear the format choice, to avoid polluting future usage

@@ -12,11 +12,11 @@ namespace WfaPictureViewer
         private PicViewer PicViewer { get; set; }
         private Bitmap originalVer { get; set; }
         private Bitmap currentVer { get; set; }
-        private Bitmap previewVer { get; set; }
+        public Bitmap previewVer { get; set; }
         private PictureBox thumbnail { get; set; }
         private Label lblThumb { get; set; }
-        public string deaultName { get; private set; }
-        public string defaultDir { get; private set; }
+        private string name { get; set; }
+        private string defaultDir { get; set; }
         private ImageFormat originalFormat { get; set; }
         private ImageFormat tmpExportFormat { get; set; }
         private double correctRatio { get; set; }
@@ -27,14 +27,13 @@ namespace WfaPictureViewer
         // CONSTRUCTOR
         public LoadedImage(string path, Bitmap baseImage, PicViewer sender, int index)
         {
-            //defaultLocation = Path.GetDirectoryName(path);
             PicViewer = sender; 
             curIndex = index;
             originalVer = currentVer = baseImage; // baseImage already converted to ARGB
 
-            deaultName = Path.GetFileNameWithoutExtension(path);
-            defaultDir = Path.GetDirectoryName(path);
+            name = Path.GetFileNameWithoutExtension(path);
             originalFormat = baseImage.RawFormat;
+            defaultDir = Path.GetDirectoryName(path);
             correctRatio = (float)currentVer.Width / (float)currentVer.Height;
 
             // Create label to dock over thumbnail
@@ -97,14 +96,6 @@ namespace WfaPictureViewer
                 UpdateThumbnail(); // Update thumbnail
             }
         }
-        public void UpdatePreview (Bitmap img)
-        {
-            // Can be used for validating passed image
-            if (true)
-            {
-                previewVer = img;
-            }
-        }
 
         public PictureBox GetThumbnail()
         {
@@ -140,25 +131,16 @@ namespace WfaPictureViewer
 
         public void StepBackward()
         {
-            redo.Push(currentVer); // Add the current version to the redo stack
-            currentVer = undo.Pop(); // consume the next object in the undo stack
-            UpdateThumbnail();
-            PicViewer.UpdateImgOptions();
-        }
-
-        public void ApplyPreview()
-        {
-            undo.Push(currentVer); // Add current version to undo queue
-            currentVer = previewVer;
-            previewVer = null; // consume previewVer after application to currentVer
-            UpdateThumbnail();
-            PicViewer.UpdateImgOptions();
+                redo.Push(currentVer); // Add the current version to the redo stack
+                currentVer = undo.Pop(); // consume the next object in the undo stack
+                UpdateThumbnail();
+                PicViewer.UpdateImgOptions();
         }
 
         public string GetName()
         {
-            if (deaultName != null)
-            return deaultName;
+            if (name != null)
+            return name;
             else
             {
                 return null;

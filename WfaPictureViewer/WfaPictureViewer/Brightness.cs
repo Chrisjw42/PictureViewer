@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace WfaPictureViewer
 {
-    public partial class Brightness : Form
+    public partial class Transparency : Form
     {
         byte amountBrightness;
 
-        public Brightness()
+        public Transparency()
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
