@@ -40,6 +40,7 @@
             this.radBatchFileNameNew = new System.Windows.Forms.RadioButton();
             this.txtBatchFileName = new System.Windows.Forms.TextBox();
             this.grpBatchFileFolder = new System.Windows.Forms.GroupBox();
+            this.lblBatchFileFolder = new System.Windows.Forms.Label();
             this.radBatchFileFolderCurrent = new System.Windows.Forms.RadioButton();
             this.radBatchFileFolderNew = new System.Windows.Forms.RadioButton();
             this.btnBatchFileExportGetPath = new System.Windows.Forms.Button();
@@ -73,20 +74,25 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.chkBatchFilterSepia = new System.Windows.Forms.CheckBox();
             this.tabChannels = new System.Windows.Forms.TabPage();
-            this.lblBatchChannelsType = new System.Windows.Forms.Label();
-            this.comboBatchChannelsType = new System.Windows.Forms.ComboBox();
-            this.chkBatchChannelsBypass = new System.Windows.Forms.CheckBox();
-            this.chkBatchChannelsAlpha = new System.Windows.Forms.CheckBox();
-            this.btnBatchChannelsAll = new System.Windows.Forms.Button();
+            this.batchChanelFlow = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.lblBatchChannelsSelect = new System.Windows.Forms.Label();
-            this.btnBatchChannelsA = new System.Windows.Forms.Button();
-            this.btnBatchChannelsB = new System.Windows.Forms.Button();
-            this.btnBatchChannelsG = new System.Windows.Forms.Button();
-            this.btnBatchChannelsR = new System.Windows.Forms.Button();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.lblAlphaInstructions = new System.Windows.Forms.Label();
+            this.lblCatchChannelsInstructions = new System.Windows.Forms.Label();
+            this.lblBatchChannelsA = new System.Windows.Forms.Label();
+            this.chkBatchChannelsA = new System.Windows.Forms.CheckBox();
+            this.chkBatchChannelsB = new System.Windows.Forms.CheckBox();
+            this.chkBatchChannelsG = new System.Windows.Forms.CheckBox();
+            this.chkBatchChannelsR = new System.Windows.Forms.CheckBox();
+            this.radBatchChannelsATran = new System.Windows.Forms.RadioButton();
+            this.radBatchChannelsABW = new System.Windows.Forms.RadioButton();
+            this.chkBatchChannels = new System.Windows.Forms.CheckBox();
+            this.panel7 = new System.Windows.Forms.Panel();
             this.btnBatch = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.lblBatchFileFolder = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabBatch.SuspendLayout();
             this.tabFile.SuspendLayout();
@@ -107,6 +113,9 @@
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.tabChannels.SuspendLayout();
+            this.batchChanelFlow.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabBatch
@@ -171,7 +180,7 @@
             this.grpBatchFileName.Controls.Add(this.radBatchFileNameCurrent);
             this.grpBatchFileName.Controls.Add(this.radBatchFileNameNew);
             this.grpBatchFileName.Controls.Add(this.txtBatchFileName);
-            this.grpBatchFileName.Location = new System.Drawing.Point(12, 100);
+            this.grpBatchFileName.Location = new System.Drawing.Point(11, 96);
             this.grpBatchFileName.Name = "grpBatchFileName";
             this.grpBatchFileName.Size = new System.Drawing.Size(526, 36);
             this.grpBatchFileName.TabIndex = 42;
@@ -215,11 +224,21 @@
             this.grpBatchFileFolder.Controls.Add(this.radBatchFileFolderCurrent);
             this.grpBatchFileFolder.Controls.Add(this.radBatchFileFolderNew);
             this.grpBatchFileFolder.Controls.Add(this.btnBatchFileExportGetPath);
-            this.grpBatchFileFolder.Location = new System.Drawing.Point(12, 62);
+            this.grpBatchFileFolder.Location = new System.Drawing.Point(11, 58);
             this.grpBatchFileFolder.Name = "grpBatchFileFolder";
             this.grpBatchFileFolder.Size = new System.Drawing.Size(526, 36);
             this.grpBatchFileFolder.TabIndex = 41;
             this.grpBatchFileFolder.TabStop = false;
+            // 
+            // lblBatchFileFolder
+            // 
+            this.lblBatchFileFolder.BackColor = System.Drawing.SystemColors.Control;
+            this.lblBatchFileFolder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblBatchFileFolder.Location = new System.Drawing.Point(291, 10);
+            this.lblBatchFileFolder.Name = "lblBatchFileFolder";
+            this.lblBatchFileFolder.Size = new System.Drawing.Size(226, 20);
+            this.lblBatchFileFolder.TabIndex = 40;
+            this.lblBatchFileFolder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // radBatchFileFolderCurrent
             // 
@@ -260,7 +279,7 @@
             this.chkBatchFileExport.AutoSize = true;
             this.chkBatchFileExport.Checked = true;
             this.chkBatchFileExport.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBatchFileExport.Location = new System.Drawing.Point(8, 10);
+            this.chkBatchFileExport.Location = new System.Drawing.Point(7, 6);
             this.chkBatchFileExport.Name = "chkBatchFileExport";
             this.chkBatchFileExport.Size = new System.Drawing.Size(98, 17);
             this.chkBatchFileExport.TabIndex = 34;
@@ -276,15 +295,16 @@
             ".Bmp",
             ".Png",
             ".Tiff"});
-            this.comboBatchFileExportType.Location = new System.Drawing.Point(68, 34);
+            this.comboBatchFileExportType.Location = new System.Drawing.Point(67, 30);
             this.comboBatchFileExportType.Name = "comboBatchFileExportType";
             this.comboBatchFileExportType.Size = new System.Drawing.Size(64, 21);
             this.comboBatchFileExportType.TabIndex = 31;
+            this.comboBatchFileExportType.SelectedIndexChanged += new System.EventHandler(this.comboBatchFileExportType_SelectedIndexChanged);
             // 
             // lblBatchFileExportType
             // 
             this.lblBatchFileExportType.AutoSize = true;
-            this.lblBatchFileExportType.Location = new System.Drawing.Point(9, 37);
+            this.lblBatchFileExportType.Location = new System.Drawing.Point(8, 33);
             this.lblBatchFileExportType.Name = "lblBatchFileExportType";
             this.lblBatchFileExportType.Size = new System.Drawing.Size(50, 13);
             this.lblBatchFileExportType.TabIndex = 32;
@@ -518,7 +538,7 @@
             // chkBatchFilterGrayscale
             // 
             this.chkBatchFilterGrayscale.AutoSize = true;
-            this.chkBatchFilterGrayscale.Location = new System.Drawing.Point(3, 3);
+            this.chkBatchFilterGrayscale.Location = new System.Drawing.Point(7, 6);
             this.chkBatchFilterGrayscale.Name = "chkBatchFilterGrayscale";
             this.chkBatchFilterGrayscale.Size = new System.Drawing.Size(73, 17);
             this.chkBatchFilterGrayscale.TabIndex = 10;
@@ -553,13 +573,13 @@
             this.panel4.Controls.Add(this.chkBatchFilterSepia);
             this.panel4.Location = new System.Drawing.Point(3, 140);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(550, 100);
+            this.panel4.Size = new System.Drawing.Size(550, 22);
             this.panel4.TabIndex = 1;
             // 
             // chkBatchFilterSepia
             // 
             this.chkBatchFilterSepia.AutoSize = true;
-            this.chkBatchFilterSepia.Location = new System.Drawing.Point(3, 3);
+            this.chkBatchFilterSepia.Location = new System.Drawing.Point(8, 2);
             this.chkBatchFilterSepia.Name = "chkBatchFilterSepia";
             this.chkBatchFilterSepia.Size = new System.Drawing.Size(53, 17);
             this.chkBatchFilterSepia.TabIndex = 9;
@@ -569,126 +589,178 @@
             // 
             // tabChannels
             // 
-            this.tabChannels.Controls.Add(this.lblBatchChannelsType);
-            this.tabChannels.Controls.Add(this.comboBatchChannelsType);
-            this.tabChannels.Controls.Add(this.chkBatchChannelsBypass);
-            this.tabChannels.Controls.Add(this.chkBatchChannelsAlpha);
-            this.tabChannels.Controls.Add(this.btnBatchChannelsAll);
-            this.tabChannels.Controls.Add(this.lblBatchChannelsSelect);
-            this.tabChannels.Controls.Add(this.btnBatchChannelsA);
-            this.tabChannels.Controls.Add(this.btnBatchChannelsB);
-            this.tabChannels.Controls.Add(this.btnBatchChannelsG);
-            this.tabChannels.Controls.Add(this.btnBatchChannelsR);
+            this.tabChannels.Controls.Add(this.batchChanelFlow);
             this.tabChannels.Location = new System.Drawing.Point(4, 22);
             this.tabChannels.Name = "tabChannels";
+            this.tabChannels.Padding = new System.Windows.Forms.Padding(3);
             this.tabChannels.Size = new System.Drawing.Size(581, 445);
             this.tabChannels.TabIndex = 2;
             this.tabChannels.Text = "Channels";
             this.tabChannels.UseVisualStyleBackColor = true;
             // 
-            // lblBatchChannelsType
+            // batchChanelFlow
             // 
-            this.lblBatchChannelsType.AutoSize = true;
-            this.lblBatchChannelsType.Location = new System.Drawing.Point(15, 49);
-            this.lblBatchChannelsType.Name = "lblBatchChannelsType";
-            this.lblBatchChannelsType.Size = new System.Drawing.Size(50, 13);
-            this.lblBatchChannelsType.TabIndex = 21;
-            this.lblBatchChannelsType.Text = "FileType:";
+            this.batchChanelFlow.Controls.Add(this.panel5);
+            this.batchChanelFlow.Controls.Add(this.panel6);
+            this.batchChanelFlow.Controls.Add(this.panel7);
+            this.batchChanelFlow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.batchChanelFlow.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.batchChanelFlow.Location = new System.Drawing.Point(3, 3);
+            this.batchChanelFlow.Name = "batchChanelFlow";
+            this.batchChanelFlow.Size = new System.Drawing.Size(575, 439);
+            this.batchChanelFlow.TabIndex = 0;
             // 
-            // comboBatchChannelsType
+            // panel5
             // 
-            this.comboBatchChannelsType.FormattingEnabled = true;
-            this.comboBatchChannelsType.Items.AddRange(new object[] {
-            ".jpg",
-            ".bmp",
-            ".png",
-            ".tiff"});
-            this.comboBatchChannelsType.Location = new System.Drawing.Point(98, 46);
-            this.comboBatchChannelsType.Name = "comboBatchChannelsType";
-            this.comboBatchChannelsType.Size = new System.Drawing.Size(75, 21);
-            this.comboBatchChannelsType.TabIndex = 20;
-            // 
-            // chkBatchChannelsBypass
-            // 
-            this.chkBatchChannelsBypass.AutoSize = true;
-            this.chkBatchChannelsBypass.Checked = true;
-            this.chkBatchChannelsBypass.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBatchChannelsBypass.Location = new System.Drawing.Point(17, 23);
-            this.chkBatchChannelsBypass.Name = "chkBatchChannelsBypass";
-            this.chkBatchChannelsBypass.Size = new System.Drawing.Size(233, 17);
-            this.chkBatchChannelsBypass.TabIndex = 19;
-            this.chkBatchChannelsBypass.Text = "Bypass Save Dialog? (Use current filename)";
-            this.chkBatchChannelsBypass.UseVisualStyleBackColor = true;
-            this.chkBatchChannelsBypass.CheckedChanged += new System.EventHandler(this.chkBatchChannelsBypass_CheckedChanged);
-            // 
-            // chkBatchChannelsAlpha
-            // 
-            this.chkBatchChannelsAlpha.AutoSize = true;
-            this.chkBatchChannelsAlpha.Location = new System.Drawing.Point(17, 117);
-            this.chkBatchChannelsAlpha.Name = "chkBatchChannelsAlpha";
-            this.chkBatchChannelsAlpha.Size = new System.Drawing.Size(130, 17);
-            this.chkBatchChannelsAlpha.TabIndex = 18;
-            this.chkBatchChannelsAlpha.Text = "Alpha as Black/White";
-            this.chkBatchChannelsAlpha.UseVisualStyleBackColor = true;
-            // 
-            // btnBatchChannelsAll
-            // 
-            this.btnBatchChannelsAll.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnBatchChannelsAll.Location = new System.Drawing.Point(179, 117);
-            this.btnBatchChannelsAll.Name = "btnBatchChannelsAll";
-            this.btnBatchChannelsAll.Size = new System.Drawing.Size(156, 46);
-            this.btnBatchChannelsAll.TabIndex = 17;
-            this.btnBatchChannelsAll.Text = "All (R,G,B,A)";
-            this.btnBatchChannelsAll.UseVisualStyleBackColor = true;
+            this.panel5.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel5.Controls.Add(this.lblBatchChannelsSelect);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel5.Location = new System.Drawing.Point(3, 3);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(550, 25);
+            this.panel5.TabIndex = 0;
             // 
             // lblBatchChannelsSelect
             // 
             this.lblBatchChannelsSelect.AutoSize = true;
-            this.lblBatchChannelsSelect.Location = new System.Drawing.Point(14, 72);
+            this.lblBatchChannelsSelect.Location = new System.Drawing.Point(6, 6);
             this.lblBatchChannelsSelect.Name = "lblBatchChannelsSelect";
-            this.lblBatchChannelsSelect.Size = new System.Drawing.Size(153, 13);
-            this.lblBatchChannelsSelect.TabIndex = 16;
-            this.lblBatchChannelsSelect.Text = "Select the channel/s to export:";
+            this.lblBatchChannelsSelect.Size = new System.Drawing.Size(150, 13);
+            this.lblBatchChannelsSelect.TabIndex = 30;
+            this.lblBatchChannelsSelect.Text = "Select channel export options:";
             // 
-            // btnBatchChannelsA
+            // panel6
             // 
-            this.btnBatchChannelsA.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnBatchChannelsA.Location = new System.Drawing.Point(17, 88);
-            this.btnBatchChannelsA.Name = "btnBatchChannelsA";
-            this.btnBatchChannelsA.Size = new System.Drawing.Size(75, 23);
-            this.btnBatchChannelsA.TabIndex = 15;
-            this.btnBatchChannelsA.Text = "Alpha";
-            this.btnBatchChannelsA.UseVisualStyleBackColor = true;
+            this.panel6.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel6.Controls.Add(this.lblAlphaInstructions);
+            this.panel6.Controls.Add(this.lblCatchChannelsInstructions);
+            this.panel6.Controls.Add(this.lblBatchChannelsA);
+            this.panel6.Controls.Add(this.chkBatchChannelsA);
+            this.panel6.Controls.Add(this.chkBatchChannelsB);
+            this.panel6.Controls.Add(this.chkBatchChannelsG);
+            this.panel6.Controls.Add(this.chkBatchChannelsR);
+            this.panel6.Controls.Add(this.radBatchChannelsATran);
+            this.panel6.Controls.Add(this.radBatchChannelsABW);
+            this.panel6.Controls.Add(this.chkBatchChannels);
+            this.panel6.Location = new System.Drawing.Point(3, 34);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(550, 148);
+            this.panel6.TabIndex = 1;
+            this.panel6.Paint += new System.Windows.Forms.PaintEventHandler(this.panel6_Paint);
             // 
-            // btnBatchChannelsB
+            // lblAlphaInstructions
             // 
-            this.btnBatchChannelsB.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnBatchChannelsB.Location = new System.Drawing.Point(260, 88);
-            this.btnBatchChannelsB.Name = "btnBatchChannelsB";
-            this.btnBatchChannelsB.Size = new System.Drawing.Size(75, 23);
-            this.btnBatchChannelsB.TabIndex = 14;
-            this.btnBatchChannelsB.Text = "B";
-            this.btnBatchChannelsB.UseVisualStyleBackColor = true;
+            this.lblAlphaInstructions.AutoSize = true;
+            this.lblAlphaInstructions.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblAlphaInstructions.Location = new System.Drawing.Point(282, 120);
+            this.lblAlphaInstructions.Name = "lblAlphaInstructions";
+            this.lblAlphaInstructions.Size = new System.Drawing.Size(130, 13);
+            this.lblAlphaInstructions.TabIndex = 9;
+            this.lblAlphaInstructions.Text = "(Only available with .PNG)";
             // 
-            // btnBatchChannelsG
+            // lblCatchChannelsInstructions
             // 
-            this.btnBatchChannelsG.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnBatchChannelsG.Location = new System.Drawing.Point(179, 88);
-            this.btnBatchChannelsG.Name = "btnBatchChannelsG";
-            this.btnBatchChannelsG.Size = new System.Drawing.Size(75, 23);
-            this.btnBatchChannelsG.TabIndex = 13;
-            this.btnBatchChannelsG.Text = "G";
-            this.btnBatchChannelsG.UseVisualStyleBackColor = true;
+            this.lblCatchChannelsInstructions.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblCatchChannelsInstructions.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblCatchChannelsInstructions.Location = new System.Drawing.Point(359, 5);
+            this.lblCatchChannelsInstructions.Name = "lblCatchChannelsInstructions";
+            this.lblCatchChannelsInstructions.Size = new System.Drawing.Size(185, 73);
+            this.lblCatchChannelsInstructions.TabIndex = 8;
+            this.lblCatchChannelsInstructions.Text = "Export multiple files, each highlighting the specified channel, e.g.: \r\n    myIma" +
+    "ge_R.jpg\r\n    myImage_G.jpg\r\n    myImage_B.jpg";
             // 
-            // btnBatchChannelsR
+            // lblBatchChannelsA
             // 
-            this.btnBatchChannelsR.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnBatchChannelsR.Location = new System.Drawing.Point(98, 88);
-            this.btnBatchChannelsR.Name = "btnBatchChannelsR";
-            this.btnBatchChannelsR.Size = new System.Drawing.Size(75, 23);
-            this.btnBatchChannelsR.TabIndex = 12;
-            this.btnBatchChannelsR.Text = "R";
-            this.btnBatchChannelsR.UseVisualStyleBackColor = true;
+            this.lblBatchChannelsA.AutoSize = true;
+            this.lblBatchChannelsA.Location = new System.Drawing.Point(37, 121);
+            this.lblBatchChannelsA.Name = "lblBatchChannelsA";
+            this.lblBatchChannelsA.Size = new System.Drawing.Size(51, 13);
+            this.lblBatchChannelsA.TabIndex = 7;
+            this.lblBatchChannelsA.Text = "Alpha as:";
+            // 
+            // chkBatchChannelsA
+            // 
+            this.chkBatchChannelsA.AutoSize = true;
+            this.chkBatchChannelsA.Location = new System.Drawing.Point(21, 98);
+            this.chkBatchChannelsA.Name = "chkBatchChannelsA";
+            this.chkBatchChannelsA.Size = new System.Drawing.Size(69, 17);
+            this.chkBatchChannelsA.TabIndex = 6;
+            this.chkBatchChannelsA.Text = "A (Alpha)";
+            this.chkBatchChannelsA.UseVisualStyleBackColor = true;
+            this.chkBatchChannelsA.CheckedChanged += new System.EventHandler(this.chkBatchChannelsA_CheckedChanged);
+            // 
+            // chkBatchChannelsB
+            // 
+            this.chkBatchChannelsB.AutoSize = true;
+            this.chkBatchChannelsB.Location = new System.Drawing.Point(21, 75);
+            this.chkBatchChannelsB.Name = "chkBatchChannelsB";
+            this.chkBatchChannelsB.Size = new System.Drawing.Size(63, 17);
+            this.chkBatchChannelsB.TabIndex = 5;
+            this.chkBatchChannelsB.Text = "B (Blue)";
+            this.chkBatchChannelsB.UseVisualStyleBackColor = true;
+            // 
+            // chkBatchChannelsG
+            // 
+            this.chkBatchChannelsG.AutoSize = true;
+            this.chkBatchChannelsG.Location = new System.Drawing.Point(21, 52);
+            this.chkBatchChannelsG.Name = "chkBatchChannelsG";
+            this.chkBatchChannelsG.Size = new System.Drawing.Size(72, 17);
+            this.chkBatchChannelsG.TabIndex = 4;
+            this.chkBatchChannelsG.Text = "G (Green)";
+            this.chkBatchChannelsG.UseVisualStyleBackColor = true;
+            // 
+            // chkBatchChannelsR
+            // 
+            this.chkBatchChannelsR.AutoSize = true;
+            this.chkBatchChannelsR.Location = new System.Drawing.Point(21, 29);
+            this.chkBatchChannelsR.Name = "chkBatchChannelsR";
+            this.chkBatchChannelsR.Size = new System.Drawing.Size(63, 17);
+            this.chkBatchChannelsR.TabIndex = 3;
+            this.chkBatchChannelsR.Text = "R (Red)";
+            this.chkBatchChannelsR.UseVisualStyleBackColor = true;
+            // 
+            // radBatchChannelsATran
+            // 
+            this.radBatchChannelsATran.AutoSize = true;
+            this.radBatchChannelsATran.Location = new System.Drawing.Point(192, 118);
+            this.radBatchChannelsATran.Name = "radBatchChannelsATran";
+            this.radBatchChannelsATran.Size = new System.Drawing.Size(90, 17);
+            this.radBatchChannelsATran.TabIndex = 2;
+            this.radBatchChannelsATran.Text = "Transparency";
+            this.radBatchChannelsATran.UseVisualStyleBackColor = true;
+            this.radBatchChannelsATran.CheckedChanged += new System.EventHandler(this.radBatchChannelsATran_CheckedChanged);
+            // 
+            // radBatchChannelsABW
+            // 
+            this.radBatchChannelsABW.AutoSize = true;
+            this.radBatchChannelsABW.Checked = true;
+            this.radBatchChannelsABW.Location = new System.Drawing.Point(94, 119);
+            this.radBatchChannelsABW.Name = "radBatchChannelsABW";
+            this.radBatchChannelsABW.Size = new System.Drawing.Size(92, 17);
+            this.radBatchChannelsABW.TabIndex = 1;
+            this.radBatchChannelsABW.TabStop = true;
+            this.radBatchChannelsABW.Text = "Black && White";
+            this.radBatchChannelsABW.UseVisualStyleBackColor = true;
+            this.radBatchChannelsABW.CheckedChanged += new System.EventHandler(this.radBatchChannelsABW_CheckedChanged);
+            // 
+            // chkBatchChannels
+            // 
+            this.chkBatchChannels.AutoSize = true;
+            this.chkBatchChannels.Location = new System.Drawing.Point(7, 6);
+            this.chkBatchChannels.Name = "chkBatchChannels";
+            this.chkBatchChannels.Size = new System.Drawing.Size(105, 17);
+            this.chkBatchChannels.TabIndex = 0;
+            this.chkBatchChannels.Text = "Export channels:";
+            this.chkBatchChannels.UseVisualStyleBackColor = true;
+            this.chkBatchChannels.CheckedChanged += new System.EventHandler(this.chkBatchChannels_CheckedChanged_1);
+            // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel7.Location = new System.Drawing.Point(3, 188);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(550, 152);
+            this.panel7.TabIndex = 32;
             // 
             // btnBatch
             // 
@@ -715,24 +787,26 @@
             // 
             this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
             // 
-            // lblBatchFileFolder
+            // label3
             // 
-            this.lblBatchFileFolder.BackColor = System.Drawing.SystemColors.Control;
-            this.lblBatchFileFolder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblBatchFileFolder.Location = new System.Drawing.Point(291, 10);
-            this.lblBatchFileFolder.Name = "lblBatchFileFolder";
-            this.lblBatchFileFolder.Size = new System.Drawing.Size(226, 20);
-            this.lblBatchFileFolder.TabIndex = 40;
-            this.lblBatchFileFolder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label3.Location = new System.Drawing.Point(13, 487);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(157, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "1 Files will be created per image";
             // 
             // BatchSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(597, 519);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnBatch);
             this.Controls.Add(this.tabBatch);
+            this.MaximizeBox = false;
             this.Name = "BatchSettings";
             this.Text = "BatchSettings";
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
@@ -765,8 +839,13 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.tabChannels.ResumeLayout(false);
-            this.tabChannels.PerformLayout();
+            this.batchChanelFlow.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -809,16 +888,6 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TabPage tabTransform;
         private System.Windows.Forms.CheckBox chkBatchTransform;
-        private System.Windows.Forms.Label lblBatchChannelsType;
-        private System.Windows.Forms.ComboBox comboBatchChannelsType;
-        private System.Windows.Forms.CheckBox chkBatchChannelsBypass;
-        private System.Windows.Forms.CheckBox chkBatchChannelsAlpha;
-        private System.Windows.Forms.Button btnBatchChannelsAll;
-        private System.Windows.Forms.Label lblBatchChannelsSelect;
-        private System.Windows.Forms.Button btnBatchChannelsA;
-        private System.Windows.Forms.Button btnBatchChannelsB;
-        private System.Windows.Forms.Button btnBatchChannelsG;
-        private System.Windows.Forms.Button btnBatchChannelsR;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.RadioButton radBatchFileFolderNew;
         private System.Windows.Forms.RadioButton radBatchFileFolderCurrent;
@@ -830,5 +899,21 @@
         private System.Windows.Forms.Label lblBatchFileExportType;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Label lblBatchFileFolder;
+        private System.Windows.Forms.FlowLayoutPanel batchChanelFlow;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label lblBatchChannelsSelect;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Label lblBatchChannelsA;
+        private System.Windows.Forms.CheckBox chkBatchChannelsA;
+        private System.Windows.Forms.CheckBox chkBatchChannelsB;
+        private System.Windows.Forms.CheckBox chkBatchChannelsG;
+        private System.Windows.Forms.CheckBox chkBatchChannelsR;
+        private System.Windows.Forms.RadioButton radBatchChannelsATran;
+        private System.Windows.Forms.RadioButton radBatchChannelsABW;
+        private System.Windows.Forms.CheckBox chkBatchChannels;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblCatchChannelsInstructions;
+        private System.Windows.Forms.Label lblAlphaInstructions;
     }
 }

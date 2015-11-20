@@ -60,7 +60,7 @@ namespace WfaPictureViewer
             Bitmap baseImage = GetArgbVer(new Bitmap(path));
 
             // Creating a LoadedImage object with, passing filepath and Bitmap to constructor
-            LoadedImage img = new LoadedImage(path, baseImage, this, curImgIndex); 
+            LoadedImage img = new LoadedImage(path, baseImage, this, curImgIndex);
 
             // Add the new object to the list
             listLoadedImg.Add(img);
@@ -157,8 +157,12 @@ namespace WfaPictureViewer
             }
         }
 
-        private void ExportChannel(string channel, Bitmap img, bool bypass)
+        private Bitmap GetChannel(string channel, Bitmap img)
         {
+            if (img == null)
+            {
+                return null;
+            }
             // Importantly, a completely new Bitmap has to be created from the passed image, to avoid the pointer (I think) editing things like curImg
             Bitmap channelImg = new Bitmap(img);
             BitmapData imgData = channelImg.LockBits(new Rectangle(0, 0, channelImg.Width, channelImg.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
@@ -175,21 +179,27 @@ namespace WfaPictureViewer
             switch (channel)
             {
                 case "R":
+                case "r":
                     bytesToChange[0] = 0;
                     bytesToChange[1] = 1;                    //bytesToChange[2] = 1; // Duped to avoid editing the alpha - Maybe look at creating the array inside here to make less wasteful? 
                     value = 0;
                     break;
                 case "G":
+                case "g":
                     bytesToChange[0] = 0;
                     bytesToChange[1] = 2;                    //bytesToChange[2] = 2; // Duped to avoid editing the alpha
                     value = 0;
                     break;
                 case "B":
+                case "b":
                     bytesToChange[0] = 1;
                     bytesToChange[1] = 2;                    //bytesToChange[2] = 2; // Duped to avoid editing the alpha
                     value = 0;
                     break;
-                case "A": case "ABW":
+                case "A":
+                case "a":
+                case "ABW":
+                case "abw":
                     bytesToChange = new int[3];
                     bytesToChange[0] = 0;
                     bytesToChange[1] = 1;
@@ -204,7 +214,7 @@ namespace WfaPictureViewer
                 if (channel == "ABW")
                     value = imgBuffer[i + 3];
                 // For each byte that is to be changed (as offset of current buffer pixel position), change to value
-                for (int j = 0; j < bytesToChange.Length;  j++)
+                for (int j = 0; j < bytesToChange.Length; j++)
                 {
                     imgBuffer[i + bytesToChange[j]] = value;
                 }
@@ -212,107 +222,7 @@ namespace WfaPictureViewer
             Marshal.Copy(imgBuffer, 0, dataPointer, imgBuffer.Length);
             channelImg.UnlockBits(imgData);
 
-            // Creating a minimally scoped instance of the dialog 
-            using (SaveFileDialog dlgSaveChannel = new SaveFileDialog())
-            {
-                // Converging the alphas for the puspose of savedialog creation
-                if (channel == "ABW")
-                    channel = "A";
-
-                // Preparing default state for dlg
-                dlgSaveChannel.FileName = Path.GetFileNameWithoutExtension(listLoadedImg[curImgIndex].GetName()) + "_" + channel;
-                dlgSaveChannel.InitialDirectory = "C://Desktop";
-                dlgSaveChannel.Title = "Save (" + channel + ") Image Channel";
-                dlgSaveChannel.Filter = "JPEG Image|*.jpg|BMP Image|*.bmp|PNG Image|*.png|TIFF Image|*.tiff";
-
-                if (bypass == false)
-                {
-                    if (dlgSaveChannel.ShowDialog() == DialogResult.OK)
-                        SaveImage(dlgSaveChannel, channelImg);
-                }
-                else
-                {
-                    // Need to get type from batch dialog instead
-                    string path = listLoadedImg[curImgIndex].GetDefaultDir() + "\\" + Path.GetFileNameWithoutExtension(listLoadedImg[curImgIndex].GetName()) + "_" + channel + "." + listLoadedImg[curImgIndex].GetExportFormat().ToString();
-                    channelImg.Save(path, listLoadedImg[curImgIndex].GetExportFormat());
-                }
-            }
-        }
-
-        // Utilises the Batch dialog window to exportToFile, provideName, apply file types to files AFTER processing
-        private void BatchFileProcess()
-        {
-            /*using (BatchSettings dlgBatch = new BatchSettings(this))
-            {
-                if (dlgBatch.ShowDialog() == DialogResult.OK)
-                {
-                    // If exporting is not turned on
-                    if (dlgBatch.exportToFile == false)
-                    {
-                        // nowt
-                    }
-                    // If it IS turned on
-                    else
-                    {
-                        // If isBypassing dialog is not activated
-                        //if (dlgBatch.bypass == false)
-                        if (true)
-                        {
-                            foreach (LoadedImage img in listLoadedImg)
-                            {
-                                using (SaveFileDialog dlgSave = new SaveFileDialog())
-                                {
-                                    dlgSave.FileName = img.GetName();
-                                    dlgSave.InitialDirectory = "C:/Desktop";
-                                    dlgSave.Filter = "JPEG Image|*.jpg|BMP Image|*.bmp|PNG Image|*.png|TIFF Image|*.tiff";
-                                    dlgSave.Title = "Save Your Image";
-
-                                    if (dlgSave.ShowDialog() == DialogResult.OK)
-                                    {
-                                        SaveImage(dlgSave, img.GetBitmap("c"));
-                                    }
-                                }
-                            }
-                        }
-                        // if it IS turned on
-                        else
-                        {
-                            string filename = null;
-                            ImageFormat format = null;
-
-                            // Applying the arrIsProcessed filetype from the dlgBatch using an index. THIS REQUIRES THAT THE INDICIES MATCH the cases below
-                            switch (dlgBatch.fileType)
-                            {
-                                case 0:
-                                    format = ImageFormat.Jpeg;
-                                    break;
-                                case 1:
-                                    format = ImageFormat.Bmp;
-                                    break;
-                                case 2:
-                                    format = ImageFormat.Png;
-                                    break;
-                                case 3:
-                                    format = ImageFormat.Tiff;
-                                    break;
-                            }
-
-                            for (int i = 0; i < listLoadedImg.Count(); i++)
-                            {
-                                if (dlgBatch.provideName == true)
-                                {
-                                    string path = Path.GetDirectoryName(dlgBatch.fileName) + "\\" + Path.GetFileNameWithoutExtension(dlgBatch.fileName) + "_grayscale_" + i + Path.GetExtension(dlgBatch.fileName);
-                                    filename = path;
-                                }
-                                else
-                                    filename = (listLoadedImg[curImgIndex].GetDefaultDir() + "\\" + listLoadedImg[i].GetName() + "_Grayscale" + dlgBatch.fileTypeString);
-
-                                listLoadedImg[i].GetBitmap("c").Save(filename, format);
-                            }
-                        }
-                    }
-                }
-            }*/
+            return channelImg;
         }
 
         // Combined method that updates the picbox label info display and the sizemode of the image
@@ -440,11 +350,12 @@ namespace WfaPictureViewer
             {
                 menuClearImage.Enabled =
                 menuCopyImage.Enabled =
-                menuTransparency.Enabled =
+                menuTransp.Enabled =
                 menuGrayscale.Enabled =
                 menuSepia.Enabled =
                 menuSaveImage.Enabled =
-                menuChannels.Enabled =
+                menuImageAdjustments.Enabled =
+                menuImageFilters.Enabled =
                 menuResetAdjustments.Enabled = true;
 
                 if (listLoadedImg.Count >= 2)
@@ -520,22 +431,22 @@ namespace WfaPictureViewer
             else
             {
                 menuLoadImage.Enabled = true;
-                menuClearImage.Enabled = false;
-                menuCopyImage.Enabled = false;
-                menuFitWindow.Enabled = false;
-                menuResetStretching.Enabled = false;
-                menuTransparency.Enabled = false;
-                menuGrayscale.Enabled = false;
-                menuSepia.Enabled = false;
-                menuSaveImage.Enabled = false;
-                menuChannels.Enabled = false;
-                menuResetAdjustments.Enabled = false;
 
-                btnNavigateLeft.Enabled = false;
-                btnNavigateRight.Enabled = false;
-
-                menuStepBackward.Enabled = false;
-                menuStepForward.Enabled = false;
+                menuClearImage.Enabled =
+                menuCopyImage.Enabled =
+                menuFitWindow.Enabled =
+                menuResetStretching.Enabled =
+                menuTransp.Enabled =
+                menuGrayscale.Enabled =
+                menuSepia.Enabled =
+                menuImageFilters.Enabled =
+                menuImageAdjustments.Enabled =
+                menuSaveImage.Enabled =
+                menuResetAdjustments.Enabled =
+                btnNavigateLeft.Enabled =
+                btnNavigateRight.Enabled =
+                menuStepBackward.Enabled =
+                menuStepForward.Enabled =
                 menuBatchMenu.Enabled = false;
             }
         }
@@ -575,7 +486,7 @@ namespace WfaPictureViewer
 
             // Here, an array of all the bytes that make up the pixles is created, The stride is the width of the array when also accounting for the extra buffering area.
             byte[] pixelByteArray = new byte[pixelData.Stride * pixelData.Height];
-            
+
 
             // Now the Marshal.Copy function copies pixel pixelData from pointer > byte array, preparing it for editing
             Marshal.Copy(pixelDataPointer, pixelByteArray, 0, pixelByteArray.Length);
@@ -604,7 +515,7 @@ namespace WfaPictureViewer
         {
             // Creating a new memory assignment, so the pointer(I think) doesn't chance the originalImg
             Bitmap sourceImg = new Bitmap(passedImg);
-            
+
             // Get the bit data from the image and draw it in to imgData
             BitmapData imgData = sourceImg.LockBits(new Rectangle(0, 0, sourceImg.Width, sourceImg.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
 
@@ -613,7 +524,7 @@ namespace WfaPictureViewer
 
             // An EMPTY array that will hold all of the data that makes up the image
             byte[] pixelByteBuffer = new byte[imgData.Stride * imgData.Height];
-             
+
             // Copy data from the pointer to the buffer
             Marshal.Copy(dataPointer, pixelByteBuffer, 0, pixelByteBuffer.Length);
 
@@ -724,7 +635,7 @@ namespace WfaPictureViewer
 
             // Here, an array of all the bytes that make up the pixles is created, The stride is the width of the array when also accounting for the extra buffering area.
             byte[] imgBuffer = new byte[pixelData.Stride * pixelData.Height];
-            
+
             // Now the Marshal.Copy function copies pixel pixelData from pointer > byte array, preparing it for editing
             Marshal.Copy(pixelDataPointer, imgBuffer, 0, imgBuffer.Length);
             /* 
@@ -769,7 +680,7 @@ namespace WfaPictureViewer
                 // only opens if the V user clicks OK
                 if (dlgOpen.ShowDialog() == DialogResult.OK)
                 {
-                    
+
                     // 'Filenames' is a property that holds an array of strings, iterating through the array each can be added to the LoadedImg list
                     foreach (string name in dlgOpen.FileNames)
                     {
@@ -845,11 +756,28 @@ namespace WfaPictureViewer
 
                 // Only initiate save if OK is received
                 if (dlgSaveImg.ShowDialog() == DialogResult.OK)
-                    SaveImage(dlgSaveImg, listLoadedImg[curImgIndex].GetBitmap("c"));
+                    //SaveImage(dlgSaveImg, listLoadedImg[curImgIndex].GetBitmap("c"));
+                {
+                    switch (dlgSaveImg.FilterIndex)
+                    {
+                        case 1:
+                            SaveImage(dlgSaveImg.FileName, listLoadedImg[curImgIndex].GetBitmap("c"), ImageFormat.Jpeg);
+                            break;
+                        case 2:
+                            SaveImage(dlgSaveImg.FileName, listLoadedImg[curImgIndex].GetBitmap("c"), ImageFormat.Bmp);
+                            break;
+                        case 3:
+                            SaveImage(dlgSaveImg.FileName, listLoadedImg[curImgIndex].GetBitmap("c"), ImageFormat.Png);
+                            break;
+                        case 4:
+                            SaveImage(dlgSaveImg.FileName, listLoadedImg[curImgIndex].GetBitmap("c"), ImageFormat.Tiff);
+                            break;
+                    }
+                }                    
             }
         }
 
-        private void SaveImage(SaveFileDialog dlg, Image img)
+        private void SaveImageOld(SaveFileDialog dlg, Image img)
         {
             // Create a MemoryStream that will be minimally scoped
             using (MemoryStream memStream = new MemoryStream())
@@ -878,6 +806,18 @@ namespace WfaPictureViewer
                         break;
                 }
             } dlg.Dispose();
+        }
+
+        private void SaveImage(string filePath, Image img, ImageFormat fmt)
+        {
+            // Create a MemoryStream that will be minimally scoped
+            using (MemoryStream memStream = new MemoryStream())
+            {
+                // Save the image to the memorystream in it's native format
+                // img.Save(memStream, listLoadedImg[curImgIndex].GetOriginalFormat());
+                // Image imgToSave = Image.FromStream(memStream);                
+                img.Save(filePath, fmt);                        
+            } 
         }
 
         private void MenuClearImage_Click(object sender, EventArgs e)
@@ -970,20 +910,64 @@ namespace WfaPictureViewer
                     {
                         // Add each item that is marked for processing to the new batch list
                         if (bs.arrIsProcessed[i] == true)
-                        { 
+                        {
                             listBatch.Add(listLoadedImg[i]);
                         }
                     }
 
-                    // Apply effects only to previewVer of each 
-                    // TRANSFORMS
+                    // Used for iterating filenames
+                    int suffix = 1;
 
-                    // ADJUSTMENTS
-
-                    // Transparency
-                    if (bs.arrChkOptions[2][0].Checked == true)
+                    // Loop through each image
+                    foreach (LoadedImage batchImg in listBatch)
                     {
-                        foreach (LoadedImage batchImg in listBatch)
+
+                        // Apply effects only to previewVer of each 
+                        // TRANSFORMS
+
+                        // FILTERS
+                        int filterToApply = -1;
+                        for (int i = 0; i < bs.arrChkOptions[3].Length; i++)
+                        {
+                            // If a filter is found checked, stop and begin to work on it. 
+                            if (bs.arrChkOptions[3][i].Checked)
+                            {
+                                filterToApply = i;
+                                break;
+                            }
+                        }
+
+                        // If a filter was found checked
+                        if (filterToApply != -1)
+                        {
+                            switch (filterToApply)
+                            {
+                                case 0: // Sepia
+                                    {
+                                        // Get current bitmap, apply sepia and place in the preview slot of the loadedimg
+                                        batchImg.UpdatePreview(ApplySepia(batchImg.GetBitmap("c")));
+                                    }
+                                    break;
+                                case 1: // Grayscale
+                                    {
+                                        // tmp for readability. Apply Grayscale (with algorithm string from bs) to current version
+                                        Bitmap tmp = ApplyGrayscale(batchImg.GetBitmap("c"), bs.grayAlgorithm);
+                                        // Then apply to preview slot
+                                        batchImg.UpdatePreview(tmp);
+                                    }
+                                    break;
+                                default:
+                                    {
+                                        Environment.Exit(25);
+                                    }
+                                    break;
+                            }
+                        }
+
+                        // ADJUSTMENTS
+
+                        // Transparency
+                        if (bs.arrChkOptions[2][0].Checked == true)
                         {
                             // The byte value is necessary for the image adjustment
                             byte amount = bs.transpInput;
@@ -991,29 +975,18 @@ namespace WfaPictureViewer
                             // tmp for readability, 
                             Bitmap tmp = ApplyTransparency(batchImg.GetBitmap("c"), amount);
                             batchImg.UpdatePreview(tmp);
+
                         }
-                    }
 
-                    // FILTERS
-
-                    // CHANNELS
-
-                    int suffix = 1;
-
-                    // Update currentImgs with changes, save.
-                    foreach (LoadedImage img in listBatch)
-                    {
                         // If a change has actually been made to the image
-                        if (img.GetBitmap("p") != null)
+                        if (batchImg.GetBitmap("p") != null)
                         {
-                            img.ApplyPreview();
+                            batchImg.ApplyPreview();
                         }
 
-                        if (bs.exportToFile)
+                        // If Exporting to file & Channels are not being exported
+                        if (bs.arrChkOptions[0][0].Checked && !bs.arrChkOptions[4][0].Checked)
                         {
-                            // Values to be used here:
-                            //bs.provideDir, bs.ProvideName, bs.provideFormat, img.defaultName, img.defaultDir, img.originalFormat
-                            
                             // Grab the curent ImageFormat from the bs form
                             ImageFormat expFormat = bs.GetImageFormat();
                             string filename, fileDir, filePath;
@@ -1024,7 +997,7 @@ namespace WfaPictureViewer
                             }
                             else
                             {
-                                fileDir = img.defaultDir;
+                                fileDir = batchImg.defaultDir;
                             }
 
                             // if providing new file deaultName, and there's more than one image being exported
@@ -1039,21 +1012,114 @@ namespace WfaPictureViewer
                             }
                             else
                             {
-                                filename = img.deaultName;
+                                filename = batchImg.deaultName;
                             }
 
                             // Generate a full path based on name + directory
-                            filePath = fileDir + "\\" +  filename + "." + expFormat.ToString();
-                            img.GetBitmap("c").Save(filePath);
+                            filePath = fileDir + "\\" + filename + "." + expFormat.ToString();
+                            // batchImg.GetBitmap("c").Save(filePath, expFormat);
+                            SaveImage(filePath, batchImg.GetBitmap("c"), expFormat);
                         }
-                    }
-                    // Reset suffix
-                    suffix = 1;
+                        // Exporting to file & exporting channels
+                        else if (bs.arrChkOptions[0][0].Checked && bs.arrChkOptions[4][0].Checked)
+                        {
+                            // 4 channels, R, G, B, A
+                            // Create a new array of Bitmaps, length based on maximum number to be exported
+                            Bitmap[] imgExportChannels = new Bitmap[4];
 
-                    UpdatePicbox(listLoadedImg[curImgIndex]); 
+                            // Loop through each channel position
+                            for (int i = 0; i < 4; i++)
+                            {
+                                // if the checkbox is checked (e.g. "R") on the Batch dialog
+                                if (bs.arrChannelOptions[i].Checked)
+                                {
+                                    string channelName = "";
+                                    // Based on the channel position, Get a channel from the previewVer of this image. 
+                                    // Put that result into this new array of channel images
+                                    switch (i)
+                                    {
+                                        case 0: // R
+                                            {
+                                                imgExportChannels[i] = GetChannel("r", batchImg.GetBitmap("c"));
+                                                channelName = "R";
+                                            } break;
+                                        case 1: // G
+                                            {
+                                                imgExportChannels[i] = GetChannel("g", batchImg.GetBitmap("c"));
+                                                channelName = "G";
+                                            } break;
+                                        case 2: // B
+                                            {
+                                                imgExportChannels[i] = GetChannel("b", batchImg.GetBitmap("c"));
+                                                channelName = "B";
+                                            } break;
+                                        case 3: // Alpha
+                                            {
+                                                if (bs.exportAlphaBW)
+                                                {
+                                                    imgExportChannels[i] = GetChannel("abw", batchImg.GetBitmap("c"));
+                                                    channelName = "A"; // use the same suffix for both the alpha export options
+                                                }
+                                                else if (bs.exportAlphaTransp)
+                                                {
+                                                    imgExportChannels[i] = GetChannel("a", batchImg.GetBitmap("c"));
+                                                    channelName = "A"; // use the same suffix for both the alpha export options
+                                                }
+                                            } break;
+                                        default:
+                                            {
+                                                Environment.Exit(26);
+                                            } break;
+
+                                    }
+                                    // Consider that there is some repeated code from the above save functionailty
+                                    
+                                    // Grab the curent ImageFormat from the bs form
+                                    ImageFormat expFormat = bs.GetImageFormat();
+                                    string filename, fileDir, filePath;
+
+                                    if (bs.provideDir)
+                                    {
+                                        fileDir = bs.GetValue("newFileDir");
+                                    }
+                                    else
+                                    {
+                                        fileDir = batchImg.defaultDir;
+                                    }
+
+                                    // if providing new file deaultName, and there's more than one image being exported
+                                    if (bs.provideName && listBatch.Count > 1)
+                                    {
+                                        filename = bs.GetValue("newFileName") + "_" + suffix.ToString() + "_" + channelName;
+                                    }
+                                    // If (for some reason) there is only one image in the batch
+                                    else if (bs.provideName && listBatch.Count == 1)
+                                    {
+                                        filename = bs.GetValue("newFileName") + "_" + channelName;
+                                    }
+                                    else
+                                    {
+                                        filename = batchImg.deaultName + "_" + channelName;
+                                    }
+
+                                    // Generate a full path based on name + directory
+                                    filePath = fileDir + "\\" + filename + "." + expFormat.ToString();
+                                    // imgExportChannels[i].Save(filePath, expFormat);
+                                    SaveImage(filePath, imgExportChannels[i], expFormat);
+                                }
+                                else
+                                {
+                                    imgExportChannels[i] = null; // This array position will be null
+                                }
+                            }
+                        }
+                        suffix++; // Only iterate when moving to the next image
+                    }
                 }
             }
-            
+            // Update the loaded picturebox window, in case there were any changes. 
+            if (listLoadedImg.Count != 0)
+                UpdatePicbox(listLoadedImg[curImgIndex]);
         }
 
         private void MenuResetStretching_Click(object sender, EventArgs e)
@@ -1062,193 +1128,6 @@ namespace WfaPictureViewer
             int picWidth = picBoxMain.Image.Width;
             int picHeight = picBoxMain.Image.Height;
             this.Size = new Size(picWidth + 149, picHeight + 72);
-        }
-
-        // Adjust the Transparency (and eventually Brightness/Contrast) 
-        private void MenuTransparency(object sender, EventArgs e)
-        {
-            if (picBoxMain.Image != null)
-            {
-                // The byte value is necessary for the image adjustments
-                byte amount = 0;
-                // Creating the Form that will be the dialog box
-                using (Transparency dlgTransp = new Transparency())
-                {
-                    // Result is saved before check, so the result can be checked in more than one bool statement
-                    DialogResult dlgResult = dlgTransp.ShowDialog();
-
-                    if (dlgResult == DialogResult.OK)
-                    {
-                        amount = dlgTransp.getAmount();
-
-                        // tmp created for readability, with transparency is applied separately. The main picBox image is also updated here.
-                        Bitmap tmp = ApplyTransparency(listLoadedImg[curImgIndex].GetBitmap("c"), amount);
-                        listLoadedImg[curImgIndex].UpdateBitmap(tmp);
-                        UpdatePicbox(listLoadedImg[curImgIndex]);
-                        //picBoxMain.Image = listLoadedImg[curImgIndex].GetBitmap("c");
-                    }
-                    else if (dlgResult == DialogResult.Cancel)
-                    {
-                        // Nothing
-                    }
-                    else
-                        MessageBox.Show("Error");
-                }
-            }
-        }
-
-        private void menuGrayscale_Click(object sender, EventArgs e)
-        {
-            if (picBoxMain.Image != null)
-            {
-                Grayscale dlgGrayscale = new Grayscale();
-                DialogResult dlgResult;
-                dlgResult = dlgGrayscale.ShowDialog();
-
-                // tmp created for readability, will eventually be applied to picBoxMain
-                Bitmap tmp = null;
-
-                // The 'Luminosity' button is set to "OK".
-                if (dlgResult == DialogResult.OK)
-                {
-                    tmp = ApplyGrayscale(listLoadedImg[curImgIndex].GetBitmap("c"), "luminosity");
-                }
-                // The 'Average' button is set to "Yes".
-                else if (dlgResult == DialogResult.Yes)
-                {
-                    tmp = ApplyGrayscale(listLoadedImg[curImgIndex].GetBitmap("c"), "average");
-                }
-                else
-                {
-                    MessageBox.Show("An error has occured during the grayscale operation.");
-                    Environment.Exit(22);
-                }
-                // If we reached here, a certain kind of grayscaling has been applied
-                listLoadedImg[curImgIndex].UpdateBitmap(tmp);
-                UpdatePicbox(listLoadedImg[curImgIndex]);
-            }
-        }
-
-        private void menuBatchGrayscale_Click(object sender, EventArgs e)
-        {
-            using (Grayscale dlgGrayscale = new Grayscale())
-            {
-                if (dlgGrayscale.ShowDialog() != DialogResult.Cancel)
-                {
-                    string algorithm = null;
-
-                    // "OK" is the result assigned to the luminosity button
-                    if (dlgGrayscale.DialogResult == DialogResult.OK)
-                    {
-                        algorithm = "luminosity";
-                    }
-                    else if (dlgGrayscale.DialogResult == DialogResult.Yes)
-                    {
-                        algorithm = "average";
-                    }
-                    else
-                    {
-                        // This should never happen
-                        dlgGrayscale.Close();
-                    }
-
-                    // Make changes initially before deciding on whether to save, etc. 
-                    foreach (LoadedImage img in listLoadedImg)
-                    {
-                        img.UpdateBitmap(ApplyGrayscale(img.GetBitmap("c"), algorithm));
-                    }
-                    UpdatePicbox(listLoadedImg[curImgIndex]);
-                    BatchFileProcess();
-                }
-            }
-        }
-
-        private void menuBatchTransparency_Click(object sender, EventArgs e)
-        {
-            if (picBoxMain.Image != null)
-            {
-                using (Transparency dlgTrans = new Transparency())
-                {
-                    if (dlgTrans.ShowDialog() == DialogResult.OK)
-                    {
-                        byte x = dlgTrans.getAmount();
-                        MessageBox.Show(x.ToString());
-
-                        foreach (LoadedImage img in listLoadedImg)
-                        {
-                            img.UpdateBitmap(ApplyTransparency(img.GetBitmap("c"), x));
-                        }
-                        UpdatePicbox(listLoadedImg[curImgIndex]);
-                        BatchFileProcess();
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("You must first load an image.");
-            }
-        }
-
-        private void menuBatchSepia_Click(object sender, EventArgs e)
-        {
-            if (picBoxMain.Image != null)
-            {
-                foreach (LoadedImage img in listLoadedImg)
-                {
-                    img.UpdateBitmap(ApplySepia(img.GetBitmap("c")));
-                }
-                UpdatePicbox(listLoadedImg[curImgIndex]);
-                BatchFileProcess();
-            }
-            else
-            {
-                MessageBox.Show("You must first load an image.");
-            }
-        }
-
-        private void menuSepia_Click(object sender, EventArgs e)
-        {
-            if (picBoxMain.Image != null)
-            {
-                Bitmap tmp = ApplySepia(listLoadedImg[curImgIndex].GetBitmap("c"));
-                listLoadedImg[curImgIndex].UpdateBitmap(tmp);
-            }
-        }
-
-        private void menuExportChannels_Click(object sender, EventArgs e)
-        {
-            using (Channels dlgChannels = new Channels())
-            {
-                if (dlgChannels.ShowDialog() == DialogResult.OK)
-                {
-                    // Don't bypass dlg, since there's only 1 or 4 images being saved
-                    ExportChannelMediator(dlgChannels.colourChannel, false);
-                }
-            }
-        }
-
-        private void ExportChannelMediator(string colourChannel, bool isBypassing)
-        {
-            if (colourChannel == "R" || colourChannel == "G" || colourChannel == "B" || colourChannel == "A")
-                ExportChannel(colourChannel, listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
-
-            else if (colourChannel == "All")
-            {
-                // Runs the method once for each channel
-                ExportChannel("R", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
-                ExportChannel("G", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
-                ExportChannel("B", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
-                ExportChannel("A", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
-            }
-            else if (colourChannel == "AllBW")
-            {
-                ExportChannel("R", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
-                ExportChannel("G", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
-                ExportChannel("B", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
-                ExportChannel("ABW", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
-            }
-            else
-                MessageBox.Show("An error occurred when registering choice of colour channel.");
         }
 
         private void menuResetAdjustments_Click(object sender, EventArgs e)
@@ -1289,33 +1168,6 @@ namespace WfaPictureViewer
             colourToTest = Color.Empty;
         }
 
-        private void menuBatchChannels_Click(object sender, EventArgs e)
-        {
-            using (Channels dlgChannels = new Channels())
-            {
-                if (dlgChannels.ShowDialog() == DialogResult.OK)
-                {
-                    // To return to after iterating
-                    int tmp = curImgIndex;
-                    curImgIndex = 0;
-
-                    // using for loop instead of foreach because the index is needed to get deaultName, filetype etc. in other methods. 
-                    // dlgChannels.Bypass is a bool that dictates whether to bypass dlg
-                    for (curImgIndex = 0; curImgIndex < listLoadedImg.Count; curImgIndex++)
-                    {
-                        UpdatePicbox(listLoadedImg[curImgIndex]);
-                        // Assign the exportToFile format choice to the class
-                        listLoadedImg[curImgIndex].UpdateExportFormat(dlgChannels.fileType);
-                        ExportChannelMediator(dlgChannels.colourChannel, dlgChannels.bypass);
-                        // Clear the format choice, to avoid polluting future usage
-                        listLoadedImg[curImgIndex].UpdateExportFormat(null);
-                    }
-                    curImgIndex = tmp;
-                    UpdatePicbox(listLoadedImg[curImgIndex]);
-                }
-            }
-        }
-
         private void menuBatchResetAdjustments_Click(object sender, EventArgs e)
         {
             if (picBoxMain.Image != null)
@@ -1325,7 +1177,6 @@ namespace WfaPictureViewer
                     img.UpdateBitmap(img.GetBitmap("o"));
                 }
                 UpdatePicbox(listLoadedImg[curImgIndex]);
-                BatchFileProcess();
             }
             else
             {
@@ -1374,9 +1225,233 @@ namespace WfaPictureViewer
             listLoadedImg[curImgIndex].StepBackward();
         }
 
+        private void menuTransp_Click(object sender, EventArgs e)
+        {
+            if (picBoxMain.Image != null)
+            {
+                // The byte value is necessary for the image adjustments
+                byte amount = 0;
+                // Creating the Form that will be the dialog box
+                using (Transparency dlgTransp = new Transparency())
+                {
+                    // Result is saved before check, so the result can be checked in more than one bool statement
+                    DialogResult dlgResult = dlgTransp.ShowDialog();
+
+                    if (dlgResult == DialogResult.OK)
+                    {
+                        amount = dlgTransp.getAmount();
+
+                        // tmp created for readability, with transparency is applied separately. The main picBox image is also updated here.
+                        Bitmap tmp = ApplyTransparency(listLoadedImg[curImgIndex].GetBitmap("c"), amount);
+                        listLoadedImg[curImgIndex].UpdateBitmap(tmp);
+                        UpdatePicbox(listLoadedImg[curImgIndex]);
+                        //picBoxMain.Image = listLoadedImg[curImgIndex].GetBitmap("c");
+                    }
+                    else if (dlgResult == DialogResult.Cancel)
+                    {
+                        // Nothing
+                    }
+                    else
+                        MessageBox.Show("Error");
+                }
+            }
+        }
+
+        private void menuSepia_Click_1(object sender, EventArgs e)
+        {
+            if (picBoxMain.Image != null)
+            {
+                Bitmap tmp = ApplySepia(listLoadedImg[curImgIndex].GetBitmap("c"));
+                listLoadedImg[curImgIndex].UpdateBitmap(tmp);
+            }
+        }
+
+        private void menuGrayscale_Click_1(object sender, EventArgs e)
+        {
+            if (picBoxMain.Image != null)
+            {
+                Grayscale dlgGrayscale = new Grayscale();
+                DialogResult dlgResult;
+                dlgResult = dlgGrayscale.ShowDialog();
+
+                // tmp created for readability, will eventually be applied to picBoxMain
+                Bitmap tmp = null;
+
+                // The 'Luminosity' button is set to "OK".
+                if (dlgResult == DialogResult.OK)
+                {
+                    tmp = ApplyGrayscale(listLoadedImg[curImgIndex].GetBitmap("c"), "luminosity");
+                }
+                // The 'Average' button is set to "Yes".
+                else if (dlgResult == DialogResult.Yes)
+                {
+                    tmp = ApplyGrayscale(listLoadedImg[curImgIndex].GetBitmap("c"), "average");
+                }
+                else
+                {
+                    MessageBox.Show("An error has occured during the grayscale operation.");
+                    Environment.Exit(22);
+                }
+                // If we reached here, a certain kind of grayscaling has been applied
+                listLoadedImg[curImgIndex].UpdateBitmap(tmp);
+                UpdatePicbox(listLoadedImg[curImgIndex]);
+            }
+        }
+
         private void menuStepForward_Click(object sender, EventArgs e)
         {
             listLoadedImg[curImgIndex].StepForward();
         }
     }
 }
+
+/*
+        private void ExportChannel(string channel, Bitmap img, bool bypass)
+        {
+            // Importantly, a completely new Bitmap has to be created from the passed image, to avoid the pointer (I think) editing things like curImg
+            Bitmap channelImg = new Bitmap(img);
+            BitmapData imgData = channelImg.LockBits(new Rectangle(0, 0, channelImg.Width, channelImg.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+            IntPtr dataPointer = imgData.Scan0;
+            byte[] imgBuffer = new byte[imgData.Stride * imgData.Height];
+            Marshal.Copy(dataPointer, imgBuffer, 0, imgBuffer.Length);
+
+            // An array to hold the offset ints that represent the channels to be changed. 
+            // B = 0 G = 1 R = 2 A = 3
+            int[] bytesToChange = new int[2]; // initialised with 3 indicies, as R,G & B cases only require two channel edits, a third is added later only if necessary.
+            byte value = 0;
+
+            switch (channel)
+            {
+                case "R":
+                    bytesToChange[0] = 0;
+                    bytesToChange[1] = 1;                    //bytesToChange[2] = 1; // Duped to avoid editing the alpha - Maybe look at creating the array inside here to make less wasteful? 
+                    value = 0;
+                    break;
+                case "G":
+                    bytesToChange[0] = 0;
+                    bytesToChange[1] = 2;                    //bytesToChange[2] = 2; // Duped to avoid editing the alpha
+                    value = 0;
+                    break;
+                case "B":
+                    bytesToChange[0] = 1;
+                    bytesToChange[1] = 2;                    //bytesToChange[2] = 2; // Duped to avoid editing the alpha
+                    value = 0;
+                    break;
+                case "A": case "ABW":
+                    bytesToChange = new int[3];
+                    bytesToChange[0] = 0;
+                    bytesToChange[1] = 1;
+                    bytesToChange[2] = 2;
+                    value = 255;
+                    break;
+            }
+
+            for (int i = 0; i < imgBuffer.Length; i += 4)
+            {
+                // If we're exporting the B/W alpha image, the new value for R, G & B is equal to the alpha channel
+                if (channel == "ABW")
+                    value = imgBuffer[i + 3];
+                // For each byte that is to be changed (as offset of current buffer pixel position), change to value
+                for (int j = 0; j < bytesToChange.Length;  j++)
+                {
+                    imgBuffer[i + bytesToChange[j]] = value;
+                }
+            }
+            Marshal.Copy(imgBuffer, 0, dataPointer, imgBuffer.Length);
+            channelImg.UnlockBits(imgData);
+
+            // Creating a minimally scoped instance of the dialog 
+            using (SaveFileDialog dlgSaveChannel = new SaveFileDialog())
+            {
+                // Converging the alphas for the puspose of savedialog creation
+                if (channel == "ABW")
+                    channel = "A";
+
+                // Preparing default state for dlg
+                dlgSaveChannel.FileName = Path.GetFileNameWithoutExtension(listLoadedImg[curImgIndex].GetName()) + "_" + channel;
+                dlgSaveChannel.InitialDirectory = "C://Desktop";
+                dlgSaveChannel.Title = "Save (" + channel + ") Image Channel";
+                dlgSaveChannel.Filter = "JPEG Image|*.jpg|BMP Image|*.bmp|PNG Image|*.png|TIFF Image|*.tiff";
+
+                if (bypass == false)
+                {
+                    if (dlgSaveChannel.ShowDialog() == DialogResult.OK)
+                        SaveImage(dlgSaveChannel, channelImg);
+                }
+                else
+                {
+                    // Need to get type from batch dialog instead
+                    string path = listLoadedImg[curImgIndex].GetDefaultDir() + "\\" + Path.GetFileNameWithoutExtension(listLoadedImg[curImgIndex].GetName()) + "_" + channel + "." + listLoadedImg[curImgIndex].GetExportFormat().ToString();
+                    // this has been changed channelImg.Save(path, listLoadedImg[curImgIndex].GetExportFormat());
+                }
+            }
+        }
+
+        private void ExportChannelMediator(string colourChannel, bool isBypassing)
+        {
+            if (colourChannel == "R" || colourChannel == "G" || colourChannel == "B" || colourChannel == "A")
+                ExportChannel(colourChannel, listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
+
+            else if (colourChannel == "All")
+            {
+                // Runs the method once for each channel
+                ExportChannel("R", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
+                ExportChannel("G", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
+                ExportChannel("B", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
+                ExportChannel("A", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
+            }
+            else if (colourChannel == "AllBW")
+            {
+                ExportChannel("R", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
+                ExportChannel("G", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
+                ExportChannel("B", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
+                ExportChannel("ABW", listLoadedImg[curImgIndex].GetBitmap("c"), isBypassing);
+            }
+            else
+                MessageBox.Show("An error occurred when registering choice of colour channel.");
+        }
+ * 
+ * private void menuExportChannels_Click(object sender, EventArgs e)
+        {
+            using (Channels dlgChannels = new Channels())
+            {
+                if (dlgChannels.ShowDialog() == DialogResult.OK)
+                {
+                    // Don't bypass dlg, since there's only 1 or 4 images being saved
+                    ExportChannelMediator(dlgChannels.colourChannel, false);
+                }
+            }
+        }
+ * 
+ * private void SaveImage(SaveFileDialog dlg, Image img)
+        {
+            // Create a MemoryStream that will be minimally scoped
+            using (MemoryStream memStream = new MemoryStream())
+            {
+                // Save the image to the memorystream in it's native format
+                // this has been changed img.Save(memStream, listLoadedImg[curImgIndex].GetOriginalFormat());
+
+                // Creating an Image that can actually be saved - Should probably make everything up to this point a method
+                // Should also incorporate some kind of using statement to close off the MemoryStream
+                Image imgToSave = Image.FromStream(memStream);
+
+                // FilterIndex appears to record which filetype is arrIsProcessed
+                switch (dlg.FilterIndex)
+                {
+                    case 1:
+                        // this has been changed imgToSave.Save(dlg.FileName, ImageFormat.Jpeg);
+                        break;
+                    case 2:
+                        // this has been changed imgToSave.Save(dlg.FileName, ImageFormat.Bmp);
+                        break;
+                    case 3:
+                        // this has been changed imgToSave.Save(dlg.FileName, ImageFormat.Png);
+                        break;
+                    case 4:
+                        // this has been changed imgToSave.Save(dlg.FileName, ImageFormat.Tiff);
+                        break;
+                }
+            } dlg.Dispose();
+        }
+        */

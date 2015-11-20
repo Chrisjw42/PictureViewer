@@ -14,12 +14,14 @@ namespace WfaPictureViewer
     public partial class BatchSettings : Form
     {
         // Attributes created for public accessing
-        public bool exportToFile { get; private set; }
         public bool provideName { get; private set; }
         public bool provideDir { get; private set; }
-        public string fileTypeString, fileName, newFileDir;
+        public bool exportAlphaTransp { get; private set; }
+        public bool exportAlphaBW { get; private set; }
+        public string fileTypeString, fileName, newFileDir, grayAlgorithm;
         private Color colourEnabled = Color.FromArgb(161, 212, 144), colourDisabled = Color.WhiteSmoke, colourUnavailable = Color.FromArgb(212, 161, 144);
         public CheckBox[][] arrChkOptions { get; private set; } // Jagged array of all checkbox options, retreivable but not editable.
+        public CheckBox[] arrChannelOptions { get; private set; } // array of all the channel choices
         private int curFilterIndex;
         private PicViewer mainProgram;
         public bool[] arrIsProcessed; // is the image at this position selected for processing.
@@ -31,7 +33,6 @@ namespace WfaPictureViewer
             InitializeComponent();
             // Stops manual editing of the combo box, meaning that somehting HAS to be arrIsProcessed
             comboBatchFileExportType.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBatchFileExportType.SelectedIndex = 0;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             
             // Tracks the currenty in-use filter
@@ -41,13 +42,16 @@ namespace WfaPictureViewer
             mainProgram = (PicViewer)sender; // Reference to main form
             arrIsProcessed = new bool[mainProgram.listLoadedImg.Count()]; // array of bool matching length of list
 
-            UpdateOptions();
-            PopulateList();
+            comboBatchFileExportType.SelectedIndex = 0; // Creates a call to  UpdateOptions();
+            PopulateList();            
         }
 
         private void UpdateCheckedStatus()
         {
-            arrChkOptions = new CheckBox[5][];
+            if (arrChkOptions == null)
+            {
+                arrChkOptions = new CheckBox[5][]; // Create the Jagged array if it doesn't already exist.
+            }
 
             // Row 0, File
             arrChkOptions[0] = new CheckBox[] { chkBatchFileExport };
@@ -58,8 +62,17 @@ namespace WfaPictureViewer
             // Row 3, Filters
             arrChkOptions[3] = new CheckBox[] { chkBatchFilterSepia, chkBatchFilterGrayscale };
             // Row 4, Channels
-            arrChkOptions[4] = new CheckBox[] { chkBatchChannelsBypass };
+            arrChkOptions[4] = new CheckBox[] { chkBatchChannels};
+            
+            // Channel options
+            arrChannelOptions = new CheckBox[] { chkBatchChannelsR, chkBatchChannelsG, chkBatchChannelsB, chkBatchChannelsA };
 
+            provideDir = radBatchFileFolderNew.Checked;
+            provideName = radBatchFileNameNew.Checked;
+            exportAlphaBW = radBatchChannelsABW.Checked;
+            exportAlphaTransp = radBatchChannelsATran.Checked;
+
+            // Steal file naming code from ExportChannel()
         }
 
         // Returns a List of active options
@@ -94,12 +107,6 @@ namespace WfaPictureViewer
 
         private void UpdateOptions()
         {
-            // File Options
-            if (chkBatchFileExport.Checked)
-                exportToFile = true;
-            else
-                exportToFile = false;
-
             if (radBatchFileNameCurrent.Checked)
             {
                 txtBatchFileName.Text = null;
@@ -109,14 +116,40 @@ namespace WfaPictureViewer
             // Enable label only when the "New" radiobutton is checked
             lblBatchFileFolder.Enabled = radBatchFileFolderNew.Checked;
            
-
-
             // Adjustment Options
 
             // Filter Options
 
             // Reset currently active filter tracker
             curFilterIndex = -1;
+
+            // Channel options
+            // Only allow channel export chkbox when 'export to files' is selected
+            if (!arrChkOptions[0][0].Checked)
+            {
+                arrChkOptions[4][0].Enabled = arrChkOptions[4][0].Checked = false;
+            }
+            else
+            {
+                arrChkOptions[4][0].Enabled = true;
+            }
+
+            if (arrChkOptions[4][0].Enabled && arrChkOptions[4][0].Checked)
+            {
+                // Disable alpha channel radiobuttons if checkdbox isnt checked
+                radBatchChannelsATran.Enabled = radBatchChannelsABW.Enabled = chkBatchChannelsA.Checked;
+
+                // if not using PNG
+                if (comboBatchFileExportType.SelectedIndex != 2)
+                {
+                    radBatchChannelsATran.Enabled = false;
+                    lblAlphaInstructions.Visible = true;
+                }
+                else
+                {
+                    lblAlphaInstructions.Visible = false;
+                }
+            }
             
             // Loop through collection of chkboxes
             for (int i = 0; i < arrChkOptions.Length; i++)
@@ -124,6 +157,7 @@ namespace WfaPictureViewer
                 // Each row of chkboxes corresponds to a tab's options
                 for (int j = 0; j < arrChkOptions[i].Length; j++)
                 {
+                    bool wasChkBoxEnabled = arrChkOptions[i][j].Enabled;
                     // Colour code based on whether the checkbox is checked.
                     if (arrChkOptions[i][j].Checked)
                     {
@@ -142,15 +176,18 @@ namespace WfaPictureViewer
                     else if (arrChkOptions[i][j].CheckState == CheckState.Unchecked)
                     {
                         ((Panel)arrChkOptions[i][j].Parent).BackColor = colourDisabled;
-                        // Every control (including chkbox) inside the prent panel is disabled
+                        // Every control (including chkbox) inside the parent panel is disabled
                         foreach (Control ctrl in ((Panel)arrChkOptions[i][j].Parent).Controls)
                         {
                             if (ctrl.Enabled)
                                 ctrl.Enabled = false;
                         }
-                        arrChkOptions[i][j].Enabled = true; // chkbox needs to be reenabled
+                        // chkbox.enabled needs to be returned to it's previous state. This implementation means that all chkbox states should be set before this set of nested loops. 
+                        arrChkOptions[i][j].Enabled = wasChkBoxEnabled; 
                     }
                 }
+
+                UpdateCheckedStatus();
             }
 
             // If an active filter was found
@@ -170,30 +207,6 @@ namespace WfaPictureViewer
             chkBatchFileProcessAll_CheckedChanged(this, null);
 
             // Channel Options
-        }
-
-        // Finalise, confirm, do the thing, get all the values from input elements.
-        private void btnBatch_Click(object sender, EventArgs e)
-        {
-            UpdateCheckedStatus();
-
-            // Grab all the important values for use by mainProgram's algorithms
-            transpInput = (byte)txtBatchAdjTransparencyInput.Value;
-            exportToFile = chkBatchFileExport.Checked;
-            provideDir = radBatchFileFolderNew.Checked;
-            provideName = radBatchFileNameNew.Checked;
-            newFileDir = lblBatchFileFolder.Text;
-
-            // For each selected image in the electionlist, edit bool in that array position
-            // This array is used by menuBatch_Click
-            for (int i = 0; i < arrIsProcessed.Length; i++)
-            {
-                if (batchFileSelectionList.CheckedIndices.Contains(i))
-                {
-                    arrIsProcessed[i] = true;
-                }
-            }
-
         }
 
         public ImageFormat GetImageFormat()
@@ -245,19 +258,44 @@ namespace WfaPictureViewer
                     }
             }
         }
-        
 
+        // Finalise, confirm, get all the values from non-checkbox input elements.
+        private void btnBatch_Click(object sender, EventArgs e)
+        {
+            UpdateCheckedStatus();
+
+            // Grab all the important values for use by mainProgram's algorithms
+            transpInput = (byte)txtBatchAdjTransparencyInput.Value;
+            newFileDir = lblBatchFileFolder.Text;
+
+            // For each selected image in the electionlist, edit bool in that array position
+            // This array is used by menuBatch_Click
+            for (int i = 0; i < arrIsProcessed.Length; i++)
+            {
+                if (batchFileSelectionList.CheckedIndices.Contains(i))
+                {
+                    arrIsProcessed[i] = true;
+                }
+            }
+            
+            if (arrChkOptions[3][1].Checked)
+            {
+                if (radBatchFilterGrayscaleAvg.Checked)
+                {
+                    grayAlgorithm = "average";
+                }
+                else if(radBatchFilterGrayscaleLum.Checked)
+                {
+                    grayAlgorithm = "luminosity";
+                }
+            }
+        }
 
         // EVENT HANDLERS
         ////////////////////////////////////////////////////////////////////
 
         private void chkExport_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkBatchFileExport.Checked)
-                exportToFile = true;
-            else
-                exportToFile = false;
-
             UpdateOptions();
         }
 
@@ -275,49 +313,6 @@ namespace WfaPictureViewer
             //else
             //    provideName = false;
             UpdateOptions();
-        }
-
-        private void btnGetPath_Click(object sender, EventArgs e)
-        {
-            /*using (SaveFileDialog dlgGetPath = new SaveFileDialog())
-            {
-                dlgGetPath.InitialDirectory = "C:/Desktop";
-                dlgGetPath.Title = "Select File Name and Path";
-                dlgGetPath.Filter = "JPEG Image|*.jpg|BMP Image|*.bmp|PNG Image|*.png|TIFF Image|*.tiff";
-
-                if (dlgGetPath.ShowDialog() == DialogResult.OK)
-                {
-                    fileName = dlgGetPath.FileName;
-                    fileType = dlgGetPath.FilterIndex;
-                    txtBatchFileFolder.Text = dlgGetPath.FileName;
-                }
-            }*/
-        }
-
-        private void btnOK_Click(object sender, EventArgs e)
-        {
-            //if (bypass)
-            //{
-            //    if (!provideName)
-            //    {
-            //        fileType = comboBatchFileExportType.SelectedIndex;
-            //        fileTypeString = comboBatchFileExportType.Text;
-            //    }
-            //    else
-            //        // unchanged, leave it as the dlg assigned it 
-
-            //        if (fileName != null)
-            //        {
-            //            this.Close();
-            //        }
-            //        else
-            //        {
-            //            MessageBox.Show("Please enter a valid file deaultName & path using the [...] button.");
-            //        }
-            //}
-            //else
-            //{
-            //}
         }
 
         private void chkBatchEffectBrightness_CheckedChanged(object sender, EventArgs e)
@@ -421,6 +416,41 @@ namespace WfaPictureViewer
             {
                 batchFileSelectionList.Enabled = true;
             }
+        }
+
+        private void chkBatchChannels_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateOptions();
+        }
+
+        private void panel6_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void chkBatchChannels_CheckedChanged_1(object sender, EventArgs e)
+        {
+            UpdateOptions();
+        }
+
+        private void chkBatchChannelsA_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateOptions();
+        }
+
+        private void radBatchChannelsABW_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateOptions();
+        }
+
+        private void radBatchChannelsATran_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateOptions();
+        }
+
+        private void comboBatchFileExportType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateOptions();
         }
     }
 }

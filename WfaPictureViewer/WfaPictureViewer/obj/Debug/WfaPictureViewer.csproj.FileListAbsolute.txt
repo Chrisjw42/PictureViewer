@@ -41,10 +41,10 @@ C:\Users\chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureVie
 C:\Users\chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureViewer\WfaPictureViewer\bin\Debug\WfaPictureViewer.exe
 C:\Users\chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureViewer\WfaPictureViewer\bin\Debug\WfaPictureViewer.pdb
 C:\Users\chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureViewer\WfaPictureViewer\obj\Debug\WfaPictureViewer.csprojResolveAssemblyReference.cache
-C:\Users\chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureViewer\WfaPictureViewer\obj\Debug\WfaPictureViewer.BatchSettings.resources
 C:\Users\chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureViewer\WfaPictureViewer\obj\Debug\WfaPictureViewer.Channels.resources
 C:\Users\chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureViewer\WfaPictureViewer\obj\Debug\WfaPictureViewer.PicViewer.resources
 C:\Users\chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureViewer\WfaPictureViewer\obj\Debug\WfaPictureViewer.Grayscale.resources
 C:\Users\chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureViewer\WfaPictureViewer\obj\Debug\WfaPictureViewer.Properties.Resources.resources
 C:\Users\chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureViewer\WfaPictureViewer\obj\Debug\WfaPictureViewer.csproj.GenerateResource.Cache
 C:\Users\chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureViewer\WfaPictureViewer\obj\Debug\WfaPictureViewer.Transparency.resources
+C:\Users\Chris\OneDrive\PROJECT\VisualStudioProjects\PictureViewer\WfaPictureViewer\WfaPictureViewer\obj\Debug\WfaPictureViewer.BatchSettings.resources

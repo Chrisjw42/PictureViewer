@@ -57,20 +57,18 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuBatchMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuBatchChannels = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuBatchGrayscale = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuBatchTransparency = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuBatchSepia = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.menuBatchResetAdjustments = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.menuChannels = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuGrayscale = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuTransparency = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuSepia = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.menuResetAdjustments = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFitWindow = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuResetAdjustments = new System.Windows.Forms.ToolStripMenuItem();
             this.menuResetStretching = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuImageFilters = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuGrayscale = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSepia = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuImageAdjustments = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuTransp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.menuChangeBG = new System.Windows.Forms.ToolStripMenuItem();
             this.menuResetBGColour = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,6 +76,7 @@
             this.MenuHideGallery = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuBatch = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.pnlPicBox.SuspendLayout();
@@ -327,14 +326,12 @@
             this.toolStripSeparator2,
             this.menuBatchMenu,
             this.toolStripSeparator4,
-            this.menuChannels,
-            this.menuGrayscale,
-            this.menuTransparency,
-            this.menuSepia,
-            this.toolStripSeparator3,
-            this.menuResetAdjustments,
             this.menuFitWindow,
-            this.menuResetStretching});
+            this.menuResetAdjustments,
+            this.menuResetStretching,
+            this.toolStripSeparator6,
+            this.menuImageFilters,
+            this.menuImageAdjustments});
             this.menuImage.Name = "menuImage";
             this.menuImage.Size = new System.Drawing.Size(52, 20);
             this.menuImage.Text = "Image";
@@ -364,9 +361,6 @@
             // 
             this.menuBatchMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuBatchChannels,
-            this.menuBatchGrayscale,
-            this.menuBatchTransparency,
-            this.menuBatchSepia,
             this.toolStripSeparator5,
             this.menuBatchResetAdjustments});
             this.menuBatchMenu.Name = "menuBatchMenu";
@@ -379,28 +373,6 @@
             this.menuBatchChannels.Name = "menuBatchChannels";
             this.menuBatchChannels.Size = new System.Drawing.Size(172, 22);
             this.menuBatchChannels.Text = "Export Channels";
-            this.menuBatchChannels.Click += new System.EventHandler(this.menuBatchChannels_Click);
-            // 
-            // menuBatchGrayscale
-            // 
-            this.menuBatchGrayscale.Name = "menuBatchGrayscale";
-            this.menuBatchGrayscale.Size = new System.Drawing.Size(172, 22);
-            this.menuBatchGrayscale.Text = "Apply Grayscale";
-            this.menuBatchGrayscale.Click += new System.EventHandler(this.menuBatchGrayscale_Click);
-            // 
-            // menuBatchTransparency
-            // 
-            this.menuBatchTransparency.Name = "menuBatchTransparency";
-            this.menuBatchTransparency.Size = new System.Drawing.Size(172, 22);
-            this.menuBatchTransparency.Text = "Transparency";
-            this.menuBatchTransparency.Click += new System.EventHandler(this.menuBatchTransparency_Click);
-            // 
-            // menuBatchSepia
-            // 
-            this.menuBatchSepia.Name = "menuBatchSepia";
-            this.menuBatchSepia.Size = new System.Drawing.Size(172, 22);
-            this.menuBatchSepia.Text = "Apply Sepia";
-            this.menuBatchSepia.Click += new System.EventHandler(this.menuBatchSepia_Click);
             // 
             // toolStripSeparator5
             // 
@@ -419,38 +391,12 @@
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(205, 6);
             // 
-            // menuChannels
+            // menuFitWindow
             // 
-            this.menuChannels.Name = "menuChannels";
-            this.menuChannels.Size = new System.Drawing.Size(208, 22);
-            this.menuChannels.Text = "Export Channels";
-            this.menuChannels.Click += new System.EventHandler(this.menuExportChannels_Click);
-            // 
-            // menuGrayscale
-            // 
-            this.menuGrayscale.Name = "menuGrayscale";
-            this.menuGrayscale.Size = new System.Drawing.Size(208, 22);
-            this.menuGrayscale.Text = "Apply Grayscale";
-            this.menuGrayscale.Click += new System.EventHandler(this.menuGrayscale_Click);
-            // 
-            // menuTransparency
-            // 
-            this.menuTransparency.Name = "menuTransparency";
-            this.menuTransparency.Size = new System.Drawing.Size(208, 22);
-            this.menuTransparency.Text = "Transparency";
-            this.menuTransparency.Click += new System.EventHandler(this.MenuTransparency);
-            // 
-            // menuSepia
-            // 
-            this.menuSepia.Name = "menuSepia";
-            this.menuSepia.Size = new System.Drawing.Size(208, 22);
-            this.menuSepia.Text = "Apply Sepia";
-            this.menuSepia.Click += new System.EventHandler(this.menuSepia_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(205, 6);
+            this.menuFitWindow.Name = "menuFitWindow";
+            this.menuFitWindow.Size = new System.Drawing.Size(208, 22);
+            this.menuFitWindow.Text = "Fit Window to Image";
+            this.menuFitWindow.Click += new System.EventHandler(this.menuFitWindow_Click);
             // 
             // menuResetAdjustments
             // 
@@ -459,19 +405,55 @@
             this.menuResetAdjustments.Text = "Reset Image Adjustments";
             this.menuResetAdjustments.Click += new System.EventHandler(this.menuResetAdjustments_Click);
             // 
-            // menuFitWindow
-            // 
-            this.menuFitWindow.Name = "menuFitWindow";
-            this.menuFitWindow.Size = new System.Drawing.Size(208, 22);
-            this.menuFitWindow.Text = "Fit Window to Image";
-            this.menuFitWindow.Click += new System.EventHandler(this.menuFitWindow_Click);
-            // 
             // menuResetStretching
             // 
             this.menuResetStretching.Name = "menuResetStretching";
             this.menuResetStretching.Size = new System.Drawing.Size(208, 22);
             this.menuResetStretching.Text = "Reset Stretching";
             this.menuResetStretching.Click += new System.EventHandler(this.MenuResetStretching_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(205, 6);
+            // 
+            // menuImageFilters
+            // 
+            this.menuImageFilters.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuGrayscale,
+            this.menuSepia});
+            this.menuImageFilters.Name = "menuImageFilters";
+            this.menuImageFilters.Size = new System.Drawing.Size(208, 22);
+            this.menuImageFilters.Text = "Filters";
+            // 
+            // menuGrayscale
+            // 
+            this.menuGrayscale.Name = "menuGrayscale";
+            this.menuGrayscale.Size = new System.Drawing.Size(158, 22);
+            this.menuGrayscale.Text = "Apply Grayscale";
+            this.menuGrayscale.Click += new System.EventHandler(this.menuGrayscale_Click_1);
+            // 
+            // menuSepia
+            // 
+            this.menuSepia.Name = "menuSepia";
+            this.menuSepia.Size = new System.Drawing.Size(158, 22);
+            this.menuSepia.Text = "Apply Sepia";
+            this.menuSepia.Click += new System.EventHandler(this.menuSepia_Click_1);
+            // 
+            // menuImageAdjustments
+            // 
+            this.menuImageAdjustments.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuTransp});
+            this.menuImageAdjustments.Name = "menuImageAdjustments";
+            this.menuImageAdjustments.Size = new System.Drawing.Size(208, 22);
+            this.menuImageAdjustments.Text = "Adjustments";
+            // 
+            // menuTransp
+            // 
+            this.menuTransp.Name = "menuTransp";
+            this.menuTransp.Size = new System.Drawing.Size(144, 22);
+            this.menuTransp.Text = "Transparency";
+            this.menuTransp.Click += new System.EventHandler(this.menuTransp_Click);
             // 
             // menuWindow
             // 
@@ -527,6 +509,11 @@
             this.menuBatch.Text = "Batch";
             this.menuBatch.Click += new System.EventHandler(this.menuBatch_Click);
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(32, 19);
+            // 
             // PicViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -578,19 +565,11 @@
         private System.Windows.Forms.ToolStripMenuItem menuWindow;
         private System.Windows.Forms.ToolStripMenuItem menuChangeBG;
         private System.Windows.Forms.ToolStripMenuItem menuResetStretching;
-        private System.Windows.Forms.ToolStripMenuItem menuTransparency;
         private System.Windows.Forms.ToolStripMenuItem menuResetBGColour;
         private System.Windows.Forms.ToolStripMenuItem menuDisplayBGInfo;
-        private System.Windows.Forms.ToolStripMenuItem menuGrayscale;
-        private System.Windows.Forms.ToolStripMenuItem menuSepia;
         private System.Windows.Forms.ToolStripMenuItem menuResetAdjustments;
-        private System.Windows.Forms.ToolStripMenuItem menuChannels;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem menuBatchMenu;
         private System.Windows.Forms.ToolStripMenuItem menuBatchChannels;
-        private System.Windows.Forms.ToolStripMenuItem menuBatchGrayscale;
-        private System.Windows.Forms.ToolStripMenuItem menuBatchTransparency;
-        private System.Windows.Forms.ToolStripMenuItem menuBatchSepia;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem menuBatchResetAdjustments;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
@@ -608,6 +587,13 @@
         private System.Windows.Forms.ToolStripMenuItem menuStepForward;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem menuBatch;
+        private System.Windows.Forms.ToolStripMenuItem menuImageFilters;
+        private System.Windows.Forms.ToolStripMenuItem menuImageAdjustments;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem menuGrayscale;
+        private System.Windows.Forms.ToolStripMenuItem menuSepia;
+        private System.Windows.Forms.ToolStripMenuItem menuTransp;
     }
 }
 
