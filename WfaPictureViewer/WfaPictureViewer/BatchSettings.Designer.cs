@@ -33,8 +33,8 @@
             this.tabBatch = new System.Windows.Forms.TabControl();
             this.tabFile = new System.Windows.Forms.TabPage();
             this.batchFileFlow = new System.Windows.Forms.FlowLayoutPanel();
-            this.batchFileFlowHead = new System.Windows.Forms.Panel();
-            this.chkBatchFileType = new System.Windows.Forms.Panel();
+            this.pnlBatchFileHead = new System.Windows.Forms.Panel();
+            this.pnlBatchFileFile = new System.Windows.Forms.Panel();
             this.grpBatchFileName = new System.Windows.Forms.GroupBox();
             this.radBatchFileNameCurrent = new System.Windows.Forms.RadioButton();
             this.radBatchFileNameNew = new System.Windows.Forms.RadioButton();
@@ -47,37 +47,52 @@
             this.chkBatchFileExport = new System.Windows.Forms.CheckBox();
             this.comboBatchFileExportType = new System.Windows.Forms.ComboBox();
             this.lblBatchFileExportType = new System.Windows.Forms.Label();
-            this.batchFileFlowSelection = new System.Windows.Forms.Panel();
+            this.pnlBatchFileSelection = new System.Windows.Forms.Panel();
             this.lblBatchFileImagesInstructions = new System.Windows.Forms.Label();
             this.chkBatchFileProcessAll = new System.Windows.Forms.CheckBox();
             this.batchFileSelectionList = new System.Windows.Forms.CheckedListBox();
             this.tabTransform = new System.Windows.Forms.TabPage();
-            this.chkBatchTransform = new System.Windows.Forms.CheckBox();
+            this.batchTransFlow = new System.Windows.Forms.FlowLayoutPanel();
+            this.pnlBatchTransHead = new System.Windows.Forms.Panel();
+            this.lblBatchTransInstructions = new System.Windows.Forms.Label();
+            this.pnlBatchTransScale = new System.Windows.Forms.Panel();
+            this.lblBatchScale = new System.Windows.Forms.Label();
+            this.txtBatchScale = new System.Windows.Forms.NumericUpDown();
+            this.chkBatchTransScale = new System.Windows.Forms.CheckBox();
+            this.pnlBatchTransRotate = new System.Windows.Forms.Panel();
+            this.radTransRotate180 = new System.Windows.Forms.RadioButton();
+            this.radTransRotate90Counter = new System.Windows.Forms.RadioButton();
+            this.radTransRotate90Clock = new System.Windows.Forms.RadioButton();
+            this.chkBatchTransRotate = new System.Windows.Forms.CheckBox();
+            this.pnlBatchTransFlip = new System.Windows.Forms.Panel();
+            this.radTransFlipH = new System.Windows.Forms.RadioButton();
+            this.chkBatchTransFlip = new System.Windows.Forms.CheckBox();
+            this.radTransFlipV = new System.Windows.Forms.RadioButton();
             this.tabAdjustments = new System.Windows.Forms.TabPage();
             this.batchAdjFlow = new System.Windows.Forms.FlowLayoutPanel();
-            this.batchAdjFlowHead = new System.Windows.Forms.Panel();
+            this.pnlBatchAdjHead = new System.Windows.Forms.Panel();
             this.lblBatchAdjInstructions = new System.Windows.Forms.Label();
-            this.batchAdjFlowTransparency = new System.Windows.Forms.Panel();
+            this.pnlBatchAdjTrans = new System.Windows.Forms.Panel();
             this.txtBatchAdjTransparencyInput = new System.Windows.Forms.NumericUpDown();
             this.lblBatchAdjTransparencyInstructions = new System.Windows.Forms.Label();
             this.chkBatchAdjTransparency = new System.Windows.Forms.CheckBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tabFilters = new System.Windows.Forms.TabPage();
             this.batchFilterFlow = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnlBatchFilterHead = new System.Windows.Forms.Panel();
             this.lblBatchEffectsIstructions = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnlBatchFilterGrayscale = new System.Windows.Forms.Panel();
             this.radBatchFilterGrayscaleAvg = new System.Windows.Forms.RadioButton();
             this.chkBatchFilterGrayscale = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.radBatchFilterGrayscaleLum = new System.Windows.Forms.RadioButton();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.pnlBatchFilterSepia = new System.Windows.Forms.Panel();
             this.chkBatchFilterSepia = new System.Windows.Forms.CheckBox();
             this.tabChannels = new System.Windows.Forms.TabPage();
             this.batchChanelFlow = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel5 = new System.Windows.Forms.Panel();
+            this.pnlBatchChannelsHead = new System.Windows.Forms.Panel();
             this.lblBatchChannelsSelect = new System.Windows.Forms.Label();
-            this.panel6 = new System.Windows.Forms.Panel();
+            this.pnlBatchChannelsChannels = new System.Windows.Forms.Panel();
             this.lblAlphaInstructions = new System.Windows.Forms.Label();
             this.lblCatchChannelsInstructions = new System.Windows.Forms.Label();
             this.lblBatchChannelsA = new System.Windows.Forms.Label();
@@ -93,29 +108,44 @@
             this.button1 = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.label3 = new System.Windows.Forms.Label();
+            this.tableLayoutBatchPreview = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.picBatchPreview = new System.Windows.Forms.PictureBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabBatch.SuspendLayout();
             this.tabFile.SuspendLayout();
             this.batchFileFlow.SuspendLayout();
-            this.chkBatchFileType.SuspendLayout();
+            this.pnlBatchFileFile.SuspendLayout();
             this.grpBatchFileName.SuspendLayout();
             this.grpBatchFileFolder.SuspendLayout();
-            this.batchFileFlowSelection.SuspendLayout();
+            this.pnlBatchFileSelection.SuspendLayout();
             this.tabTransform.SuspendLayout();
+            this.batchTransFlow.SuspendLayout();
+            this.pnlBatchTransHead.SuspendLayout();
+            this.pnlBatchTransScale.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBatchScale)).BeginInit();
+            this.pnlBatchTransRotate.SuspendLayout();
+            this.pnlBatchTransFlip.SuspendLayout();
             this.tabAdjustments.SuspendLayout();
             this.batchAdjFlow.SuspendLayout();
-            this.batchAdjFlowHead.SuspendLayout();
-            this.batchAdjFlowTransparency.SuspendLayout();
+            this.pnlBatchAdjHead.SuspendLayout();
+            this.pnlBatchAdjTrans.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtBatchAdjTransparencyInput)).BeginInit();
             this.tabFilters.SuspendLayout();
             this.batchFilterFlow.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.pnlBatchFilterHead.SuspendLayout();
+            this.pnlBatchFilterGrayscale.SuspendLayout();
+            this.pnlBatchFilterSepia.SuspendLayout();
             this.tabChannels.SuspendLayout();
             this.batchChanelFlow.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.panel6.SuspendLayout();
+            this.pnlBatchChannelsHead.SuspendLayout();
+            this.pnlBatchChannelsChannels.SuspendLayout();
+            this.tableLayoutBatchPreview.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBatchPreview)).BeginInit();
             this.SuspendLayout();
             // 
             // tabBatch
@@ -128,7 +158,7 @@
             this.tabBatch.Location = new System.Drawing.Point(4, 3);
             this.tabBatch.Name = "tabBatch";
             this.tabBatch.SelectedIndex = 0;
-            this.tabBatch.Size = new System.Drawing.Size(589, 471);
+            this.tabBatch.Size = new System.Drawing.Size(533, 468);
             this.tabBatch.TabIndex = 9;
             // 
             // tabFile
@@ -137,7 +167,7 @@
             this.tabFile.Location = new System.Drawing.Point(4, 22);
             this.tabFile.Name = "tabFile";
             this.tabFile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFile.Size = new System.Drawing.Size(581, 445);
+            this.tabFile.Size = new System.Drawing.Size(525, 442);
             this.tabFile.TabIndex = 0;
             this.tabFile.Text = "File";
             this.tabFile.UseVisualStyleBackColor = true;
@@ -145,35 +175,37 @@
             // batchFileFlow
             // 
             this.batchFileFlow.AutoScroll = true;
-            this.batchFileFlow.Controls.Add(this.batchFileFlowHead);
-            this.batchFileFlow.Controls.Add(this.chkBatchFileType);
-            this.batchFileFlow.Controls.Add(this.batchFileFlowSelection);
+            this.batchFileFlow.Controls.Add(this.pnlBatchFileHead);
+            this.batchFileFlow.Controls.Add(this.pnlBatchFileFile);
+            this.batchFileFlow.Controls.Add(this.pnlBatchFileSelection);
             this.batchFileFlow.Dock = System.Windows.Forms.DockStyle.Top;
             this.batchFileFlow.Location = new System.Drawing.Point(3, 3);
             this.batchFileFlow.Name = "batchFileFlow";
-            this.batchFileFlow.Size = new System.Drawing.Size(575, 422);
+            this.batchFileFlow.Size = new System.Drawing.Size(519, 422);
             this.batchFileFlow.TabIndex = 0;
             // 
-            // batchFileFlowHead
+            // pnlBatchFileHead
             // 
-            this.batchFileFlowHead.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.batchFileFlowHead.Location = new System.Drawing.Point(3, 3);
-            this.batchFileFlowHead.Name = "batchFileFlowHead";
-            this.batchFileFlowHead.Size = new System.Drawing.Size(550, 25);
-            this.batchFileFlowHead.TabIndex = 0;
+            this.pnlBatchFileHead.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchFileHead.Location = new System.Drawing.Point(3, 3);
+            this.pnlBatchFileHead.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchFileHead.Name = "pnlBatchFileHead";
+            this.pnlBatchFileHead.Size = new System.Drawing.Size(500, 25);
+            this.pnlBatchFileHead.TabIndex = 0;
             // 
-            // chkBatchFileType
+            // pnlBatchFileFile
             // 
-            this.chkBatchFileType.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.chkBatchFileType.Controls.Add(this.grpBatchFileName);
-            this.chkBatchFileType.Controls.Add(this.grpBatchFileFolder);
-            this.chkBatchFileType.Controls.Add(this.chkBatchFileExport);
-            this.chkBatchFileType.Controls.Add(this.comboBatchFileExportType);
-            this.chkBatchFileType.Controls.Add(this.lblBatchFileExportType);
-            this.chkBatchFileType.Location = new System.Drawing.Point(3, 34);
-            this.chkBatchFileType.Name = "chkBatchFileType";
-            this.chkBatchFileType.Size = new System.Drawing.Size(550, 151);
-            this.chkBatchFileType.TabIndex = 1;
+            this.pnlBatchFileFile.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchFileFile.Controls.Add(this.grpBatchFileName);
+            this.pnlBatchFileFile.Controls.Add(this.grpBatchFileFolder);
+            this.pnlBatchFileFile.Controls.Add(this.chkBatchFileExport);
+            this.pnlBatchFileFile.Controls.Add(this.comboBatchFileExportType);
+            this.pnlBatchFileFile.Controls.Add(this.lblBatchFileExportType);
+            this.pnlBatchFileFile.Location = new System.Drawing.Point(3, 31);
+            this.pnlBatchFileFile.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchFileFile.Name = "pnlBatchFileFile";
+            this.pnlBatchFileFile.Size = new System.Drawing.Size(500, 151);
+            this.pnlBatchFileFile.TabIndex = 1;
             // 
             // grpBatchFileName
             // 
@@ -182,7 +214,7 @@
             this.grpBatchFileName.Controls.Add(this.txtBatchFileName);
             this.grpBatchFileName.Location = new System.Drawing.Point(11, 96);
             this.grpBatchFileName.Name = "grpBatchFileName";
-            this.grpBatchFileName.Size = new System.Drawing.Size(526, 36);
+            this.grpBatchFileName.Size = new System.Drawing.Size(471, 36);
             this.grpBatchFileName.TabIndex = 42;
             this.grpBatchFileName.TabStop = false;
             // 
@@ -214,7 +246,7 @@
             // 
             this.txtBatchFileName.Location = new System.Drawing.Point(259, 10);
             this.txtBatchFileName.Name = "txtBatchFileName";
-            this.txtBatchFileName.Size = new System.Drawing.Size(261, 20);
+            this.txtBatchFileName.Size = new System.Drawing.Size(201, 20);
             this.txtBatchFileName.TabIndex = 29;
             this.txtBatchFileName.TextChanged += new System.EventHandler(this.txtBatchFileName_TextChanged);
             // 
@@ -226,7 +258,7 @@
             this.grpBatchFileFolder.Controls.Add(this.btnBatchFileExportGetPath);
             this.grpBatchFileFolder.Location = new System.Drawing.Point(11, 58);
             this.grpBatchFileFolder.Name = "grpBatchFileFolder";
-            this.grpBatchFileFolder.Size = new System.Drawing.Size(526, 36);
+            this.grpBatchFileFolder.Size = new System.Drawing.Size(471, 36);
             this.grpBatchFileFolder.TabIndex = 41;
             this.grpBatchFileFolder.TabStop = false;
             // 
@@ -236,7 +268,7 @@
             this.lblBatchFileFolder.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblBatchFileFolder.Location = new System.Drawing.Point(291, 10);
             this.lblBatchFileFolder.Name = "lblBatchFileFolder";
-            this.lblBatchFileFolder.Size = new System.Drawing.Size(226, 20);
+            this.lblBatchFileFolder.Size = new System.Drawing.Size(169, 20);
             this.lblBatchFileFolder.TabIndex = 40;
             this.lblBatchFileFolder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -310,16 +342,17 @@
             this.lblBatchFileExportType.TabIndex = 32;
             this.lblBatchFileExportType.Text = "FileType:";
             // 
-            // batchFileFlowSelection
+            // pnlBatchFileSelection
             // 
-            this.batchFileFlowSelection.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.batchFileFlowSelection.Controls.Add(this.lblBatchFileImagesInstructions);
-            this.batchFileFlowSelection.Controls.Add(this.chkBatchFileProcessAll);
-            this.batchFileFlowSelection.Controls.Add(this.batchFileSelectionList);
-            this.batchFileFlowSelection.Location = new System.Drawing.Point(3, 191);
-            this.batchFileFlowSelection.Name = "batchFileFlowSelection";
-            this.batchFileFlowSelection.Size = new System.Drawing.Size(550, 235);
-            this.batchFileFlowSelection.TabIndex = 2;
+            this.pnlBatchFileSelection.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchFileSelection.Controls.Add(this.lblBatchFileImagesInstructions);
+            this.pnlBatchFileSelection.Controls.Add(this.chkBatchFileProcessAll);
+            this.pnlBatchFileSelection.Controls.Add(this.batchFileSelectionList);
+            this.pnlBatchFileSelection.Location = new System.Drawing.Point(3, 185);
+            this.pnlBatchFileSelection.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchFileSelection.Name = "pnlBatchFileSelection";
+            this.pnlBatchFileSelection.Size = new System.Drawing.Size(500, 237);
+            this.pnlBatchFileSelection.TabIndex = 2;
             // 
             // lblBatchFileImagesInstructions
             // 
@@ -355,30 +388,212 @@
             "For this purpose"});
             this.batchFileSelectionList.Location = new System.Drawing.Point(15, 49);
             this.batchFileSelectionList.Name = "batchFileSelectionList";
-            this.batchFileSelectionList.Size = new System.Drawing.Size(486, 169);
+            this.batchFileSelectionList.Size = new System.Drawing.Size(467, 169);
             this.batchFileSelectionList.TabIndex = 11;
             this.batchFileSelectionList.SelectedIndexChanged += new System.EventHandler(this.batchFileSelectionList_SelectedIndexChanged);
             // 
             // tabTransform
             // 
-            this.tabTransform.Controls.Add(this.chkBatchTransform);
+            this.tabTransform.Controls.Add(this.batchTransFlow);
             this.tabTransform.Location = new System.Drawing.Point(4, 22);
             this.tabTransform.Name = "tabTransform";
-            this.tabTransform.Size = new System.Drawing.Size(581, 445);
+            this.tabTransform.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTransform.Size = new System.Drawing.Size(525, 442);
             this.tabTransform.TabIndex = 4;
             this.tabTransform.Text = "Transform";
             this.tabTransform.UseVisualStyleBackColor = true;
             // 
-            // chkBatchTransform
+            // batchTransFlow
             // 
-            this.chkBatchTransform.AutoSize = true;
-            this.chkBatchTransform.Location = new System.Drawing.Point(34, 24);
-            this.chkBatchTransform.Name = "chkBatchTransform";
-            this.chkBatchTransform.Size = new System.Drawing.Size(93, 17);
-            this.chkBatchTransform.TabIndex = 0;
-            this.chkBatchTransform.Text = "Transformers?";
-            this.chkBatchTransform.UseVisualStyleBackColor = true;
-            this.chkBatchTransform.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.batchTransFlow.Controls.Add(this.pnlBatchTransHead);
+            this.batchTransFlow.Controls.Add(this.pnlBatchTransScale);
+            this.batchTransFlow.Controls.Add(this.pnlBatchTransRotate);
+            this.batchTransFlow.Controls.Add(this.pnlBatchTransFlip);
+            this.batchTransFlow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.batchTransFlow.Location = new System.Drawing.Point(3, 3);
+            this.batchTransFlow.Name = "batchTransFlow";
+            this.batchTransFlow.Size = new System.Drawing.Size(519, 436);
+            this.batchTransFlow.TabIndex = 0;
+            // 
+            // pnlBatchTransHead
+            // 
+            this.pnlBatchTransHead.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchTransHead.Controls.Add(this.lblBatchTransInstructions);
+            this.pnlBatchTransHead.Location = new System.Drawing.Point(3, 3);
+            this.pnlBatchTransHead.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchTransHead.Name = "pnlBatchTransHead";
+            this.pnlBatchTransHead.Size = new System.Drawing.Size(500, 25);
+            this.pnlBatchTransHead.TabIndex = 1;
+            // 
+            // lblBatchTransInstructions
+            // 
+            this.lblBatchTransInstructions.AutoSize = true;
+            this.lblBatchTransInstructions.Location = new System.Drawing.Point(6, 6);
+            this.lblBatchTransInstructions.Name = "lblBatchTransInstructions";
+            this.lblBatchTransInstructions.Size = new System.Drawing.Size(185, 13);
+            this.lblBatchTransInstructions.TabIndex = 1;
+            this.lblBatchTransInstructions.Text = "Select which transformations to apply:";
+            // 
+            // pnlBatchTransScale
+            // 
+            this.pnlBatchTransScale.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchTransScale.Controls.Add(this.lblBatchScale);
+            this.pnlBatchTransScale.Controls.Add(this.txtBatchScale);
+            this.pnlBatchTransScale.Controls.Add(this.chkBatchTransScale);
+            this.pnlBatchTransScale.Location = new System.Drawing.Point(3, 31);
+            this.pnlBatchTransScale.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchTransScale.Name = "pnlBatchTransScale";
+            this.pnlBatchTransScale.Size = new System.Drawing.Size(500, 75);
+            this.pnlBatchTransScale.TabIndex = 2;
+            // 
+            // lblBatchScale
+            // 
+            this.lblBatchScale.AutoSize = true;
+            this.lblBatchScale.Location = new System.Drawing.Point(196, 20);
+            this.lblBatchScale.Name = "lblBatchScale";
+            this.lblBatchScale.Size = new System.Drawing.Size(108, 13);
+            this.lblBatchScale.TabIndex = 11;
+            this.lblBatchScale.Text = "Select scale value %:";
+            // 
+            // txtBatchScale
+            // 
+            this.txtBatchScale.DecimalPlaces = 2;
+            this.txtBatchScale.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.txtBatchScale.Location = new System.Drawing.Point(218, 36);
+            this.txtBatchScale.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.txtBatchScale.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.txtBatchScale.Name = "txtBatchScale";
+            this.txtBatchScale.Size = new System.Drawing.Size(64, 20);
+            this.txtBatchScale.TabIndex = 5;
+            this.txtBatchScale.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // chkBatchTransScale
+            // 
+            this.chkBatchTransScale.AutoSize = true;
+            this.chkBatchTransScale.Location = new System.Drawing.Point(7, 6);
+            this.chkBatchTransScale.Name = "chkBatchTransScale";
+            this.chkBatchTransScale.Size = new System.Drawing.Size(53, 17);
+            this.chkBatchTransScale.TabIndex = 0;
+            this.chkBatchTransScale.Text = "Scale";
+            this.chkBatchTransScale.UseVisualStyleBackColor = true;
+            this.chkBatchTransScale.CheckedChanged += new System.EventHandler(this.chkBatchTransScale_CheckedChanged);
+            // 
+            // pnlBatchTransRotate
+            // 
+            this.pnlBatchTransRotate.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchTransRotate.Controls.Add(this.radTransRotate180);
+            this.pnlBatchTransRotate.Controls.Add(this.radTransRotate90Counter);
+            this.pnlBatchTransRotate.Controls.Add(this.radTransRotate90Clock);
+            this.pnlBatchTransRotate.Controls.Add(this.chkBatchTransRotate);
+            this.pnlBatchTransRotate.Location = new System.Drawing.Point(3, 109);
+            this.pnlBatchTransRotate.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchTransRotate.Name = "pnlBatchTransRotate";
+            this.pnlBatchTransRotate.Size = new System.Drawing.Size(500, 75);
+            this.pnlBatchTransRotate.TabIndex = 3;
+            // 
+            // radTransRotate180
+            // 
+            this.radTransRotate180.AutoSize = true;
+            this.radTransRotate180.Location = new System.Drawing.Point(170, 29);
+            this.radTransRotate180.Name = "radTransRotate180";
+            this.radTransRotate180.Size = new System.Drawing.Size(120, 17);
+            this.radTransRotate180.TabIndex = 4;
+            this.radTransRotate180.Text = "180⁰ (Upside-Down)";
+            this.radTransRotate180.UseVisualStyleBackColor = true;
+            // 
+            // radTransRotate90Counter
+            // 
+            this.radTransRotate90Counter.AutoSize = true;
+            this.radTransRotate90Counter.Location = new System.Drawing.Point(300, 29);
+            this.radTransRotate90Counter.Name = "radTransRotate90Counter";
+            this.radTransRotate90Counter.Size = new System.Drawing.Size(132, 17);
+            this.radTransRotate90Counter.TabIndex = 2;
+            this.radTransRotate90Counter.Text = "90⁰ Counter-Clockwise";
+            this.radTransRotate90Counter.UseVisualStyleBackColor = true;
+            // 
+            // radTransRotate90Clock
+            // 
+            this.radTransRotate90Clock.AutoSize = true;
+            this.radTransRotate90Clock.Checked = true;
+            this.radTransRotate90Clock.Location = new System.Drawing.Point(68, 29);
+            this.radTransRotate90Clock.Name = "radTransRotate90Clock";
+            this.radTransRotate90Clock.Size = new System.Drawing.Size(92, 17);
+            this.radTransRotate90Clock.TabIndex = 1;
+            this.radTransRotate90Clock.TabStop = true;
+            this.radTransRotate90Clock.Text = "90⁰ Clockwise";
+            this.radTransRotate90Clock.UseVisualStyleBackColor = true;
+            // 
+            // chkBatchTransRotate
+            // 
+            this.chkBatchTransRotate.AutoSize = true;
+            this.chkBatchTransRotate.Location = new System.Drawing.Point(7, 6);
+            this.chkBatchTransRotate.Name = "chkBatchTransRotate";
+            this.chkBatchTransRotate.Size = new System.Drawing.Size(58, 17);
+            this.chkBatchTransRotate.TabIndex = 0;
+            this.chkBatchTransRotate.Text = "Rotate";
+            this.chkBatchTransRotate.UseVisualStyleBackColor = true;
+            this.chkBatchTransRotate.CheckedChanged += new System.EventHandler(this.chkBatchTransRotate_CheckedChanged);
+            // 
+            // pnlBatchTransFlip
+            // 
+            this.pnlBatchTransFlip.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchTransFlip.Controls.Add(this.radTransFlipH);
+            this.pnlBatchTransFlip.Controls.Add(this.chkBatchTransFlip);
+            this.pnlBatchTransFlip.Controls.Add(this.radTransFlipV);
+            this.pnlBatchTransFlip.Location = new System.Drawing.Point(3, 187);
+            this.pnlBatchTransFlip.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchTransFlip.Name = "pnlBatchTransFlip";
+            this.pnlBatchTransFlip.Size = new System.Drawing.Size(500, 75);
+            this.pnlBatchTransFlip.TabIndex = 3;
+            // 
+            // radTransFlipH
+            // 
+            this.radTransFlipH.AutoSize = true;
+            this.radTransFlipH.Location = new System.Drawing.Point(252, 29);
+            this.radTransFlipH.Name = "radTransFlipH";
+            this.radTransFlipH.Size = new System.Drawing.Size(98, 17);
+            this.radTransFlipH.TabIndex = 6;
+            this.radTransFlipH.Text = "Flip Horizontally";
+            this.radTransFlipH.UseVisualStyleBackColor = true;
+            // 
+            // chkBatchTransFlip
+            // 
+            this.chkBatchTransFlip.AutoSize = true;
+            this.chkBatchTransFlip.Location = new System.Drawing.Point(7, 6);
+            this.chkBatchTransFlip.Name = "chkBatchTransFlip";
+            this.chkBatchTransFlip.Size = new System.Drawing.Size(42, 17);
+            this.chkBatchTransFlip.TabIndex = 0;
+            this.chkBatchTransFlip.Text = "Flip";
+            this.chkBatchTransFlip.UseVisualStyleBackColor = true;
+            this.chkBatchTransFlip.CheckedChanged += new System.EventHandler(this.chkBatchTransFlip_CheckedChanged);
+            // 
+            // radTransFlipV
+            // 
+            this.radTransFlipV.AutoSize = true;
+            this.radTransFlipV.Checked = true;
+            this.radTransFlipV.Location = new System.Drawing.Point(150, 29);
+            this.radTransFlipV.Name = "radTransFlipV";
+            this.radTransFlipV.Size = new System.Drawing.Size(86, 17);
+            this.radTransFlipV.TabIndex = 5;
+            this.radTransFlipV.TabStop = true;
+            this.radTransFlipV.Text = "Flip Vertically";
+            this.radTransFlipV.UseVisualStyleBackColor = true;
             // 
             // tabAdjustments
             // 
@@ -386,7 +601,7 @@
             this.tabAdjustments.Location = new System.Drawing.Point(4, 22);
             this.tabAdjustments.Name = "tabAdjustments";
             this.tabAdjustments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAdjustments.Size = new System.Drawing.Size(581, 445);
+            this.tabAdjustments.Size = new System.Drawing.Size(525, 442);
             this.tabAdjustments.TabIndex = 3;
             this.tabAdjustments.Text = "Adjustments";
             this.tabAdjustments.UseVisualStyleBackColor = true;
@@ -394,23 +609,24 @@
             // batchAdjFlow
             // 
             this.batchAdjFlow.AutoScroll = true;
-            this.batchAdjFlow.Controls.Add(this.batchAdjFlowHead);
-            this.batchAdjFlow.Controls.Add(this.batchAdjFlowTransparency);
+            this.batchAdjFlow.Controls.Add(this.pnlBatchAdjHead);
+            this.batchAdjFlow.Controls.Add(this.pnlBatchAdjTrans);
             this.batchAdjFlow.Controls.Add(this.panel3);
             this.batchAdjFlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.batchAdjFlow.Location = new System.Drawing.Point(3, 3);
             this.batchAdjFlow.Name = "batchAdjFlow";
-            this.batchAdjFlow.Size = new System.Drawing.Size(575, 439);
+            this.batchAdjFlow.Size = new System.Drawing.Size(519, 436);
             this.batchAdjFlow.TabIndex = 0;
             // 
-            // batchAdjFlowHead
+            // pnlBatchAdjHead
             // 
-            this.batchAdjFlowHead.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.batchAdjFlowHead.Controls.Add(this.lblBatchAdjInstructions);
-            this.batchAdjFlowHead.Location = new System.Drawing.Point(3, 3);
-            this.batchAdjFlowHead.Name = "batchAdjFlowHead";
-            this.batchAdjFlowHead.Size = new System.Drawing.Size(550, 25);
-            this.batchAdjFlowHead.TabIndex = 0;
+            this.pnlBatchAdjHead.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchAdjHead.Controls.Add(this.lblBatchAdjInstructions);
+            this.pnlBatchAdjHead.Location = new System.Drawing.Point(3, 3);
+            this.pnlBatchAdjHead.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchAdjHead.Name = "pnlBatchAdjHead";
+            this.pnlBatchAdjHead.Size = new System.Drawing.Size(500, 25);
+            this.pnlBatchAdjHead.TabIndex = 0;
             // 
             // lblBatchAdjInstructions
             // 
@@ -421,20 +637,21 @@
             this.lblBatchAdjInstructions.TabIndex = 1;
             this.lblBatchAdjInstructions.Text = "Select which adjustments to apply:";
             // 
-            // batchAdjFlowTransparency
+            // pnlBatchAdjTrans
             // 
-            this.batchAdjFlowTransparency.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.batchAdjFlowTransparency.Controls.Add(this.txtBatchAdjTransparencyInput);
-            this.batchAdjFlowTransparency.Controls.Add(this.lblBatchAdjTransparencyInstructions);
-            this.batchAdjFlowTransparency.Controls.Add(this.chkBatchAdjTransparency);
-            this.batchAdjFlowTransparency.Location = new System.Drawing.Point(3, 34);
-            this.batchAdjFlowTransparency.Name = "batchAdjFlowTransparency";
-            this.batchAdjFlowTransparency.Size = new System.Drawing.Size(550, 100);
-            this.batchAdjFlowTransparency.TabIndex = 1;
+            this.pnlBatchAdjTrans.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchAdjTrans.Controls.Add(this.txtBatchAdjTransparencyInput);
+            this.pnlBatchAdjTrans.Controls.Add(this.lblBatchAdjTransparencyInstructions);
+            this.pnlBatchAdjTrans.Controls.Add(this.chkBatchAdjTransparency);
+            this.pnlBatchAdjTrans.Location = new System.Drawing.Point(3, 31);
+            this.pnlBatchAdjTrans.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchAdjTrans.Name = "pnlBatchAdjTrans";
+            this.pnlBatchAdjTrans.Size = new System.Drawing.Size(500, 75);
+            this.pnlBatchAdjTrans.TabIndex = 1;
             // 
             // txtBatchAdjTransparencyInput
             // 
-            this.txtBatchAdjTransparencyInput.Location = new System.Drawing.Point(197, 54);
+            this.txtBatchAdjTransparencyInput.Location = new System.Drawing.Point(185, 36);
             this.txtBatchAdjTransparencyInput.Maximum = new decimal(new int[] {
             255,
             0,
@@ -447,7 +664,7 @@
             // lblBatchAdjTransparencyInstructions
             // 
             this.lblBatchAdjTransparencyInstructions.AutoSize = true;
-            this.lblBatchAdjTransparencyInstructions.Location = new System.Drawing.Point(179, 29);
+            this.lblBatchAdjTransparencyInstructions.Location = new System.Drawing.Point(167, 19);
             this.lblBatchAdjTransparencyInstructions.Name = "lblBatchAdjTransparencyInstructions";
             this.lblBatchAdjTransparencyInstructions.Size = new System.Drawing.Size(166, 13);
             this.lblBatchAdjTransparencyInstructions.TabIndex = 10;
@@ -467,9 +684,10 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel3.Location = new System.Drawing.Point(3, 140);
+            this.panel3.Location = new System.Drawing.Point(3, 109);
+            this.panel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(550, 100);
+            this.panel3.Size = new System.Drawing.Size(500, 100);
             this.panel3.TabIndex = 1;
             // 
             // tabFilters
@@ -478,7 +696,7 @@
             this.tabFilters.Location = new System.Drawing.Point(4, 22);
             this.tabFilters.Name = "tabFilters";
             this.tabFilters.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFilters.Size = new System.Drawing.Size(581, 445);
+            this.tabFilters.Size = new System.Drawing.Size(525, 442);
             this.tabFilters.TabIndex = 1;
             this.tabFilters.Text = "Filters";
             this.tabFilters.UseVisualStyleBackColor = true;
@@ -486,23 +704,24 @@
             // batchFilterFlow
             // 
             this.batchFilterFlow.AutoScroll = true;
-            this.batchFilterFlow.Controls.Add(this.panel1);
-            this.batchFilterFlow.Controls.Add(this.panel2);
-            this.batchFilterFlow.Controls.Add(this.panel4);
+            this.batchFilterFlow.Controls.Add(this.pnlBatchFilterHead);
+            this.batchFilterFlow.Controls.Add(this.pnlBatchFilterGrayscale);
+            this.batchFilterFlow.Controls.Add(this.pnlBatchFilterSepia);
             this.batchFilterFlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.batchFilterFlow.Location = new System.Drawing.Point(3, 3);
             this.batchFilterFlow.Name = "batchFilterFlow";
-            this.batchFilterFlow.Size = new System.Drawing.Size(575, 439);
+            this.batchFilterFlow.Size = new System.Drawing.Size(519, 436);
             this.batchFilterFlow.TabIndex = 0;
             // 
-            // panel1
+            // pnlBatchFilterHead
             // 
-            this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel1.Controls.Add(this.lblBatchEffectsIstructions);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(550, 25);
-            this.panel1.TabIndex = 0;
+            this.pnlBatchFilterHead.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchFilterHead.Controls.Add(this.lblBatchEffectsIstructions);
+            this.pnlBatchFilterHead.Location = new System.Drawing.Point(3, 3);
+            this.pnlBatchFilterHead.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchFilterHead.Name = "pnlBatchFilterHead";
+            this.pnlBatchFilterHead.Size = new System.Drawing.Size(500, 25);
+            this.pnlBatchFilterHead.TabIndex = 0;
             // 
             // lblBatchEffectsIstructions
             // 
@@ -513,22 +732,23 @@
             this.lblBatchEffectsIstructions.TabIndex = 4;
             this.lblBatchEffectsIstructions.Text = "Select which filters to apply:";
             // 
-            // panel2
+            // pnlBatchFilterGrayscale
             // 
-            this.panel2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel2.Controls.Add(this.radBatchFilterGrayscaleAvg);
-            this.panel2.Controls.Add(this.chkBatchFilterGrayscale);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.radBatchFilterGrayscaleLum);
-            this.panel2.Location = new System.Drawing.Point(3, 34);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(550, 100);
-            this.panel2.TabIndex = 1;
+            this.pnlBatchFilterGrayscale.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchFilterGrayscale.Controls.Add(this.radBatchFilterGrayscaleAvg);
+            this.pnlBatchFilterGrayscale.Controls.Add(this.chkBatchFilterGrayscale);
+            this.pnlBatchFilterGrayscale.Controls.Add(this.label1);
+            this.pnlBatchFilterGrayscale.Controls.Add(this.radBatchFilterGrayscaleLum);
+            this.pnlBatchFilterGrayscale.Location = new System.Drawing.Point(3, 31);
+            this.pnlBatchFilterGrayscale.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchFilterGrayscale.Name = "pnlBatchFilterGrayscale";
+            this.pnlBatchFilterGrayscale.Size = new System.Drawing.Size(500, 75);
+            this.pnlBatchFilterGrayscale.TabIndex = 1;
             // 
             // radBatchFilterGrayscaleAvg
             // 
             this.radBatchFilterGrayscaleAvg.AutoSize = true;
-            this.radBatchFilterGrayscaleAvg.Location = new System.Drawing.Point(255, 48);
+            this.radBatchFilterGrayscaleAvg.Location = new System.Drawing.Point(258, 38);
             this.radBatchFilterGrayscaleAvg.Name = "radBatchFilterGrayscaleAvg";
             this.radBatchFilterGrayscaleAvg.Size = new System.Drawing.Size(65, 17);
             this.radBatchFilterGrayscaleAvg.TabIndex = 15;
@@ -549,17 +769,17 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(152, 29);
+            this.label1.Location = new System.Drawing.Point(176, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(182, 13);
+            this.label1.Size = new System.Drawing.Size(149, 13);
             this.label1.TabIndex = 13;
-            this.label1.Text = "Please select a conversion algorithm:";
+            this.label1.Text = "Select a conversion algorithm:";
             // 
             // radBatchFilterGrayscaleLum
             // 
             this.radBatchFilterGrayscaleLum.AutoSize = true;
             this.radBatchFilterGrayscaleLum.Checked = true;
-            this.radBatchFilterGrayscaleLum.Location = new System.Drawing.Point(175, 48);
+            this.radBatchFilterGrayscaleLum.Location = new System.Drawing.Point(178, 38);
             this.radBatchFilterGrayscaleLum.Name = "radBatchFilterGrayscaleLum";
             this.radBatchFilterGrayscaleLum.Size = new System.Drawing.Size(74, 17);
             this.radBatchFilterGrayscaleLum.TabIndex = 14;
@@ -567,19 +787,20 @@
             this.radBatchFilterGrayscaleLum.Text = "Luminosity";
             this.radBatchFilterGrayscaleLum.UseVisualStyleBackColor = true;
             // 
-            // panel4
+            // pnlBatchFilterSepia
             // 
-            this.panel4.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel4.Controls.Add(this.chkBatchFilterSepia);
-            this.panel4.Location = new System.Drawing.Point(3, 140);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(550, 22);
-            this.panel4.TabIndex = 1;
+            this.pnlBatchFilterSepia.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchFilterSepia.Controls.Add(this.chkBatchFilterSepia);
+            this.pnlBatchFilterSepia.Location = new System.Drawing.Point(3, 109);
+            this.pnlBatchFilterSepia.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchFilterSepia.Name = "pnlBatchFilterSepia";
+            this.pnlBatchFilterSepia.Size = new System.Drawing.Size(500, 75);
+            this.pnlBatchFilterSepia.TabIndex = 1;
             // 
             // chkBatchFilterSepia
             // 
             this.chkBatchFilterSepia.AutoSize = true;
-            this.chkBatchFilterSepia.Location = new System.Drawing.Point(8, 2);
+            this.chkBatchFilterSepia.Location = new System.Drawing.Point(8, 7);
             this.chkBatchFilterSepia.Name = "chkBatchFilterSepia";
             this.chkBatchFilterSepia.Size = new System.Drawing.Size(53, 17);
             this.chkBatchFilterSepia.TabIndex = 9;
@@ -593,32 +814,33 @@
             this.tabChannels.Location = new System.Drawing.Point(4, 22);
             this.tabChannels.Name = "tabChannels";
             this.tabChannels.Padding = new System.Windows.Forms.Padding(3);
-            this.tabChannels.Size = new System.Drawing.Size(581, 445);
+            this.tabChannels.Size = new System.Drawing.Size(525, 442);
             this.tabChannels.TabIndex = 2;
             this.tabChannels.Text = "Channels";
             this.tabChannels.UseVisualStyleBackColor = true;
             // 
             // batchChanelFlow
             // 
-            this.batchChanelFlow.Controls.Add(this.panel5);
-            this.batchChanelFlow.Controls.Add(this.panel6);
+            this.batchChanelFlow.Controls.Add(this.pnlBatchChannelsHead);
+            this.batchChanelFlow.Controls.Add(this.pnlBatchChannelsChannels);
             this.batchChanelFlow.Controls.Add(this.panel7);
             this.batchChanelFlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.batchChanelFlow.ForeColor = System.Drawing.SystemColors.ControlText;
             this.batchChanelFlow.Location = new System.Drawing.Point(3, 3);
             this.batchChanelFlow.Name = "batchChanelFlow";
-            this.batchChanelFlow.Size = new System.Drawing.Size(575, 439);
+            this.batchChanelFlow.Size = new System.Drawing.Size(519, 436);
             this.batchChanelFlow.TabIndex = 0;
             // 
-            // panel5
+            // pnlBatchChannelsHead
             // 
-            this.panel5.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel5.Controls.Add(this.lblBatchChannelsSelect);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(3, 3);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(550, 25);
-            this.panel5.TabIndex = 0;
+            this.pnlBatchChannelsHead.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchChannelsHead.Controls.Add(this.lblBatchChannelsSelect);
+            this.pnlBatchChannelsHead.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlBatchChannelsHead.Location = new System.Drawing.Point(3, 3);
+            this.pnlBatchChannelsHead.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchChannelsHead.Name = "pnlBatchChannelsHead";
+            this.pnlBatchChannelsHead.Size = new System.Drawing.Size(500, 25);
+            this.pnlBatchChannelsHead.TabIndex = 0;
             // 
             // lblBatchChannelsSelect
             // 
@@ -629,30 +851,31 @@
             this.lblBatchChannelsSelect.TabIndex = 30;
             this.lblBatchChannelsSelect.Text = "Select channel export options:";
             // 
-            // panel6
+            // pnlBatchChannelsChannels
             // 
-            this.panel6.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel6.Controls.Add(this.lblAlphaInstructions);
-            this.panel6.Controls.Add(this.lblCatchChannelsInstructions);
-            this.panel6.Controls.Add(this.lblBatchChannelsA);
-            this.panel6.Controls.Add(this.chkBatchChannelsA);
-            this.panel6.Controls.Add(this.chkBatchChannelsB);
-            this.panel6.Controls.Add(this.chkBatchChannelsG);
-            this.panel6.Controls.Add(this.chkBatchChannelsR);
-            this.panel6.Controls.Add(this.radBatchChannelsATran);
-            this.panel6.Controls.Add(this.radBatchChannelsABW);
-            this.panel6.Controls.Add(this.chkBatchChannels);
-            this.panel6.Location = new System.Drawing.Point(3, 34);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(550, 148);
-            this.panel6.TabIndex = 1;
-            this.panel6.Paint += new System.Windows.Forms.PaintEventHandler(this.panel6_Paint);
+            this.pnlBatchChannelsChannels.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchChannelsChannels.Controls.Add(this.lblAlphaInstructions);
+            this.pnlBatchChannelsChannels.Controls.Add(this.lblCatchChannelsInstructions);
+            this.pnlBatchChannelsChannels.Controls.Add(this.lblBatchChannelsA);
+            this.pnlBatchChannelsChannels.Controls.Add(this.chkBatchChannelsA);
+            this.pnlBatchChannelsChannels.Controls.Add(this.chkBatchChannelsB);
+            this.pnlBatchChannelsChannels.Controls.Add(this.chkBatchChannelsG);
+            this.pnlBatchChannelsChannels.Controls.Add(this.chkBatchChannelsR);
+            this.pnlBatchChannelsChannels.Controls.Add(this.radBatchChannelsATran);
+            this.pnlBatchChannelsChannels.Controls.Add(this.radBatchChannelsABW);
+            this.pnlBatchChannelsChannels.Controls.Add(this.chkBatchChannels);
+            this.pnlBatchChannelsChannels.Location = new System.Drawing.Point(3, 31);
+            this.pnlBatchChannelsChannels.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlBatchChannelsChannels.Name = "pnlBatchChannelsChannels";
+            this.pnlBatchChannelsChannels.Size = new System.Drawing.Size(500, 148);
+            this.pnlBatchChannelsChannels.TabIndex = 1;
+            this.pnlBatchChannelsChannels.Paint += new System.Windows.Forms.PaintEventHandler(this.panel6_Paint);
             // 
             // lblAlphaInstructions
             // 
             this.lblAlphaInstructions.AutoSize = true;
             this.lblAlphaInstructions.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblAlphaInstructions.Location = new System.Drawing.Point(282, 120);
+            this.lblAlphaInstructions.Location = new System.Drawing.Point(333, 120);
             this.lblAlphaInstructions.Name = "lblAlphaInstructions";
             this.lblAlphaInstructions.Size = new System.Drawing.Size(130, 13);
             this.lblAlphaInstructions.TabIndex = 9;
@@ -662,7 +885,7 @@
             // 
             this.lblCatchChannelsInstructions.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblCatchChannelsInstructions.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblCatchChannelsInstructions.Location = new System.Drawing.Point(359, 5);
+            this.lblCatchChannelsInstructions.Location = new System.Drawing.Point(300, 6);
             this.lblCatchChannelsInstructions.Name = "lblCatchChannelsInstructions";
             this.lblCatchChannelsInstructions.Size = new System.Drawing.Size(185, 73);
             this.lblCatchChannelsInstructions.TabIndex = 8;
@@ -672,7 +895,7 @@
             // lblBatchChannelsA
             // 
             this.lblBatchChannelsA.AutoSize = true;
-            this.lblBatchChannelsA.Location = new System.Drawing.Point(37, 121);
+            this.lblBatchChannelsA.Location = new System.Drawing.Point(88, 121);
             this.lblBatchChannelsA.Name = "lblBatchChannelsA";
             this.lblBatchChannelsA.Size = new System.Drawing.Size(51, 13);
             this.lblBatchChannelsA.TabIndex = 7;
@@ -681,7 +904,7 @@
             // chkBatchChannelsA
             // 
             this.chkBatchChannelsA.AutoSize = true;
-            this.chkBatchChannelsA.Location = new System.Drawing.Point(21, 98);
+            this.chkBatchChannelsA.Location = new System.Drawing.Point(39, 98);
             this.chkBatchChannelsA.Name = "chkBatchChannelsA";
             this.chkBatchChannelsA.Size = new System.Drawing.Size(69, 17);
             this.chkBatchChannelsA.TabIndex = 6;
@@ -692,7 +915,7 @@
             // chkBatchChannelsB
             // 
             this.chkBatchChannelsB.AutoSize = true;
-            this.chkBatchChannelsB.Location = new System.Drawing.Point(21, 75);
+            this.chkBatchChannelsB.Location = new System.Drawing.Point(39, 75);
             this.chkBatchChannelsB.Name = "chkBatchChannelsB";
             this.chkBatchChannelsB.Size = new System.Drawing.Size(63, 17);
             this.chkBatchChannelsB.TabIndex = 5;
@@ -702,7 +925,7 @@
             // chkBatchChannelsG
             // 
             this.chkBatchChannelsG.AutoSize = true;
-            this.chkBatchChannelsG.Location = new System.Drawing.Point(21, 52);
+            this.chkBatchChannelsG.Location = new System.Drawing.Point(39, 52);
             this.chkBatchChannelsG.Name = "chkBatchChannelsG";
             this.chkBatchChannelsG.Size = new System.Drawing.Size(72, 17);
             this.chkBatchChannelsG.TabIndex = 4;
@@ -712,7 +935,7 @@
             // chkBatchChannelsR
             // 
             this.chkBatchChannelsR.AutoSize = true;
-            this.chkBatchChannelsR.Location = new System.Drawing.Point(21, 29);
+            this.chkBatchChannelsR.Location = new System.Drawing.Point(39, 29);
             this.chkBatchChannelsR.Name = "chkBatchChannelsR";
             this.chkBatchChannelsR.Size = new System.Drawing.Size(63, 17);
             this.chkBatchChannelsR.TabIndex = 3;
@@ -722,7 +945,7 @@
             // radBatchChannelsATran
             // 
             this.radBatchChannelsATran.AutoSize = true;
-            this.radBatchChannelsATran.Location = new System.Drawing.Point(192, 118);
+            this.radBatchChannelsATran.Location = new System.Drawing.Point(243, 118);
             this.radBatchChannelsATran.Name = "radBatchChannelsATran";
             this.radBatchChannelsATran.Size = new System.Drawing.Size(90, 17);
             this.radBatchChannelsATran.TabIndex = 2;
@@ -734,7 +957,7 @@
             // 
             this.radBatchChannelsABW.AutoSize = true;
             this.radBatchChannelsABW.Checked = true;
-            this.radBatchChannelsABW.Location = new System.Drawing.Point(94, 119);
+            this.radBatchChannelsABW.Location = new System.Drawing.Point(145, 119);
             this.radBatchChannelsABW.Name = "radBatchChannelsABW";
             this.radBatchChannelsABW.Size = new System.Drawing.Size(92, 17);
             this.radBatchChannelsABW.TabIndex = 1;
@@ -757,15 +980,15 @@
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel7.Location = new System.Drawing.Point(3, 188);
+            this.panel7.Location = new System.Drawing.Point(3, 182);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(550, 152);
+            this.panel7.Size = new System.Drawing.Size(500, 152);
             this.panel7.TabIndex = 32;
             // 
             // btnBatch
             // 
             this.btnBatch.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnBatch.Location = new System.Drawing.Point(491, 477);
+            this.btnBatch.Location = new System.Drawing.Point(437, 477);
             this.btnBatch.Name = "btnBatch";
             this.btnBatch.Size = new System.Drawing.Size(100, 33);
             this.btnBatch.TabIndex = 10;
@@ -776,7 +999,7 @@
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button1.Location = new System.Drawing.Point(385, 477);
+            this.button1.Location = new System.Drawing.Point(331, 477);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 33);
             this.button1.TabIndex = 11;
@@ -797,11 +1020,78 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "1 Files will be created per image";
             // 
+            // tableLayoutBatchPreview
+            // 
+            this.tableLayoutBatchPreview.ColumnCount = 1;
+            this.tableLayoutBatchPreview.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutBatchPreview.Controls.Add(this.panel1, 0, 0);
+            this.tableLayoutBatchPreview.Location = new System.Drawing.Point(544, 25);
+            this.tableLayoutBatchPreview.Name = "tableLayoutBatchPreview";
+            this.tableLayoutBatchPreview.RowCount = 2;
+            this.tableLayoutBatchPreview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 306F));
+            this.tableLayoutBatchPreview.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutBatchPreview.Size = new System.Drawing.Size(306, 442);
+            this.tableLayoutBatchPreview.TabIndex = 12;
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.picBatchPreview);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(300, 300);
+            this.panel1.TabIndex = 0;
+            // 
+            // picBatchPreview
+            // 
+            this.picBatchPreview.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.picBatchPreview.Location = new System.Drawing.Point(8, 8);
+            this.picBatchPreview.Name = "picBatchPreview";
+            this.picBatchPreview.Size = new System.Drawing.Size(300, 300);
+            this.picBatchPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.picBatchPreview.TabIndex = 1;
+            this.picBatchPreview.TabStop = false;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(602, 476);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 13;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(699, 476);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 14;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(790, 476);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 15;
+            this.button4.Text = "button4";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // BatchSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(597, 519);
+            this.ClientSize = new System.Drawing.Size(884, 519);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.tableLayoutBatchPreview);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnBatch);
@@ -813,37 +1103,50 @@
             this.tabBatch.ResumeLayout(false);
             this.tabFile.ResumeLayout(false);
             this.batchFileFlow.ResumeLayout(false);
-            this.chkBatchFileType.ResumeLayout(false);
-            this.chkBatchFileType.PerformLayout();
+            this.pnlBatchFileFile.ResumeLayout(false);
+            this.pnlBatchFileFile.PerformLayout();
             this.grpBatchFileName.ResumeLayout(false);
             this.grpBatchFileName.PerformLayout();
             this.grpBatchFileFolder.ResumeLayout(false);
             this.grpBatchFileFolder.PerformLayout();
-            this.batchFileFlowSelection.ResumeLayout(false);
-            this.batchFileFlowSelection.PerformLayout();
+            this.pnlBatchFileSelection.ResumeLayout(false);
+            this.pnlBatchFileSelection.PerformLayout();
             this.tabTransform.ResumeLayout(false);
-            this.tabTransform.PerformLayout();
+            this.batchTransFlow.ResumeLayout(false);
+            this.pnlBatchTransHead.ResumeLayout(false);
+            this.pnlBatchTransHead.PerformLayout();
+            this.pnlBatchTransScale.ResumeLayout(false);
+            this.pnlBatchTransScale.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtBatchScale)).EndInit();
+            this.pnlBatchTransRotate.ResumeLayout(false);
+            this.pnlBatchTransRotate.PerformLayout();
+            this.pnlBatchTransFlip.ResumeLayout(false);
+            this.pnlBatchTransFlip.PerformLayout();
             this.tabAdjustments.ResumeLayout(false);
             this.batchAdjFlow.ResumeLayout(false);
-            this.batchAdjFlowHead.ResumeLayout(false);
-            this.batchAdjFlowHead.PerformLayout();
-            this.batchAdjFlowTransparency.ResumeLayout(false);
-            this.batchAdjFlowTransparency.PerformLayout();
+            this.pnlBatchAdjHead.ResumeLayout(false);
+            this.pnlBatchAdjHead.PerformLayout();
+            this.pnlBatchAdjTrans.ResumeLayout(false);
+            this.pnlBatchAdjTrans.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtBatchAdjTransparencyInput)).EndInit();
             this.tabFilters.ResumeLayout(false);
             this.batchFilterFlow.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
+            this.pnlBatchFilterHead.ResumeLayout(false);
+            this.pnlBatchFilterHead.PerformLayout();
+            this.pnlBatchFilterGrayscale.ResumeLayout(false);
+            this.pnlBatchFilterGrayscale.PerformLayout();
+            this.pnlBatchFilterSepia.ResumeLayout(false);
+            this.pnlBatchFilterSepia.PerformLayout();
             this.tabChannels.ResumeLayout(false);
             this.batchChanelFlow.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
+            this.pnlBatchChannelsHead.ResumeLayout(false);
+            this.pnlBatchChannelsHead.PerformLayout();
+            this.pnlBatchChannelsChannels.ResumeLayout(false);
+            this.pnlBatchChannelsChannels.PerformLayout();
+            this.tableLayoutBatchPreview.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBatchPreview)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -875,19 +1178,18 @@
         private System.Windows.Forms.Button btnBatchFileExportGetPath;
         private System.Windows.Forms.ComboBox comboBatchFileExportType;
         private System.Windows.Forms.FlowLayoutPanel batchFileFlow;
-        private System.Windows.Forms.Panel batchFileFlowHead;
-        private System.Windows.Forms.Panel chkBatchFileType;
-        private System.Windows.Forms.Panel batchFileFlowSelection;
+        private System.Windows.Forms.Panel pnlBatchFileHead;
+        private System.Windows.Forms.Panel pnlBatchFileFile;
+        private System.Windows.Forms.Panel pnlBatchFileSelection;
         private System.Windows.Forms.FlowLayoutPanel batchAdjFlow;
-        private System.Windows.Forms.Panel batchAdjFlowHead;
-        private System.Windows.Forms.Panel batchAdjFlowTransparency;
+        private System.Windows.Forms.Panel pnlBatchAdjHead;
+        private System.Windows.Forms.Panel pnlBatchAdjTrans;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.FlowLayoutPanel batchFilterFlow;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel pnlBatchFilterHead;
+        private System.Windows.Forms.Panel pnlBatchFilterGrayscale;
+        private System.Windows.Forms.Panel pnlBatchFilterSepia;
         private System.Windows.Forms.TabPage tabTransform;
-        private System.Windows.Forms.CheckBox chkBatchTransform;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.RadioButton radBatchFileFolderNew;
         private System.Windows.Forms.RadioButton radBatchFileFolderCurrent;
@@ -900,9 +1202,9 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Label lblBatchFileFolder;
         private System.Windows.Forms.FlowLayoutPanel batchChanelFlow;
-        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel pnlBatchChannelsHead;
         private System.Windows.Forms.Label lblBatchChannelsSelect;
-        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Panel pnlBatchChannelsChannels;
         private System.Windows.Forms.Label lblBatchChannelsA;
         private System.Windows.Forms.CheckBox chkBatchChannelsA;
         private System.Windows.Forms.CheckBox chkBatchChannelsB;
@@ -915,5 +1217,27 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblCatchChannelsInstructions;
         private System.Windows.Forms.Label lblAlphaInstructions;
+        private System.Windows.Forms.FlowLayoutPanel batchTransFlow;
+        private System.Windows.Forms.Panel pnlBatchTransHead;
+        private System.Windows.Forms.Label lblBatchTransInstructions;
+        private System.Windows.Forms.Panel pnlBatchTransScale;
+        private System.Windows.Forms.CheckBox chkBatchTransScale;
+        private System.Windows.Forms.Panel pnlBatchTransRotate;
+        private System.Windows.Forms.CheckBox chkBatchTransRotate;
+        private System.Windows.Forms.Panel pnlBatchTransFlip;
+        private System.Windows.Forms.CheckBox chkBatchTransFlip;
+        private System.Windows.Forms.NumericUpDown txtBatchScale;
+        private System.Windows.Forms.Label lblBatchScale;
+        private System.Windows.Forms.RadioButton radTransRotate180;
+        private System.Windows.Forms.RadioButton radTransRotate90Counter;
+        private System.Windows.Forms.RadioButton radTransRotate90Clock;
+        private System.Windows.Forms.RadioButton radTransFlipH;
+        private System.Windows.Forms.RadioButton radTransFlipV;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutBatchPreview;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox picBatchPreview;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }

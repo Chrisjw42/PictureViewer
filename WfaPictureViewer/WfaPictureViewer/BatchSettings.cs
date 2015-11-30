@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WfaPictureViewer
 {
     public partial class BatchSettings : Form
     {
-        // Attributes created for public accessing
+        // get; private set allows public access, but not modification
         public bool provideName { get; private set; }
         public bool provideDir { get; private set; }
         public bool exportAlphaTransp { get; private set; }
@@ -26,6 +22,8 @@ namespace WfaPictureViewer
         private PicViewer mainProgram;
         public bool[] arrIsProcessed; // is the image at this position selected for processing.
         public byte transpInput { get; private set; }
+        public float transformScale { get; private set; }
+        private LoadedImage previewLoadedImage { get; set; }
 
         // CONSTRUCTOR
         public BatchSettings(object sender)
@@ -43,7 +41,27 @@ namespace WfaPictureViewer
             arrIsProcessed = new bool[mainProgram.listLoadedImg.Count()]; // array of bool matching length of list
 
             comboBatchFileExportType.SelectedIndex = 0; // Creates a call to  UpdateOptions();
-            PopulateList();            
+            PopulateList();
+
+            // Suite of image adjustment tools
+            ImgAdjust adjustImg = new ImgAdjust();
+
+            // Used to create a LoadedImage object
+            Bitmap imgForPreview;
+            // If check allows for development work without having to load an images every time
+            if (mainProgram.listLoadedImg.Count() == 0)
+            {
+                imgForPreview = adjustImg.GetArgbVer(Bitmap.FromFile("..//..//testImage.jpg"));
+            }
+            else
+            {
+                imgForPreview = mainProgram.listLoadedImg[0].GetBitmap("c");
+            }
+
+            // LoadedImage class object is created, it's previewVer is displayed in the thumbnail
+            // -999 & ../ are dummy values, they aren't used and are unimportant. 
+            previewLoadedImage = new LoadedImage("../", imgForPreview, mainProgram, -9999);
+            picBatchPreview.Image = previewLoadedImage.GetBitmap("p");            
         }
 
         private void UpdateCheckedStatus()
@@ -55,8 +73,8 @@ namespace WfaPictureViewer
 
             // Row 0, File
             arrChkOptions[0] = new CheckBox[] { chkBatchFileExport };
-            // Row 1, Transform
-            arrChkOptions[1] = new CheckBox[] { chkBatchTransform };
+            // Row 1, Transforms
+            arrChkOptions[1] = new CheckBox[] { chkBatchTransScale, chkBatchTransRotate, chkBatchTransFlip };
             // Row 2, Adjustments
             arrChkOptions[2] = new CheckBox[] { chkBatchAdjTransparency };
             // Row 3, Filters
@@ -117,8 +135,6 @@ namespace WfaPictureViewer
             lblBatchFileFolder.Enabled = radBatchFileFolderNew.Checked;
            
             // Adjustment Options
-
-            // Filter Options
 
             // Reset currently active filter tracker
             curFilterIndex = -1;
@@ -203,6 +219,14 @@ namespace WfaPictureViewer
                     }
                 }
             }
+            else
+            {
+                // Enable all
+                for (int j = 0; j < arrChkOptions[3].Length; j++)
+                {
+                    arrChkOptions[3][j].Enabled = true;
+                }
+            }
             // Simulate a click on the "Process All button"
             chkBatchFileProcessAll_CheckedChanged(this, null);
 
@@ -260,13 +284,14 @@ namespace WfaPictureViewer
         }
 
         // Finalise, confirm, get all the values from non-checkbox input elements.
-        private void btnBatch_Click(object sender, EventArgs e)
+        public void GrabInputValues()
         {
             UpdateCheckedStatus();
 
             // Grab all the important values for use by mainProgram's algorithms
             transpInput = (byte)txtBatchAdjTransparencyInput.Value;
             newFileDir = lblBatchFileFolder.Text;
+
 
             // For each selected image in the electionlist, edit bool in that array position
             // This array is used by menuBatch_Click
@@ -277,18 +302,25 @@ namespace WfaPictureViewer
                     arrIsProcessed[i] = true;
                 }
             }
-            
+
             if (arrChkOptions[3][1].Checked)
             {
                 if (radBatchFilterGrayscaleAvg.Checked)
                 {
                     grayAlgorithm = "average";
                 }
-                else if(radBatchFilterGrayscaleLum.Checked)
+                else if (radBatchFilterGrayscaleLum.Checked)
                 {
                     grayAlgorithm = "luminosity";
                 }
             }
+
+            transformScale = (float)txtBatchScale.Value;
+        }
+
+        private void btnBatch_Click(object sender, EventArgs e)
+        {
+            GrabInputValues();
         }
 
         // EVENT HANDLERS
@@ -428,6 +460,26 @@ namespace WfaPictureViewer
 
         }
 
+        private void btnBatchScalePlus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkBatchTransScale_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateOptions();
+        }
+
+        private void chkBatchTransRotate_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateOptions();
+        }
+
+        private void chkBatchTransFlip_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateOptions();
+        }
+
         private void chkBatchChannels_CheckedChanged_1(object sender, EventArgs e)
         {
             UpdateOptions();
@@ -451,6 +503,26 @@ namespace WfaPictureViewer
         private void comboBatchFileExportType_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateOptions();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            GrabInputValues();
+            mainProgram.ApplyBatchSettingsEffects(this, previewLoadedImage);
+            picBatchPreview.Image = previewLoadedImage.GetBitmap("p");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ImgAdjust adj = new ImgAdjust();
+            picBatchPreview.Image = adj.GetScaledVer((Bitmap)picBatchPreview.Image, (float)txtBatchScale.Value, (float)txtBatchScale.Value);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ImgAdjust adj = new ImgAdjust();
+            picBatchPreview.Image = adj.GetScaledVer((Bitmap)picBatchPreview.Image, (float)txtBatchScale.Value, (float)txtBatchScale.Value);
+            
         }
     }
 }

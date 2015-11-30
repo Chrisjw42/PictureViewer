@@ -69,6 +69,7 @@
     <Compile Include="Grayscale.Designer.cs">
       <DependentUpon>Grayscale.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImgAdjust.cs" />
     <Compile Include="LoadedImage.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="PicViewer.cs">
@@ -103,6 +104,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

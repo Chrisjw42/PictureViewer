@@ -57,6 +57,9 @@ namespace WfaPictureViewer
 
             undo = new Stack<Bitmap>();
             redo = new Stack<Bitmap>();
+
+            // previewVer will match currentVer when created
+            UpdatePreview(currentVer);
         }
 
         // Return one of the three bitmap properties.
