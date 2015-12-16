@@ -29,19 +29,20 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.chkAutoscaleLoad = new System.Windows.Forms.CheckBox();
-            this.chkStretch = new System.Windows.Forms.CheckBox();
-            this.chkAspectLock = new System.Windows.Forms.CheckBox();
-            this.pnlPicBox = new System.Windows.Forms.Panel();
-            this.picBoxMain = new System.Windows.Forms.PictureBox();
-            this.pnlGallery = new System.Windows.Forms.Panel();
-            this.flowGallery = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblPicInfo = new System.Windows.Forms.Label();
             this.pnlNav = new System.Windows.Forms.Panel();
             this.btnNavigateRight = new System.Windows.Forms.Button();
             this.lblPicNotifier = new System.Windows.Forms.Label();
             this.btnNavigateLeft = new System.Windows.Forms.Button();
+            this.pnlGallery = new System.Windows.Forms.Panel();
+            this.flowGallery = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.chkStretch = new System.Windows.Forms.CheckBox();
+            this.chkAspectLock = new System.Windows.Forms.CheckBox();
+            this.pnlPicBox = new System.Windows.Forms.Panel();
+            this.picBoxMain = new System.Windows.Forms.PictureBox();
+            this.lblPicInfo = new System.Windows.Forms.Label();
+            this.pnlImageWindowControls = new System.Windows.Forms.FlowLayoutPanel();
+            this.txtImgWindowControl = new System.Windows.Forms.NumericUpDown();
             this.colourDialog1 = new System.Windows.Forms.ColorDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,12 +78,16 @@
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuBatch = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnResetZoom = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
+            this.pnlNav.SuspendLayout();
+            this.pnlGallery.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.pnlPicBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxMain)).BeginInit();
-            this.pnlGallery.SuspendLayout();
-            this.pnlNav.SuspendLayout();
+            this.pnlImageWindowControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtImgWindowControl)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,126 +96,25 @@
             this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.pnlPicBox, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.pnlGallery, 1, 0);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
+            this.tableLayoutPanel1.Controls.Add(this.pnlNav, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.pnlGallery, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.pnlPicBox, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblPicInfo, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.pnlNav, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.pnlImageWindowControls, 1, 4);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(665, 316);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(955, 522);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // flowLayoutPanel2
-            // 
-            this.flowLayoutPanel2.Controls.Add(this.chkAutoscaleLoad);
-            this.flowLayoutPanel2.Controls.Add(this.chkStretch);
-            this.flowLayoutPanel2.Controls.Add(this.chkAspectLock);
-            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 219);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(124, 94);
-            this.flowLayoutPanel2.TabIndex = 6;
-            // 
-            // chkAutoscaleLoad
-            // 
-            this.chkAutoscaleLoad.AutoSize = true;
-            this.chkAutoscaleLoad.Checked = true;
-            this.chkAutoscaleLoad.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAutoscaleLoad.Location = new System.Drawing.Point(3, 74);
-            this.chkAutoscaleLoad.Name = "chkAutoscaleLoad";
-            this.chkAutoscaleLoad.Size = new System.Drawing.Size(117, 17);
-            this.chkAutoscaleLoad.TabIndex = 0;
-            this.chkAutoscaleLoad.Text = "Autoscale on load?";
-            this.chkAutoscaleLoad.UseVisualStyleBackColor = true;
-            // 
-            // chkStretch
-            // 
-            this.chkStretch.AutoSize = true;
-            this.chkStretch.Location = new System.Drawing.Point(3, 51);
-            this.chkStretch.Name = "chkStretch";
-            this.chkStretch.Size = new System.Drawing.Size(60, 17);
-            this.chkStretch.TabIndex = 1;
-            this.chkStretch.Text = "Stretch";
-            this.chkStretch.UseVisualStyleBackColor = true;
-            this.chkStretch.CheckedChanged += new System.EventHandler(this.chkStretch_CheckedChanged);
-            // 
-            // chkAspectLock
-            // 
-            this.chkAspectLock.AutoSize = true;
-            this.chkAspectLock.Location = new System.Drawing.Point(3, 28);
-            this.chkAspectLock.Name = "chkAspectLock";
-            this.chkAspectLock.Size = new System.Drawing.Size(114, 17);
-            this.chkAspectLock.TabIndex = 2;
-            this.chkAspectLock.Text = "Lock Aspect Ratio";
-            this.chkAspectLock.UseVisualStyleBackColor = true;
-            // 
-            // pnlPicBox
-            // 
-            this.pnlPicBox.AutoScroll = true;
-            this.pnlPicBox.AutoScrollMinSize = new System.Drawing.Size(100, 100);
-            this.pnlPicBox.Controls.Add(this.picBoxMain);
-            this.pnlPicBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlPicBox.Location = new System.Drawing.Point(233, 3);
-            this.pnlPicBox.Name = "pnlPicBox";
-            this.tableLayoutPanel1.SetRowSpan(this.pnlPicBox, 4);
-            this.pnlPicBox.Size = new System.Drawing.Size(429, 310);
-            this.pnlPicBox.TabIndex = 8;
-            // 
-            // picBoxMain
-            // 
-            this.picBoxMain.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.picBoxMain.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picBoxMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picBoxMain.Location = new System.Drawing.Point(0, 0);
-            this.picBoxMain.Name = "picBoxMain";
-            this.picBoxMain.Size = new System.Drawing.Size(429, 310);
-            this.picBoxMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.picBoxMain.TabIndex = 9;
-            this.picBoxMain.TabStop = false;
-            // 
-            // pnlGallery
-            // 
-            this.pnlGallery.Controls.Add(this.flowGallery);
-            this.pnlGallery.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlGallery.Location = new System.Drawing.Point(133, 3);
-            this.pnlGallery.Name = "pnlGallery";
-            this.tableLayoutPanel1.SetRowSpan(this.pnlGallery, 4);
-            this.pnlGallery.Size = new System.Drawing.Size(94, 310);
-            this.pnlGallery.TabIndex = 9;
-            // 
-            // flowGallery
-            // 
-            this.flowGallery.AutoScroll = true;
-            this.flowGallery.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.flowGallery.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.flowGallery.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowGallery.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowGallery.Location = new System.Drawing.Point(0, 0);
-            this.flowGallery.Name = "flowGallery";
-            this.flowGallery.Size = new System.Drawing.Size(94, 310);
-            this.flowGallery.TabIndex = 0;
-            this.flowGallery.WrapContents = false;
-            // 
-            // lblPicInfo
-            // 
-            this.lblPicInfo.AutoSize = true;
-            this.lblPicInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblPicInfo.Location = new System.Drawing.Point(3, 0);
-            this.lblPicInfo.Name = "lblPicInfo";
-            this.tableLayoutPanel1.SetRowSpan(this.lblPicInfo, 2);
-            this.lblPicInfo.Size = new System.Drawing.Size(124, 181);
-            this.lblPicInfo.TabIndex = 4;
-            this.lblPicInfo.Text = " ";
             // 
             // pnlNav
             // 
@@ -218,10 +122,11 @@
             this.pnlNav.Controls.Add(this.lblPicNotifier);
             this.pnlNav.Controls.Add(this.btnNavigateLeft);
             this.pnlNav.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlNav.Location = new System.Drawing.Point(3, 184);
+            this.pnlNav.Location = new System.Drawing.Point(3, 488);
             this.pnlNav.Name = "pnlNav";
-            this.pnlNav.Size = new System.Drawing.Size(124, 29);
-            this.pnlNav.TabIndex = 7;
+            this.tableLayoutPanel1.SetRowSpan(this.pnlNav, 2);
+            this.pnlNav.Size = new System.Drawing.Size(124, 31);
+            this.pnlNav.TabIndex = 12;
             // 
             // btnNavigateRight
             // 
@@ -231,7 +136,6 @@
             this.btnNavigateRight.TabIndex = 1;
             this.btnNavigateRight.Text = ">";
             this.btnNavigateRight.UseVisualStyleBackColor = true;
-            this.btnNavigateRight.Click += new System.EventHandler(this.btnNavigateRight_Click);
             // 
             // lblPicNotifier
             // 
@@ -250,7 +154,141 @@
             this.btnNavigateLeft.TabIndex = 0;
             this.btnNavigateLeft.Text = "<";
             this.btnNavigateLeft.UseVisualStyleBackColor = true;
-            this.btnNavigateLeft.Click += new System.EventHandler(this.btnNavigateLeft_Click);
+            // 
+            // pnlGallery
+            // 
+            this.pnlGallery.Controls.Add(this.flowGallery);
+            this.pnlGallery.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlGallery.Location = new System.Drawing.Point(828, 3);
+            this.pnlGallery.Name = "pnlGallery";
+            this.tableLayoutPanel1.SetRowSpan(this.pnlGallery, 5);
+            this.pnlGallery.Size = new System.Drawing.Size(124, 516);
+            this.pnlGallery.TabIndex = 10;
+            // 
+            // flowGallery
+            // 
+            this.flowGallery.AutoScroll = true;
+            this.flowGallery.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.flowGallery.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.flowGallery.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowGallery.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowGallery.Location = new System.Drawing.Point(0, 0);
+            this.flowGallery.Name = "flowGallery";
+            this.flowGallery.Size = new System.Drawing.Size(124, 516);
+            this.flowGallery.TabIndex = 0;
+            this.flowGallery.WrapContents = false;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.chkStretch);
+            this.flowLayoutPanel2.Controls.Add(this.chkAspectLock);
+            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 388);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(124, 94);
+            this.flowLayoutPanel2.TabIndex = 6;
+            // 
+            // chkStretch
+            // 
+            this.chkStretch.AutoSize = true;
+            this.chkStretch.Location = new System.Drawing.Point(3, 74);
+            this.chkStretch.Name = "chkStretch";
+            this.chkStretch.Size = new System.Drawing.Size(60, 17);
+            this.chkStretch.TabIndex = 1;
+            this.chkStretch.Text = "Stretch";
+            this.chkStretch.UseVisualStyleBackColor = true;
+            this.chkStretch.CheckedChanged += new System.EventHandler(this.chkStretch_CheckedChanged);
+            // 
+            // chkAspectLock
+            // 
+            this.chkAspectLock.AutoSize = true;
+            this.chkAspectLock.Location = new System.Drawing.Point(3, 51);
+            this.chkAspectLock.Name = "chkAspectLock";
+            this.chkAspectLock.Size = new System.Drawing.Size(114, 17);
+            this.chkAspectLock.TabIndex = 2;
+            this.chkAspectLock.Text = "Lock Aspect Ratio";
+            this.chkAspectLock.UseVisualStyleBackColor = true;
+            // 
+            // pnlPicBox
+            // 
+            this.pnlPicBox.AutoScroll = true;
+            this.pnlPicBox.AutoScrollMinSize = new System.Drawing.Size(100, 100);
+            this.pnlPicBox.Controls.Add(this.picBoxMain);
+            this.pnlPicBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlPicBox.Location = new System.Drawing.Point(133, 3);
+            this.pnlPicBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.pnlPicBox.Name = "pnlPicBox";
+            this.tableLayoutPanel1.SetRowSpan(this.pnlPicBox, 4);
+            this.pnlPicBox.Size = new System.Drawing.Size(689, 492);
+            this.pnlPicBox.TabIndex = 8;
+            // 
+            // picBoxMain
+            // 
+            this.picBoxMain.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.picBoxMain.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.picBoxMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picBoxMain.Location = new System.Drawing.Point(0, 0);
+            this.picBoxMain.Name = "picBoxMain";
+            this.picBoxMain.Size = new System.Drawing.Size(689, 492);
+            this.picBoxMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.picBoxMain.TabIndex = 9;
+            this.picBoxMain.TabStop = false;
+            this.picBoxMain.MouseEnter += new System.EventHandler(this.PicBoxMain_MouseOver);
+            // 
+            // lblPicInfo
+            // 
+            this.lblPicInfo.AutoSize = true;
+            this.lblPicInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPicInfo.Location = new System.Drawing.Point(3, 0);
+            this.lblPicInfo.Name = "lblPicInfo";
+            this.tableLayoutPanel1.SetRowSpan(this.lblPicInfo, 2);
+            this.lblPicInfo.Size = new System.Drawing.Size(124, 385);
+            this.lblPicInfo.TabIndex = 4;
+            this.lblPicInfo.Text = " ";
+            // 
+            // pnlImageWindowControls
+            // 
+            this.pnlImageWindowControls.Controls.Add(this.label1);
+            this.pnlImageWindowControls.Controls.Add(this.txtImgWindowControl);
+            this.pnlImageWindowControls.Controls.Add(this.btnResetZoom);
+            this.pnlImageWindowControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlImageWindowControls.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.pnlImageWindowControls.Location = new System.Drawing.Point(133, 495);
+            this.pnlImageWindowControls.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.pnlImageWindowControls.Name = "pnlImageWindowControls";
+            this.pnlImageWindowControls.Size = new System.Drawing.Size(689, 24);
+            this.pnlImageWindowControls.TabIndex = 11;
+            // 
+            // txtImgWindowControl
+            // 
+            this.txtImgWindowControl.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.txtImgWindowControl.Location = new System.Drawing.Point(611, 3);
+            this.txtImgWindowControl.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.txtImgWindowControl.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.txtImgWindowControl.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.txtImgWindowControl.Name = "txtImgWindowControl";
+            this.txtImgWindowControl.Size = new System.Drawing.Size(63, 20);
+            this.txtImgWindowControl.TabIndex = 13;
+            this.txtImgWindowControl.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtImgWindowControl.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.txtImgWindowControl.ValueChanged += new System.EventHandler(this.TxtImgWindowControl_ValueChanged);
             // 
             // menuStrip1
             // 
@@ -261,7 +299,7 @@
             this.testToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(665, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(955, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -514,28 +552,52 @@
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(32, 19);
             // 
+            // btnResetZoom
+            // 
+            this.btnResetZoom.Location = new System.Drawing.Point(534, 3);
+            this.btnResetZoom.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
+            this.btnResetZoom.Name = "btnResetZoom";
+            this.btnResetZoom.Size = new System.Drawing.Size(74, 20);
+            this.btnResetZoom.TabIndex = 15;
+            this.btnResetZoom.Text = "Reset Zoom";
+            this.btnResetZoom.UseVisualStyleBackColor = true;
+            this.btnResetZoom.Click += new System.EventHandler(this.btnResetZoom_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(674, 4);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(15, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "%";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // PicViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(665, 340);
+            this.ClientSize = new System.Drawing.Size(955, 546);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "PicViewer";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Picture Viewer";
             this.ResizeEnd += new System.EventHandler(this.Form1_PostResize);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.pnlNav.ResumeLayout(false);
+            this.pnlNav.PerformLayout();
+            this.pnlGallery.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.pnlPicBox.ResumeLayout(false);
             this.pnlPicBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxMain)).EndInit();
-            this.pnlGallery.ResumeLayout(false);
-            this.pnlNav.ResumeLayout(false);
-            this.pnlNav.PerformLayout();
+            this.pnlImageWindowControls.ResumeLayout(false);
+            this.pnlImageWindowControls.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtImgWindowControl)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -546,12 +608,8 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.CheckBox chkStretch;
         private System.Windows.Forms.ColorDialog colourDialog1;
         private System.Windows.Forms.Label lblPicInfo;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
-        private System.Windows.Forms.CheckBox chkAutoscaleLoad;
-        private System.Windows.Forms.CheckBox chkAspectLock;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuFile;
         private System.Windows.Forms.ToolStripMenuItem menuLoadImage;
@@ -574,15 +632,9 @@
         private System.Windows.Forms.ToolStripMenuItem menuBatchResetAdjustments;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
-        private System.Windows.Forms.Panel pnlNav;
-        private System.Windows.Forms.Button btnNavigateRight;
-        private System.Windows.Forms.Label lblPicNotifier;
-        private System.Windows.Forms.Button btnNavigateLeft;
         private System.Windows.Forms.Panel pnlPicBox;
         public System.Windows.Forms.PictureBox picBoxMain;
-        private System.Windows.Forms.Panel pnlGallery;
         private System.Windows.Forms.ToolStripMenuItem MenuHideGallery;
-        private System.Windows.Forms.FlowLayoutPanel flowGallery;
         private System.Windows.Forms.ToolStripMenuItem menuStepBackward;
         private System.Windows.Forms.ToolStripMenuItem menuStepForward;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -594,6 +646,19 @@
         private System.Windows.Forms.ToolStripMenuItem menuGrayscale;
         private System.Windows.Forms.ToolStripMenuItem menuSepia;
         private System.Windows.Forms.ToolStripMenuItem menuTransp;
+        private System.Windows.Forms.Panel pnlGallery;
+        private System.Windows.Forms.FlowLayoutPanel flowGallery;
+        private System.Windows.Forms.FlowLayoutPanel pnlImageWindowControls;
+        private System.Windows.Forms.NumericUpDown txtImgWindowControl;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.CheckBox chkStretch;
+        private System.Windows.Forms.CheckBox chkAspectLock;
+        private System.Windows.Forms.Panel pnlNav;
+        private System.Windows.Forms.Button btnNavigateRight;
+        private System.Windows.Forms.Label lblPicNotifier;
+        private System.Windows.Forms.Button btnNavigateLeft;
+        private System.Windows.Forms.Button btnResetZoom;
+        private System.Windows.Forms.Label label1;
     }
 }
 

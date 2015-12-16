@@ -31,6 +31,8 @@ namespace WfaPictureViewer
             // Allow the form to process key inputs
             this.KeyPreview = true;
             this.KeyPress += new KeyPressEventHandler(Form1_KeyPress);
+            // Allow the picbox to process mousewhel inputs
+            this.picBoxMain.MouseWheel += new MouseEventHandler(PicboxMain_MouseWheel);
 
             // "Size" is a struct, so you can't simply declare this.MinimumSize.Size = x,y
             this.MinimumSize = new Size(400, 200);
@@ -85,11 +87,9 @@ namespace WfaPictureViewer
             UpdateText();
             UpdateImgOptions();
             UpdateGallery();
+            txtImgWindowControl.Value = 100;
 
             pnlPicBox.AutoScrollMinSize = new Size(img.GetBitmap("c").Width - 10, img.GetBitmap("c").Height - 10);
-
-            if (chkAutoscaleLoad.Checked)
-                menuFitWindow.PerformClick();
         }
 
         public void UpdateGallery()
@@ -158,7 +158,7 @@ namespace WfaPictureViewer
             }
         }
 
-        
+
         // Combined method that updates the picbox label info display and the sizemode of the image
         private void UpdatePicboxInfoAndSizeMode()
         {
@@ -385,7 +385,49 @@ namespace WfaPictureViewer
                 menuStepForward.Enabled =
                 menuBatchMenu.Enabled = false;
             }
-        }         
+        }
+        private void SaveImageOld(SaveFileDialog dlg, Image img)
+        {
+            // Create a MemoryStream that will be minimally scoped
+            using (MemoryStream memStream = new MemoryStream())
+            {
+                // Save the image to the memorystream in it's native format
+                img.Save(memStream, listLoadedImg[curImgIndex].GetOriginalFormat());
+
+                // Creating an Image that can actually be saved - Should probably make everything up to this point a method
+                // Should also incorporate some kind of using statement to close off the MemoryStream
+                Image imgToSave = Image.FromStream(memStream);
+
+                // FilterIndex appears to record which filetype is arrIsProcessed
+                switch (dlg.FilterIndex)
+                {
+                    case 1:
+                        imgToSave.Save(dlg.FileName, ImageFormat.Jpeg);
+                        break;
+                    case 2:
+                        imgToSave.Save(dlg.FileName, ImageFormat.Bmp);
+                        break;
+                    case 3:
+                        imgToSave.Save(dlg.FileName, ImageFormat.Png);
+                        break;
+                    case 4:
+                        imgToSave.Save(dlg.FileName, ImageFormat.Tiff);
+                        break;
+                }
+            } dlg.Dispose();
+        }
+
+        private void SaveImage(string filePath, Image img, ImageFormat fmt)
+        {
+            // Create a MemoryStream that will be minimally scoped
+            using (MemoryStream memStream = new MemoryStream())
+            {
+                // Save the image to the memorystream in it's native format
+                // img.Save(memStream, listLoadedImg[curImgIndex].GetOriginalFormat());
+                // Image imgToSave = Image.FromStream(memStream);                
+                img.Save(filePath, fmt);
+            }
+        }
 
         // EVENT HANDLERS
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -466,13 +508,13 @@ namespace WfaPictureViewer
 
                 // Only initiate save if OK is received
                 if (dlgSaveImg.ShowDialog() == DialogResult.OK)
-                    //SaveImage(dlgSaveImg, listLoadedImg[curImgIndex].GetBitmap("c"));
+                //SaveImage(dlgSaveImg, listLoadedImg[curImgIndex].GetBitmap("c"));
                 {
                     switch (dlgSaveImg.FilterIndex)
                     {
                         case 1:
                             ImageFormat jpeg = ImageFormat.Jpeg;
-                            
+
                             SaveImage(dlgSaveImg.FileName, listLoadedImg[curImgIndex].GetBitmap("c"), ImageFormat.Jpeg);
                             break;
                         case 2:
@@ -485,51 +527,8 @@ namespace WfaPictureViewer
                             SaveImage(dlgSaveImg.FileName, listLoadedImg[curImgIndex].GetBitmap("c"), ImageFormat.Tiff);
                             break;
                     }
-                }                    
-            }
-        }
-
-        private void SaveImageOld(SaveFileDialog dlg, Image img)
-        {
-            // Create a MemoryStream that will be minimally scoped
-            using (MemoryStream memStream = new MemoryStream())
-            {
-                // Save the image to the memorystream in it's native format
-                img.Save(memStream, listLoadedImg[curImgIndex].GetOriginalFormat());
-
-                // Creating an Image that can actually be saved - Should probably make everything up to this point a method
-                // Should also incorporate some kind of using statement to close off the MemoryStream
-                Image imgToSave = Image.FromStream(memStream);
-
-                // FilterIndex appears to record which filetype is arrIsProcessed
-                switch (dlg.FilterIndex)
-                {
-                    case 1:
-                        imgToSave.Save(dlg.FileName, ImageFormat.Jpeg);
-                        break;
-                    case 2:
-                        imgToSave.Save(dlg.FileName, ImageFormat.Bmp);
-                        break;
-                    case 3:
-                        imgToSave.Save(dlg.FileName, ImageFormat.Png);
-                        break;
-                    case 4:
-                        imgToSave.Save(dlg.FileName, ImageFormat.Tiff);
-                        break;
                 }
-            } dlg.Dispose();
-        }
-
-        private void SaveImage(string filePath, Image img, ImageFormat fmt)
-        {
-            // Create a MemoryStream that will be minimally scoped
-            using (MemoryStream memStream = new MemoryStream())
-            {
-                // Save the image to the memorystream in it's native format
-                // img.Save(memStream, listLoadedImg[curImgIndex].GetOriginalFormat());
-                // Image imgToSave = Image.FromStream(memStream);                
-                img.Save(filePath, fmt);                        
-            } 
+            }
         }
 
         private void MenuClearImage_Click(object sender, EventArgs e)
@@ -620,7 +619,7 @@ namespace WfaPictureViewer
 
                     for (int i = 0; i < listLoadedImg.Count; i++)
                     {
-                        // Add each item that is marked for processing to the new batch list
+                        // Add each item that is marked for processing to the new batch list, arIsProcessed is populated in bs.GrabInputValues()
                         if (bs.arrIsProcessed[i] == true)
                         {
                             listBatch.Add(listLoadedImg[i]);
@@ -628,18 +627,14 @@ namespace WfaPictureViewer
                     }
 
                     // Used for iterating filenames
-                    int suffix = 1;
+                    int suffix = 0;
 
                     // Loop through each image
                     foreach (LoadedImage batchImg in listBatch)
                     {
+                        suffix++; // Only iterate when moving to the next image
                         ApplyBatchSettingsEffects(bs, batchImg);
-                        
-                        // If a change has actually been made to the image
-                        if (batchImg.GetBitmap("p") != null)
-                        {
-                            batchImg.ApplyPreview();
-                        }
+                        batchImg.ApplyPreview();
 
                         // If Exporting to file & Channels are not being exported
                         if (bs.arrChkOptions[0][0].Checked && !bs.arrChkOptions[4][0].Checked)
@@ -660,7 +655,7 @@ namespace WfaPictureViewer
                             // if providing new file deaultName, and there's more than one image being exported
                             if (bs.provideName && listBatch.Count > 1)
                             {
-                                filename = bs.GetValue("newFileName") + "_" + suffix++.ToString();
+                                filename = bs.GetValue("newFileName") + "_" + suffix.ToString();
                             }
                             // If (for some reason) there is only one image in the batch
                             else if (bs.provideName && listBatch.Count == 1)
@@ -730,7 +725,7 @@ namespace WfaPictureViewer
 
                                     }
                                     // Consider that there is some repeated code from the above save functionailty
-                                    
+
                                     // Grab the curent ImageFormat from the bs form
                                     ImageFormat expFormat = bs.GetImageFormat();
                                     string filename, fileDir, filePath;
@@ -770,8 +765,11 @@ namespace WfaPictureViewer
                                 }
                             }
                         }
-                        suffix++; // Only iterate when moving to the next image
                     }
+                }
+                else // if Batch window OK ("Batch that Shit") is not selected
+                {
+
                 }
             }
             // Update the loaded picturebox window, in case there were any changes. 
@@ -790,7 +788,7 @@ namespace WfaPictureViewer
             // Scale
             if (bs.arrChkOptions[1][0].Checked)
             {
-                img.UpdatePreview(adjustImg.GetScaledVer(img.GetBitmap("p"), bs.transformScale, bs.transformScale));
+                img.UpdatePreview(adjustImg.GetScaledVer(img.GetBitmap("p"), bs.transformScale, bs.transformScale, true));
             }
 
             // FILTERS
@@ -839,7 +837,6 @@ namespace WfaPictureViewer
             {
                 // The byte value is necessary for the image adjustment
                 byte amount = bs.transpInput;
-
                 // tmp for readability, 
                 Bitmap tmp = adjustImg.GetTransparent(img.GetBitmap("p"), amount);
                 img.UpdatePreview(tmp);
@@ -931,9 +928,9 @@ namespace WfaPictureViewer
         {
             if (listLoadedImg.Count > 0)
             {
-                foreach (LoadedImage chunk in listLoadedImg)
+                foreach (LoadedImage clunge in listLoadedImg)
                 {
-                    MessageBox.Show(chunk.GetName());
+                    MessageBox.Show(clunge.GetName());
                 }
             }
         }
@@ -1027,6 +1024,63 @@ namespace WfaPictureViewer
         private void menuStepForward_Click(object sender, EventArgs e)
         {
             listLoadedImg[curImgIndex].StepForward();
+        }
+
+        private void PicBoxMain_MouseOver(object sender, EventArgs e)
+        {
+            picBoxMain.Focus();
+        }
+
+        private void TxtImgWindowControl_ValueChanged(object sender, EventArgs e)
+        {
+            if (picBoxMain.Image != null)
+            {
+                // Save a version of the current image, in case an out of range exception (in GetScaledVer) returns a null
+                Image oldImg = picBoxMain.Image;
+                picBoxMain.Image = adjustImg.GetScaledVer(listLoadedImg[curImgIndex].GetBitmap("c"), (float)txtImgWindowControl.Value, (float)txtImgWindowControl.Value, false) ?? oldImg;
+            }
+        }
+
+        private void PicboxMain_MouseWheel(object sender, EventArgs e)
+        {
+            if (Control.ModifierKeys == Keys.Control)
+            {
+                // Grab mousewheel Delta (on testing, was either 120 or -120 depending on scroll direction).
+                int mouseScrollValue = ((MouseEventArgs)e).Delta;
+                ((HandledMouseEventArgs)e).Handled = true;
+
+                // Create an offset which equals 10 + how ever many hundreds the current % value is displaying
+                int offset = (int)((txtImgWindowControl.Value - (txtImgWindowControl.Value % 100)) / 10) + 10;
+
+                // If it the value asignment wil be out of range, default to max
+                if (mouseScrollValue > 0) // Going up
+                {
+                    if (txtImgWindowControl.Value + (0 + offset) > 999)
+                    {
+                        txtImgWindowControl.Value = 999;
+                    }
+                    else
+                    {
+                        txtImgWindowControl.Value += (0 + offset);
+                    }                    
+                }
+                else // Going down
+                {
+                    if (txtImgWindowControl.Value + (0 - offset) < 1)
+                    {
+                        txtImgWindowControl.Value = 1;
+                    }
+                    else
+                    {
+                        txtImgWindowControl.Value += (0 - offset);
+                    }                    
+                }
+            }            
+        }
+
+        private void btnResetZoom_Click(object sender, EventArgs e)
+        {
+            txtImgWindowControl.Value = 100;
         }
     }
 }

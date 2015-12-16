@@ -427,12 +427,6 @@ namespace WfaPictureViewer
             }
         }
 
-        // Whenever a part of the selection list is clicked
-        private void batchFileSelectionList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         // If the "Process all" box is clicked
         private void chkBatchFileProcessAll_CheckedChanged(object sender, EventArgs e)
         {
@@ -442,27 +436,17 @@ namespace WfaPictureViewer
                 {
                     batchFileSelectionList.SetItemChecked(i, true);
                 }
-                batchFileSelectionList.Enabled = false;
+                btnBatchFileProcessDeselect.Enabled = batchFileSelectionList.Enabled = false;
             }
             else
             {
-                batchFileSelectionList.Enabled = true;
+                btnBatchFileProcessDeselect.Enabled = batchFileSelectionList.Enabled = true;
             }
         }
 
         private void chkBatchChannels_CheckedChanged(object sender, EventArgs e)
         {
             UpdateOptions();
-        }
-
-        private void panel6_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void btnBatchScalePlus_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void chkBatchTransScale_CheckedChanged(object sender, EventArgs e)
@@ -515,14 +499,15 @@ namespace WfaPictureViewer
         private void button3_Click(object sender, EventArgs e)
         {
             ImgAdjust adj = new ImgAdjust();
-            picBatchPreview.Image = adj.GetScaledVer((Bitmap)picBatchPreview.Image, (float)txtBatchScale.Value, (float)txtBatchScale.Value);
+            picBatchPreview.Image = adj.GetScaledVer((Bitmap)picBatchPreview.Image, (float)txtBatchScale.Value, (float)txtBatchScale.Value, false);
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void btnBatchFileProcessDeselect_Click(object sender, EventArgs e)
         {
-            ImgAdjust adj = new ImgAdjust();
-            picBatchPreview.Image = adj.GetScaledVer((Bitmap)picBatchPreview.Image, (float)txtBatchScale.Value, (float)txtBatchScale.Value);
-            
+            for (int i = 0; i < batchFileSelectionList.Items.Count; i++)
+            {
+                batchFileSelectionList.SetItemChecked(i, false);
+            }
         }
     }
 }

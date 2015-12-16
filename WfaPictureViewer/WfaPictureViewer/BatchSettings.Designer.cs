@@ -113,7 +113,7 @@
             this.picBatchPreview = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btnBatchFileProcessDeselect = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabBatch.SuspendLayout();
             this.tabFile.SuspendLayout();
@@ -345,6 +345,7 @@
             // pnlBatchFileSelection
             // 
             this.pnlBatchFileSelection.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchFileSelection.Controls.Add(this.btnBatchFileProcessDeselect);
             this.pnlBatchFileSelection.Controls.Add(this.lblBatchFileImagesInstructions);
             this.pnlBatchFileSelection.Controls.Add(this.chkBatchFileProcessAll);
             this.pnlBatchFileSelection.Controls.Add(this.batchFileSelectionList);
@@ -390,7 +391,6 @@
             this.batchFileSelectionList.Name = "batchFileSelectionList";
             this.batchFileSelectionList.Size = new System.Drawing.Size(467, 169);
             this.batchFileSelectionList.TabIndex = 11;
-            this.batchFileSelectionList.SelectedIndexChanged += new System.EventHandler(this.batchFileSelectionList_SelectedIndexChanged);
             // 
             // tabTransform
             // 
@@ -869,7 +869,6 @@
             this.pnlBatchChannelsChannels.Name = "pnlBatchChannelsChannels";
             this.pnlBatchChannelsChannels.Size = new System.Drawing.Size(500, 148);
             this.pnlBatchChannelsChannels.TabIndex = 1;
-            this.pnlBatchChannelsChannels.Paint += new System.Windows.Forms.PaintEventHandler(this.panel6_Paint);
             // 
             // lblAlphaInstructions
             // 
@@ -1055,11 +1054,11 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(602, 476);
+            this.button2.Location = new System.Drawing.Point(563, 476);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(130, 23);
             this.button2.TabIndex = 13;
-            this.button2.Text = "button2";
+            this.button2.Text = "Update Preview";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -1069,26 +1068,25 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 14;
-            this.button3.Text = "button3";
+            this.button3.Text = "Get Scaled";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button4
+            // btnBatchFileProcessDeselect
             // 
-            this.button4.Location = new System.Drawing.Point(790, 476);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 15;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btnBatchFileProcessDeselect.Location = new System.Drawing.Point(407, 22);
+            this.btnBatchFileProcessDeselect.Name = "btnBatchFileProcessDeselect";
+            this.btnBatchFileProcessDeselect.Size = new System.Drawing.Size(75, 23);
+            this.btnBatchFileProcessDeselect.TabIndex = 40;
+            this.btnBatchFileProcessDeselect.Text = "Deselect All";
+            this.btnBatchFileProcessDeselect.UseVisualStyleBackColor = true;
+            this.btnBatchFileProcessDeselect.Click += new System.EventHandler(this.btnBatchFileProcessDeselect_Click);
             // 
             // BatchSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 519);
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.tableLayoutBatchPreview);
@@ -1238,6 +1236,6 @@
         private System.Windows.Forms.PictureBox picBatchPreview;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnBatchFileProcessDeselect;
     }
 }

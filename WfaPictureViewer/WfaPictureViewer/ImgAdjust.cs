@@ -3,14 +3,12 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D; // InterpolationMode etc.
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace WfaPictureViewer
 {
     class ImgAdjust
     {
-        Bitmap Img;
-        
-
         public Bitmap GetGrayscale(Bitmap passedImg, string algorithm)
         {
             // Creating a new memory assignment, so the pointer(I think) doesn't chance the originalImg
@@ -282,23 +280,44 @@ namespace WfaPictureViewer
         }
 
         // Return a scaled version of the image, using percentages for input
-        public Bitmap GetScaledVer(Bitmap passedImg, float scaleX, float scaleY)
+        public Bitmap GetScaledVer(Bitmap passedImg, float scaleX, float scaleY, bool highQ)
         {
             // Adjust for percentage-based input
             int newScaleX = (int)(passedImg.Width * (scaleX / 100));
             int newScaleY = (int)(passedImg.Height * (scaleY / 100));
-            Bitmap scaledVer = new Bitmap(passedImg, new Size(newScaleX, newScaleY));
-            using (Graphics graphics = Graphics.FromImage(scaledVer))
+            
+            try 
             {
-                // using System.Drawing.2d, these define the resizing algorithms 
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                Bitmap scaledVer = new Bitmap(passedImg, new Size(newScaleX, newScaleY));
+                using (Graphics graphics = Graphics.FromImage(scaledVer))
+                {
+                    if (highQ)
+                    {
+                        // using System.Drawing.2d, these define the resizing algorithms 
+                        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        graphics.SmoothingMode = SmoothingMode.HighQuality;
+                        graphics.CompositingQuality = CompositingQuality.HighQuality;
+                        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    }
+                    else
+                    {
+                        // using System.Drawing.2d, these define the resizing algorithms 
+                        graphics.InterpolationMode = InterpolationMode.Low;
+                        graphics.SmoothingMode = SmoothingMode.HighSpeed;
+                        graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                        graphics.PixelOffsetMode = PixelOffsetMode.None;
+                    }
 
-                graphics.DrawImage(passedImg, new Rectangle(0, 0, newScaleX, newScaleY));
+                    graphics.DrawImage(passedImg, new Rectangle(0, 0, newScaleX, newScaleY));
+                }
+                return scaledVer;
             }
-            return scaledVer;
+            catch (ArgumentException Exception)
+            {
+                MessageBox.Show("Image size too large or too small!\n" + Exception.ToString());
+            }
+            // Return null if out of range exception is triggered
+            return null;            
         }
     }
 }
