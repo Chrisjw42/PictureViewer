@@ -48,6 +48,7 @@
             this.comboBatchFileExportType = new System.Windows.Forms.ComboBox();
             this.lblBatchFileExportType = new System.Windows.Forms.Label();
             this.pnlBatchFileSelection = new System.Windows.Forms.Panel();
+            this.btnBatchFileProcessDeselect = new System.Windows.Forms.Button();
             this.lblBatchFileImagesInstructions = new System.Windows.Forms.Label();
             this.chkBatchFileProcessAll = new System.Windows.Forms.CheckBox();
             this.batchFileSelectionList = new System.Windows.Forms.CheckedListBox();
@@ -56,6 +57,7 @@
             this.pnlBatchTransHead = new System.Windows.Forms.Panel();
             this.lblBatchTransInstructions = new System.Windows.Forms.Label();
             this.pnlBatchTransScale = new System.Windows.Forms.Panel();
+            this.slideBatchScale = new System.Windows.Forms.TrackBar();
             this.lblBatchScale = new System.Windows.Forms.Label();
             this.txtBatchScale = new System.Windows.Forms.NumericUpDown();
             this.chkBatchTransScale = new System.Windows.Forms.CheckBox();
@@ -65,16 +67,16 @@
             this.radTransRotate90Clock = new System.Windows.Forms.RadioButton();
             this.chkBatchTransRotate = new System.Windows.Forms.CheckBox();
             this.pnlBatchTransFlip = new System.Windows.Forms.Panel();
-            this.radTransFlipH = new System.Windows.Forms.RadioButton();
+            this.chkTransFlipH = new System.Windows.Forms.CheckBox();
+            this.chkTransFlipV = new System.Windows.Forms.CheckBox();
+            this.batchTransFlipNotification = new System.Windows.Forms.Label();
             this.chkBatchTransFlip = new System.Windows.Forms.CheckBox();
-            this.radTransFlipV = new System.Windows.Forms.RadioButton();
             this.tabAdjustments = new System.Windows.Forms.TabPage();
             this.batchAdjFlow = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlBatchAdjHead = new System.Windows.Forms.Panel();
             this.lblBatchAdjInstructions = new System.Windows.Forms.Label();
             this.pnlBatchAdjTrans = new System.Windows.Forms.Panel();
-            this.txtBatchAdjTransparencyInput = new System.Windows.Forms.NumericUpDown();
-            this.lblBatchAdjTransparencyInstructions = new System.Windows.Forms.Label();
+            this.slideBatchTransparency = new System.Windows.Forms.TrackBar();
             this.chkBatchAdjTransparency = new System.Windows.Forms.CheckBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tabFilters = new System.Windows.Forms.TabPage();
@@ -113,7 +115,9 @@
             this.picBatchPreview = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.btnBatchFileProcessDeselect = new System.Windows.Forms.Button();
+            this.lblBatchTranspValue = new System.Windows.Forms.Label();
+            this.lblBatchTranspTransp = new System.Windows.Forms.Label();
+            this.lblBatchTranspOpaque = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabBatch.SuspendLayout();
             this.tabFile.SuspendLayout();
@@ -126,6 +130,7 @@
             this.batchTransFlow.SuspendLayout();
             this.pnlBatchTransHead.SuspendLayout();
             this.pnlBatchTransScale.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.slideBatchScale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtBatchScale)).BeginInit();
             this.pnlBatchTransRotate.SuspendLayout();
             this.pnlBatchTransFlip.SuspendLayout();
@@ -133,7 +138,7 @@
             this.batchAdjFlow.SuspendLayout();
             this.pnlBatchAdjHead.SuspendLayout();
             this.pnlBatchAdjTrans.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtBatchAdjTransparencyInput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slideBatchTransparency)).BeginInit();
             this.tabFilters.SuspendLayout();
             this.batchFilterFlow.SuspendLayout();
             this.pnlBatchFilterHead.SuspendLayout();
@@ -355,6 +360,16 @@
             this.pnlBatchFileSelection.Size = new System.Drawing.Size(500, 237);
             this.pnlBatchFileSelection.TabIndex = 2;
             // 
+            // btnBatchFileProcessDeselect
+            // 
+            this.btnBatchFileProcessDeselect.Location = new System.Drawing.Point(407, 22);
+            this.btnBatchFileProcessDeselect.Name = "btnBatchFileProcessDeselect";
+            this.btnBatchFileProcessDeselect.Size = new System.Drawing.Size(75, 23);
+            this.btnBatchFileProcessDeselect.TabIndex = 40;
+            this.btnBatchFileProcessDeselect.Text = "Deselect All";
+            this.btnBatchFileProcessDeselect.UseVisualStyleBackColor = true;
+            this.btnBatchFileProcessDeselect.Click += new System.EventHandler(this.btnBatchFileProcessDeselect_Click);
+            // 
             // lblBatchFileImagesInstructions
             // 
             this.lblBatchFileImagesInstructions.AutoSize = true;
@@ -437,14 +452,27 @@
             // pnlBatchTransScale
             // 
             this.pnlBatchTransScale.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlBatchTransScale.Controls.Add(this.slideBatchScale);
             this.pnlBatchTransScale.Controls.Add(this.lblBatchScale);
             this.pnlBatchTransScale.Controls.Add(this.txtBatchScale);
             this.pnlBatchTransScale.Controls.Add(this.chkBatchTransScale);
             this.pnlBatchTransScale.Location = new System.Drawing.Point(3, 31);
             this.pnlBatchTransScale.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.pnlBatchTransScale.Name = "pnlBatchTransScale";
-            this.pnlBatchTransScale.Size = new System.Drawing.Size(500, 75);
+            this.pnlBatchTransScale.Size = new System.Drawing.Size(500, 106);
             this.pnlBatchTransScale.TabIndex = 2;
+            // 
+            // slideBatchScale
+            // 
+            this.slideBatchScale.LargeChange = 3;
+            this.slideBatchScale.Location = new System.Drawing.Point(61, 58);
+            this.slideBatchScale.Maximum = 19;
+            this.slideBatchScale.Minimum = 1;
+            this.slideBatchScale.Name = "slideBatchScale";
+            this.slideBatchScale.Size = new System.Drawing.Size(378, 45);
+            this.slideBatchScale.TabIndex = 14;
+            this.slideBatchScale.Value = 10;
+            this.slideBatchScale.Scroll += new System.EventHandler(this.slideBatchScale_Scroll);
             // 
             // lblBatchScale
             // 
@@ -501,7 +529,7 @@
             this.pnlBatchTransRotate.Controls.Add(this.radTransRotate90Counter);
             this.pnlBatchTransRotate.Controls.Add(this.radTransRotate90Clock);
             this.pnlBatchTransRotate.Controls.Add(this.chkBatchTransRotate);
-            this.pnlBatchTransRotate.Location = new System.Drawing.Point(3, 109);
+            this.pnlBatchTransRotate.Location = new System.Drawing.Point(3, 140);
             this.pnlBatchTransRotate.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.pnlBatchTransRotate.Name = "pnlBatchTransRotate";
             this.pnlBatchTransRotate.Size = new System.Drawing.Size(500, 75);
@@ -553,24 +581,47 @@
             // pnlBatchTransFlip
             // 
             this.pnlBatchTransFlip.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pnlBatchTransFlip.Controls.Add(this.radTransFlipH);
+            this.pnlBatchTransFlip.Controls.Add(this.chkTransFlipH);
+            this.pnlBatchTransFlip.Controls.Add(this.chkTransFlipV);
+            this.pnlBatchTransFlip.Controls.Add(this.batchTransFlipNotification);
             this.pnlBatchTransFlip.Controls.Add(this.chkBatchTransFlip);
-            this.pnlBatchTransFlip.Controls.Add(this.radTransFlipV);
-            this.pnlBatchTransFlip.Location = new System.Drawing.Point(3, 187);
+            this.pnlBatchTransFlip.Location = new System.Drawing.Point(3, 218);
             this.pnlBatchTransFlip.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.pnlBatchTransFlip.Name = "pnlBatchTransFlip";
             this.pnlBatchTransFlip.Size = new System.Drawing.Size(500, 75);
             this.pnlBatchTransFlip.TabIndex = 3;
             // 
-            // radTransFlipH
+            // chkTransFlipH
             // 
-            this.radTransFlipH.AutoSize = true;
-            this.radTransFlipH.Location = new System.Drawing.Point(252, 29);
-            this.radTransFlipH.Name = "radTransFlipH";
-            this.radTransFlipH.Size = new System.Drawing.Size(98, 17);
-            this.radTransFlipH.TabIndex = 6;
-            this.radTransFlipH.Text = "Flip Horizontally";
-            this.radTransFlipH.UseVisualStyleBackColor = true;
+            this.chkTransFlipH.AutoSize = true;
+            this.chkTransFlipH.Location = new System.Drawing.Point(267, 30);
+            this.chkTransFlipH.Name = "chkTransFlipH";
+            this.chkTransFlipH.Size = new System.Drawing.Size(99, 17);
+            this.chkTransFlipH.TabIndex = 9;
+            this.chkTransFlipH.Text = "Flip Horizontally";
+            this.chkTransFlipH.UseVisualStyleBackColor = true;
+            // 
+            // chkTransFlipV
+            // 
+            this.chkTransFlipV.AutoSize = true;
+            this.chkTransFlipV.Location = new System.Drawing.Point(145, 30);
+            this.chkTransFlipV.Name = "chkTransFlipV";
+            this.chkTransFlipV.Size = new System.Drawing.Size(87, 17);
+            this.chkTransFlipV.TabIndex = 8;
+            this.chkTransFlipV.Text = "Flip Vertically";
+            this.chkTransFlipV.UseVisualStyleBackColor = true;
+            // 
+            // batchTransFlipNotification
+            // 
+            this.batchTransFlipNotification.AutoSize = true;
+            this.batchTransFlipNotification.Enabled = false;
+            this.batchTransFlipNotification.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.batchTransFlipNotification.Location = new System.Drawing.Point(51, 7);
+            this.batchTransFlipNotification.Name = "batchTransFlipNotification";
+            this.batchTransFlipNotification.Size = new System.Drawing.Size(123, 13);
+            this.batchTransFlipNotification.TabIndex = 7;
+            this.batchTransFlipNotification.Text = "(Occurs AFTER rotation)";
+            this.batchTransFlipNotification.Visible = false;
             // 
             // chkBatchTransFlip
             // 
@@ -582,18 +633,6 @@
             this.chkBatchTransFlip.Text = "Flip";
             this.chkBatchTransFlip.UseVisualStyleBackColor = true;
             this.chkBatchTransFlip.CheckedChanged += new System.EventHandler(this.chkBatchTransFlip_CheckedChanged);
-            // 
-            // radTransFlipV
-            // 
-            this.radTransFlipV.AutoSize = true;
-            this.radTransFlipV.Checked = true;
-            this.radTransFlipV.Location = new System.Drawing.Point(150, 29);
-            this.radTransFlipV.Name = "radTransFlipV";
-            this.radTransFlipV.Size = new System.Drawing.Size(86, 17);
-            this.radTransFlipV.TabIndex = 5;
-            this.radTransFlipV.TabStop = true;
-            this.radTransFlipV.Text = "Flip Vertically";
-            this.radTransFlipV.UseVisualStyleBackColor = true;
             // 
             // tabAdjustments
             // 
@@ -640,35 +679,29 @@
             // pnlBatchAdjTrans
             // 
             this.pnlBatchAdjTrans.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pnlBatchAdjTrans.Controls.Add(this.txtBatchAdjTransparencyInput);
-            this.pnlBatchAdjTrans.Controls.Add(this.lblBatchAdjTransparencyInstructions);
+            this.pnlBatchAdjTrans.Controls.Add(this.lblBatchTranspOpaque);
+            this.pnlBatchAdjTrans.Controls.Add(this.lblBatchTranspTransp);
+            this.pnlBatchAdjTrans.Controls.Add(this.lblBatchTranspValue);
+            this.pnlBatchAdjTrans.Controls.Add(this.slideBatchTransparency);
             this.pnlBatchAdjTrans.Controls.Add(this.chkBatchAdjTransparency);
             this.pnlBatchAdjTrans.Location = new System.Drawing.Point(3, 31);
             this.pnlBatchAdjTrans.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.pnlBatchAdjTrans.Name = "pnlBatchAdjTrans";
-            this.pnlBatchAdjTrans.Size = new System.Drawing.Size(500, 75);
+            this.pnlBatchAdjTrans.Size = new System.Drawing.Size(500, 201);
             this.pnlBatchAdjTrans.TabIndex = 1;
             // 
-            // txtBatchAdjTransparencyInput
+            // slideBatchTransparency
             // 
-            this.txtBatchAdjTransparencyInput.Location = new System.Drawing.Point(185, 36);
-            this.txtBatchAdjTransparencyInput.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.txtBatchAdjTransparencyInput.Name = "txtBatchAdjTransparencyInput";
-            this.txtBatchAdjTransparencyInput.Size = new System.Drawing.Size(120, 20);
-            this.txtBatchAdjTransparencyInput.TabIndex = 12;
-            // 
-            // lblBatchAdjTransparencyInstructions
-            // 
-            this.lblBatchAdjTransparencyInstructions.AutoSize = true;
-            this.lblBatchAdjTransparencyInstructions.Location = new System.Drawing.Point(167, 19);
-            this.lblBatchAdjTransparencyInstructions.Name = "lblBatchAdjTransparencyInstructions";
-            this.lblBatchAdjTransparencyInstructions.Size = new System.Drawing.Size(166, 13);
-            this.lblBatchAdjTransparencyInstructions.TabIndex = 10;
-            this.lblBatchAdjTransparencyInstructions.Text = "Select transparency value (0-255)";
+            this.slideBatchTransparency.LargeChange = 3;
+            this.slideBatchTransparency.Location = new System.Drawing.Point(61, 50);
+            this.slideBatchTransparency.Maximum = 255;
+            this.slideBatchTransparency.Minimum = 1;
+            this.slideBatchTransparency.Name = "slideBatchTransparency";
+            this.slideBatchTransparency.Size = new System.Drawing.Size(378, 45);
+            this.slideBatchTransparency.TabIndex = 15;
+            this.slideBatchTransparency.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.slideBatchTransparency.Value = 255;
+            this.slideBatchTransparency.Scroll += new System.EventHandler(this.slideBatchTransparency_Scroll);
             // 
             // chkBatchAdjTransparency
             // 
@@ -684,7 +717,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel3.Location = new System.Drawing.Point(3, 109);
+            this.panel3.Location = new System.Drawing.Point(3, 235);
             this.panel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(500, 100);
@@ -786,6 +819,7 @@
             this.radBatchFilterGrayscaleLum.TabStop = true;
             this.radBatchFilterGrayscaleLum.Text = "Luminosity";
             this.radBatchFilterGrayscaleLum.UseVisualStyleBackColor = true;
+            this.radBatchFilterGrayscaleLum.CheckedChanged += new System.EventHandler(this.radBatchFilterGrayscaleLum_CheckedChanged);
             // 
             // pnlBatchFilterSepia
             // 
@@ -1072,15 +1106,32 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // btnBatchFileProcessDeselect
+            // lblBatchTranspValue
             // 
-            this.btnBatchFileProcessDeselect.Location = new System.Drawing.Point(407, 22);
-            this.btnBatchFileProcessDeselect.Name = "btnBatchFileProcessDeselect";
-            this.btnBatchFileProcessDeselect.Size = new System.Drawing.Size(75, 23);
-            this.btnBatchFileProcessDeselect.TabIndex = 40;
-            this.btnBatchFileProcessDeselect.Text = "Deselect All";
-            this.btnBatchFileProcessDeselect.UseVisualStyleBackColor = true;
-            this.btnBatchFileProcessDeselect.Click += new System.EventHandler(this.btnBatchFileProcessDeselect_Click);
+            this.lblBatchTranspValue.AutoSize = true;
+            this.lblBatchTranspValue.Location = new System.Drawing.Point(411, 34);
+            this.lblBatchTranspValue.Name = "lblBatchTranspValue";
+            this.lblBatchTranspValue.Size = new System.Drawing.Size(33, 13);
+            this.lblBatchTranspValue.TabIndex = 17;
+            this.lblBatchTranspValue.Text = "100%";
+            // 
+            // lblBatchTranspTransp
+            // 
+            this.lblBatchTranspTransp.AutoSize = true;
+            this.lblBatchTranspTransp.Location = new System.Drawing.Point(34, 70);
+            this.lblBatchTranspTransp.Name = "lblBatchTranspTransp";
+            this.lblBatchTranspTransp.Size = new System.Drawing.Size(64, 13);
+            this.lblBatchTranspTransp.TabIndex = 18;
+            this.lblBatchTranspTransp.Text = "Transparent";
+            // 
+            // lblBatchTranspOpaque
+            // 
+            this.lblBatchTranspOpaque.AutoSize = true;
+            this.lblBatchTranspOpaque.Location = new System.Drawing.Point(403, 70);
+            this.lblBatchTranspOpaque.Name = "lblBatchTranspOpaque";
+            this.lblBatchTranspOpaque.Size = new System.Drawing.Size(45, 13);
+            this.lblBatchTranspOpaque.TabIndex = 19;
+            this.lblBatchTranspOpaque.Text = "Opaque";
             // 
             // BatchSettings
             // 
@@ -1115,6 +1166,7 @@
             this.pnlBatchTransHead.PerformLayout();
             this.pnlBatchTransScale.ResumeLayout(false);
             this.pnlBatchTransScale.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.slideBatchScale)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtBatchScale)).EndInit();
             this.pnlBatchTransRotate.ResumeLayout(false);
             this.pnlBatchTransRotate.PerformLayout();
@@ -1126,7 +1178,7 @@
             this.pnlBatchAdjHead.PerformLayout();
             this.pnlBatchAdjTrans.ResumeLayout(false);
             this.pnlBatchAdjTrans.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtBatchAdjTransparencyInput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slideBatchTransparency)).EndInit();
             this.tabFilters.ResumeLayout(false);
             this.batchFilterFlow.ResumeLayout(false);
             this.pnlBatchFilterHead.ResumeLayout(false);
@@ -1163,8 +1215,6 @@
         private System.Windows.Forms.TabPage tabAdjustments;
         private System.Windows.Forms.Label lblBatchAdjInstructions;
         public System.Windows.Forms.CheckBox chkBatchAdjTransparency;
-        private System.Windows.Forms.NumericUpDown txtBatchAdjTransparencyInput;
-        private System.Windows.Forms.Label lblBatchAdjTransparencyInstructions;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton radBatchFilterGrayscaleLum;
         private System.Windows.Forms.RadioButton radBatchFilterGrayscaleAvg;
@@ -1229,13 +1279,19 @@
         private System.Windows.Forms.RadioButton radTransRotate180;
         private System.Windows.Forms.RadioButton radTransRotate90Counter;
         private System.Windows.Forms.RadioButton radTransRotate90Clock;
-        private System.Windows.Forms.RadioButton radTransFlipH;
-        private System.Windows.Forms.RadioButton radTransFlipV;
         private System.Windows.Forms.TableLayoutPanel tableLayoutBatchPreview;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox picBatchPreview;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button btnBatchFileProcessDeselect;
+        private System.Windows.Forms.TrackBar slideBatchScale;
+        private System.Windows.Forms.Label batchTransFlipNotification;
+        private System.Windows.Forms.CheckBox chkTransFlipH;
+        private System.Windows.Forms.CheckBox chkTransFlipV;
+        private System.Windows.Forms.TrackBar slideBatchTransparency;
+        private System.Windows.Forms.Label lblBatchTranspOpaque;
+        private System.Windows.Forms.Label lblBatchTranspTransp;
+        private System.Windows.Forms.Label lblBatchTranspValue;
     }
 }

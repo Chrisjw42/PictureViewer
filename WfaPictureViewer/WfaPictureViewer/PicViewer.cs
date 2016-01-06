@@ -21,13 +21,14 @@ namespace WfaPictureViewer
         int curImgIndex, curGalleryHeight; // The height of the flowGallery
         bool pnlGalleryHidden;
         ImgAdjust adjustImg = new ImgAdjust();
+        Rectangle screen;
 
-        //CONSTRUCTOR - Does not have a return type and shares a deaultName with the class
+        //CONSTRUCTOR - Does not have a return type and shares a defaultName with the class
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         public PicViewer()
         {
             InitializeComponent();
-
+            this.StartPosition = FormStartPosition.WindowsDefaultBounds;
             // Allow the form to process key inputs
             this.KeyPreview = true;
             this.KeyPress += new KeyPressEventHandler(Form1_KeyPress);
@@ -35,7 +36,10 @@ namespace WfaPictureViewer
             this.picBoxMain.MouseWheel += new MouseEventHandler(PicboxMain_MouseWheel);
 
             // "Size" is a struct, so you can't simply declare this.MinimumSize.Size = x,y
-            this.MinimumSize = new Size(400, 200);
+            this.MinimumSize = new Size(571, 325);
+            // Rectangle storing the size of the current monitor's active area
+            screen = Screen.GetWorkingArea(this);
+            this.Size = new Size((int)(screen.Width / 1.4), (int)(screen.Height / 1.4));
             // Bool initialisors
             chkAspectLock.Enabled = false;
             // BG Colour stuff
@@ -51,6 +55,7 @@ namespace WfaPictureViewer
             pnlGallery.AutoScrollMinSize = new Size(1, 1);
             listLoadedImg = new List<LoadedImage>();
             UpdateGallery();
+            MenuLoadImage_Click(this, null);
         }
 
         // METHODS
@@ -92,6 +97,20 @@ namespace WfaPictureViewer
             pnlPicBox.AutoScrollMinSize = new Size(img.GetBitmap("c").Width - 10, img.GetBitmap("c").Height - 10);
         }
 
+        private void UpdatePicBox(Bitmap onlyTheBitmap)
+        {
+            // Assign current img to current and picbox
+            picBoxMain.Image = onlyTheBitmap;
+
+            // Updating the display info
+            UpdatePicboxInfoAndSizeMode();
+            UpdateText();
+            UpdateImgOptions();
+            UpdateGallery();
+
+            pnlPicBox.AutoScrollMinSize = new Size(onlyTheBitmap.Width - 10, onlyTheBitmap.Height - 10);
+        }
+
         public void UpdateGallery()
         {// An array of the columnstyles, used below to define width of a specific column
             TableLayoutColumnStyleCollection styleCollection = tableLayoutPanel1.ColumnStyles;
@@ -114,7 +133,6 @@ namespace WfaPictureViewer
                         // Update .Names to i, which matches their imgIndex, and will be used when clicked on to dictate the image that gets loaded
                         listLoadedImg[i].UpdateLblThumbName(i.ToString());
                         listLoadedImg[i].GetThumbnail().Name = i.ToString();
-                        listLoadedImg[i].curIndex = i;
 
                         flowGallery.Controls.Add(listLoadedImg[i].GetThumbnail());
 
@@ -167,9 +185,7 @@ namespace WfaPictureViewer
             {
                 lblPicInfo.Text = ("File Name: " + listLoadedImg[curImgIndex].GetName() + Environment.NewLine + "H: " + picBoxMain.Image.Height + Environment.NewLine + "W: " + picBoxMain.Image.Width + Environment.NewLine + "Aspect Ratio: " + GetPicBoxRatio() + Environment.NewLine + "Stretching: " + GetRatioDistortion());
                 // Note: "AutoSize" allows the use of the scroll bars
-                if (chkStretch.Checked == true)
-                    picBoxMain.SizeMode = PictureBoxSizeMode.StretchImage;
-                else if (picBoxMain.Size.Width < picBoxMain.Image.Width || picBoxMain.Size.Height < picBoxMain.Image.Height)
+                if(picBoxMain.Size.Width < picBoxMain.Image.Width || picBoxMain.Size.Height < picBoxMain.Image.Height)
                     picBoxMain.SizeMode = PictureBoxSizeMode.AutoSize;
                 else // includes if picBoxMain > PicBoxMain.Image
                     picBoxMain.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -222,19 +238,9 @@ namespace WfaPictureViewer
             // If there is actually an image loaded
             if (picBoxMain.Image != null)
             {
-                // Find out if the stretching is turned on
-                if (chkStretch.Checked == false)
-                {
-                    // The ratio is the width of the image divided by the height
-                    picBoxRatio = picBoxMain.Image.PhysicalDimension.Width / picBoxMain.Image.PhysicalDimension.Height;
-                    return picBoxRatio;
-                }
-                // Or if the stretch checkbox IS checked, instead get the values of the pictureBox itself, as the iamge will match it
-                else
-                {
-                    picBoxRatio = picBoxMain.Width / picBoxMain.Height;
-                    return picBoxRatio;
-                }
+                // Get the values of the pictureBox itself, as the iamge will match it
+                picBoxRatio = picBoxMain.Width / picBoxMain.Height;
+                return picBoxRatio;
             }
             else
             {
@@ -245,35 +251,30 @@ namespace WfaPictureViewer
         // Compare the current stretched image's aspect ratio against it's original aspect ratio
         private string GetRatioDistortion()
         {
-            // Only run the comparison if image stretching is enabled
-            if (chkStretch.Checked)
+            
+            // To avoid calling the function multiple times
+            double tempPicBoxRatio = GetPicBoxRatio();
+            double distortion;
+            double tmpCorrectRatio = listLoadedImg[curImgIndex].GetCorrectRatio();
+
+            // if the images 'correct' ratio (e.g. 1.43322) is less than current 
+            if (tmpCorrectRatio < tempPicBoxRatio)
             {
-                // To avoid calling the function multiple times
-                double tempPicBoxRatio = GetPicBoxRatio();
-                double distortion;
-                double tmpCorrectRatio = listLoadedImg[curImgIndex].GetCorrectRatio();
-
-                // if the images 'correct' ratio (e.g. 1.43322) is less than current 
-                if (tmpCorrectRatio < tempPicBoxRatio)
-                {
-                    Console.WriteLine("Correct < Current" + Environment.NewLine + "Correct: " + tmpCorrectRatio + "Current: " + tempPicBoxRatio);
-                    distortion = tmpCorrectRatio / tempPicBoxRatio - 1;
-                    return (distortion.ToString("0.000"));
-                }
-                else if (tmpCorrectRatio > tempPicBoxRatio)
-                {
-                    Console.WriteLine("Correct > Current" + Environment.NewLine + "Correct: " + tmpCorrectRatio + "Current: " + tempPicBoxRatio);
-                    distortion = tmpCorrectRatio / tempPicBoxRatio - 1;
-                    return (distortion.ToString("0.000"));
-                }
-                else if (tmpCorrectRatio == tempPicBoxRatio)
-                    return "Aspect ratio accurate!";
-
-                else
-                    return "Error";
+                Console.WriteLine("Correct < Current" + Environment.NewLine + "Correct: " + tmpCorrectRatio + "Current: " + tempPicBoxRatio);
+                distortion = tmpCorrectRatio / tempPicBoxRatio - 1;
+                return (distortion.ToString("0.000"));
             }
-            else
+            else if (tmpCorrectRatio > tempPicBoxRatio)
+            {
+                Console.WriteLine("Correct > Current" + Environment.NewLine + "Correct: " + tmpCorrectRatio + "Current: " + tempPicBoxRatio);
+                distortion = tmpCorrectRatio / tempPicBoxRatio - 1;
+                return (distortion.ToString("0.000"));
+            }
+            else if (tmpCorrectRatio == tempPicBoxRatio)
                 return "Aspect ratio accurate!";
+
+            else
+                return "Error";
         }
 
         // Update options that require an image to be loaded.
@@ -282,6 +283,7 @@ namespace WfaPictureViewer
             // Enable if image is currently loaded
             if (picBoxMain.Image != null)
             {
+                menuBatch.Enabled = 
                 menuClearImage.Enabled =
                 menuCopyImage.Enabled =
                 menuTransp.Enabled =
@@ -303,18 +305,6 @@ namespace WfaPictureViewer
                     menuBatchMenu.Enabled = false;
                     menuLoadImage.Text = "Load Image/s";
                     //MenuHideGallery.Enabled = false;
-                }
-
-                // Activate or deactivate stretching-specific menu items depending on whether stretching is enabled
-                if (chkStretch.Checked == true)
-                {
-                    menuResetStretching.Enabled = true;
-                    menuFitWindow.Enabled = false;
-                }
-                else if (chkStretch.Checked == false)
-                {
-                    menuResetStretching.Enabled = false;
-                    menuFitWindow.Enabled = true;
                 }
 
                 // If there is something in the list
@@ -368,6 +358,7 @@ namespace WfaPictureViewer
             {
                 menuLoadImage.Enabled = true;
 
+                menuBatch.Enabled =
                 menuClearImage.Enabled =
                 menuCopyImage.Enabled =
                 menuFitWindow.Enabled =
@@ -464,6 +455,7 @@ namespace WfaPictureViewer
                     UpdatePicbox(listLoadedImg[curImgIndex]);
                 }
             }
+            
         }
 
         // Run when a thumbnail picbox in the gallery is clicked, also applied to the label.
@@ -544,6 +536,7 @@ namespace WfaPictureViewer
 
                 if (listLoadedImg.Count == 0)
                 {
+                    picBoxMain.Image = null;
                     // Updating needs to be done here, because UpdatePicbox wont be called
                     curImgIndex = 0;
                     UpdateText();
@@ -619,7 +612,7 @@ namespace WfaPictureViewer
 
                     for (int i = 0; i < listLoadedImg.Count; i++)
                     {
-                        // Add each item that is marked for processing to the new batch list, arIsProcessed is populated in bs.GrabInputValues()
+                        // Add each item that is marked for processing to the new batch list, arrIsProcessed is populated in bs.GrabInputValues()
                         if (bs.arrIsProcessed[i] == true)
                         {
                             listBatch.Add(listLoadedImg[i]);
@@ -633,7 +626,7 @@ namespace WfaPictureViewer
                     foreach (LoadedImage batchImg in listBatch)
                     {
                         suffix++; // Only iterate when moving to the next image
-                        ApplyBatchSettingsEffects(bs, batchImg);
+                        ApplyBatchSettingsEffects(bs, batchImg); // Apply all effects before file processing
                         batchImg.ApplyPreview();
 
                         // If Exporting to file & Channels are not being exported
@@ -790,6 +783,16 @@ namespace WfaPictureViewer
             {
                 img.UpdatePreview(adjustImg.GetScaledVer(img.GetBitmap("p"), bs.transformScale, bs.transformScale, true));
             }
+            // Rotation
+            if (bs.arrChkOptions[1][1].Checked)
+            {
+                img.UpdatePreview(adjustImg.GetRotatedVer(img.GetBitmap("p"), bs.transformRotation));
+            }
+            // Flip
+            if (bs.arrChkOptions[1][2].Checked)
+            {
+                img.UpdatePreview(adjustImg.GetFlippedVer(img.GetBitmap("p"), bs.flipV, bs.flipH));
+            }
 
             // FILTERS
             int filterToApply = -1;
@@ -905,25 +908,6 @@ namespace WfaPictureViewer
             }
         }
 
-        // Known as an "Event Handler" becuase they are called when an event occurs in the program
-        private void chkStretch_CheckedChanged(object sender, EventArgs e)
-        {
-            // Finds out if the box is/isn't checked after a click, runs the method that updates the sizemode based on chkStretched
-            if (chkStretch.Checked)
-            {
-                // Make the font Bold, mimicing the current font's style, but making it bold
-                chkStretch.Font = new Font(chkStretch.Font, FontStyle.Bold);
-                UpdatePicboxInfoAndSizeMode();
-            }
-            else if (chkStretch.Checked == false)
-            {
-                // Make the font Bold, mimicing the current font's style, but making it not bold
-                chkStretch.Font = new Font(chkStretch.Font, FontStyle.Regular);
-                UpdatePicboxInfoAndSizeMode();
-            }
-            UpdateImgOptions();
-        }
-
         private void forEachTestToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listLoadedImg.Count > 0)
@@ -1037,7 +1021,9 @@ namespace WfaPictureViewer
             {
                 // Save a version of the current image, in case an out of range exception (in GetScaledVer) returns a null
                 Image oldImg = picBoxMain.Image;
-                picBoxMain.Image = adjustImg.GetScaledVer(listLoadedImg[curImgIndex].GetBitmap("c"), (float)txtImgWindowControl.Value, (float)txtImgWindowControl.Value, false) ?? oldImg;
+                // For readability, the scaled version is created separately.
+                Bitmap bmp = adjustImg.GetScaledVer(listLoadedImg[curImgIndex].GetBitmap("c"), (float)txtImgWindowControl.Value, (float)txtImgWindowControl.Value, false);
+                UpdatePicBox(bmp); // utilises a separate overload that only updates the iamge, and not the class object
             }
         }
 
@@ -1052,7 +1038,7 @@ namespace WfaPictureViewer
                 // Create an offset which equals 10 + how ever many hundreds the current % value is displaying
                 int offset = (int)((txtImgWindowControl.Value - (txtImgWindowControl.Value % 100)) / 10) + 10;
 
-                // If it the value asignment wil be out of range, default to max
+                // If the value asignment will be out of range, default to max
                 if (mouseScrollValue > 0) // Going up
                 {
                     if (txtImgWindowControl.Value + (0 + offset) > 999)
@@ -1076,6 +1062,49 @@ namespace WfaPictureViewer
                     }                    
                 }
             }            
+        }
+
+        private void btnFitWindow_Click(object sender, EventArgs e)
+        {
+            if (picBoxMain.Image != null)
+            {
+                decimal factorW = (decimal)pnlPicBox.Width / picBoxMain.Image.Width;
+                decimal factorH = (decimal)pnlPicBox.Height / picBoxMain.Image.Height;
+                decimal factorW2 = (decimal)picBoxMain.Image.Width / pnlPicBox.Width;
+                decimal factorH2 = (decimal)picBoxMain.Image.Height / pnlPicBox.Height;
+
+                // Cancel operation of the window size is very similar to required
+                if (((float)factorH > 0.9 && (float)factorH < 1.1) && ((float)factorW > 0.9 && (float)factorW < 1.1))
+                {
+                    return;
+                }
+
+                // Check if image is bigger than picbox along either axis
+                if (pnlPicBox.Width < picBoxMain.Image.Width || pnlPicBox.Height < picBoxMain.Image.Height)
+                {
+                    // Turn factor in to required scale percentage, and pass to textBox
+                    if (factorW2 > factorH2)
+                    {
+                        txtImgWindowControl.Value = txtImgWindowControl.Value / factorW2;
+                    }
+                    else
+                    {
+                        txtImgWindowControl.Value = txtImgWindowControl.Value / factorH2;
+                    }                    
+                }
+                // if the panel is larger along both axes
+                else if (pnlPicBox.Width > picBoxMain.Image.Width && pnlPicBox.Height > picBoxMain.Image.Height)
+                {
+                    if (factorH < factorW)
+                    {
+                        txtImgWindowControl.Value = txtImgWindowControl.Value * factorH;
+                    }
+                    else
+                    {
+                        txtImgWindowControl.Value = txtImgWindowControl.Value * factorW;
+                    }                    
+                }
+            }
         }
 
         private void btnResetZoom_Click(object sender, EventArgs e)

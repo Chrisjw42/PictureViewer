@@ -319,5 +319,55 @@ namespace WfaPictureViewer
             // Return null if out of range exception is triggered
             return null;            
         }
+
+        public Bitmap GetRotatedVer(Bitmap passedImg, int numDegrees)
+        {
+            // Create an empty Bitmap
+            Bitmap newImg = new Bitmap(passedImg);
+            
+            switch(numDegrees)
+            {
+                case 90:
+                    {
+                        newImg.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    }
+                    break;
+                case 180:
+                    {
+                        newImg.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    }
+                    break;
+                case 270:
+                    {
+                        newImg.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    }
+                    break;
+                default:
+                    {
+                        MessageBox.Show("You dun fucked up!");
+                    }
+                    break;
+            }
+            return newImg;
+        }
+
+        public Bitmap GetFlippedVer(Bitmap passedImg, bool flipX, bool flipY)
+        {
+            Bitmap newImg = new Bitmap(passedImg);
+
+            if (flipX && flipY)
+            {
+                newImg.RotateFlip(RotateFlipType.RotateNoneFlipXY);
+            }
+            else if (flipX && !flipY)
+            {
+                newImg.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            }
+            else if (!flipY && flipX)
+            {
+                newImg.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            }
+            return newImg;            
+        }
     }
 }

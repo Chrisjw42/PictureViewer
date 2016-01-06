@@ -22,14 +22,12 @@ namespace WfaPictureViewer
         private double correctRatio { get; set; }
         private Stack<Bitmap> undo { get; set; }
         private Stack<Bitmap> redo { get; set; }
-        public int curIndex { get; set; } // THIS IS NOT HOW THIS WILL BE
 
         // CONSTRUCTOR
         public LoadedImage(string path, Bitmap baseImage, PicViewer sender, int index)
         {
             //defaultLocation = Path.GetDirectoryName(path);
             PicViewer = sender; 
-            curIndex = index;
             originalVer = currentVer = baseImage; // baseImage already converted to ARGB
 
             deaultName = Path.GetFileNameWithoutExtension(path);
@@ -40,10 +38,10 @@ namespace WfaPictureViewer
             // Create label to dock over thumbnail
             lblThumb = new Label();
             lblThumb.Dock = DockStyle.Left;
-            lblThumb.Size = new Size(15, 15);
+            lblThumb.Size = new Size(23, 15);
             lblThumb.Font = new Font(lblThumb.Font, FontStyle.Bold);
             lblThumb.ForeColor = Color.White;
-            lblThumb.TextAlign = ContentAlignment.TopLeft;
+            lblThumb.TextAlign = ContentAlignment.TopCenter;
             lblThumb.BackColor = Color.FromArgb(50, 0, 0, 0);
 
             UpdateThumbnail();

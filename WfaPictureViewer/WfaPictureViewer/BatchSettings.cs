@@ -14,6 +14,8 @@ namespace WfaPictureViewer
         public bool provideDir { get; private set; }
         public bool exportAlphaTransp { get; private set; }
         public bool exportAlphaBW { get; private set; }
+        public bool flipH { get; private set; }
+        public bool flipV { get; private set; }
         public string fileTypeString, fileName, newFileDir, grayAlgorithm;
         private Color colourEnabled = Color.FromArgb(161, 212, 144), colourDisabled = Color.WhiteSmoke, colourUnavailable = Color.FromArgb(212, 161, 144);
         public CheckBox[][] arrChkOptions { get; private set; } // Jagged array of all checkbox options, retreivable but not editable.
@@ -23,6 +25,7 @@ namespace WfaPictureViewer
         public bool[] arrIsProcessed; // is the image at this position selected for processing.
         public byte transpInput { get; private set; }
         public float transformScale { get; private set; }
+        public int transformRotation { get; private set; }
         private LoadedImage previewLoadedImage { get; set; }
 
         // CONSTRUCTOR
@@ -40,28 +43,38 @@ namespace WfaPictureViewer
             mainProgram = (PicViewer)sender; // Reference to main form
             arrIsProcessed = new bool[mainProgram.listLoadedImg.Count()]; // array of bool matching length of list
 
-            comboBatchFileExportType.SelectedIndex = 0; // Creates a call to  UpdateOptions();
-            PopulateList();
+            // Populate checklist of images
+            batchFileSelectionList.Items.Clear();
+            for (int i = 0; i < arrIsProcessed.Length; i++)
+            {
+                // Add an item using the listLoadedImage collection's item names, prechecked
+                batchFileSelectionList.Items.Add(mainProgram.listLoadedImg[i].GetName(), true);
+            }
 
             // Suite of image adjustment tools
             ImgAdjust adjustImg = new ImgAdjust();
 
             // Used to create a LoadedImage object
             Bitmap imgForPreview;
-            // If check allows for development work without having to load an images every time
-            if (mainProgram.listLoadedImg.Count() == 0)
-            {
-                imgForPreview = adjustImg.GetArgbVer(Bitmap.FromFile("..//..//testImage.jpg"));
-            }
-            else
-            {
-                imgForPreview = mainProgram.listLoadedImg[0].GetBitmap("c");
-            }
+
+            //// If check allows for development work without having to load an images every time
+            //if (mainProgram.listLoadedImg.Count() == 0)
+            //{
+            //    imgForPreview = adjustImg.GetArgbVer(Bitmap.FromFile("..//..//testImage.jpg"));
+            //}
+            //else
+            //{
+            //    imgForPreview = mainProgram.listLoadedImg[0].GetBitmap("c");
+            //}
+
+            imgForPreview = mainProgram.listLoadedImg[0].GetBitmap("c");
 
             // LoadedImage class object is created, it's previewVer is displayed in the thumbnail
             // -999 & ../ are dummy values, they aren't used and are unimportant. 
-            previewLoadedImage = new LoadedImage("../", imgForPreview, mainProgram, -9999);
-            picBatchPreview.Image = previewLoadedImage.GetBitmap("p");            
+            previewLoadedImage = new LoadedImage("../", imgForPreview, mainProgram, -999);
+            picBatchPreview.Image = previewLoadedImage.GetBitmap("p");
+
+            comboBatchFileExportType.SelectedIndex = 0; // Creates a call to UpdateOptions();          
         }
 
         private void UpdateCheckedStatus()
@@ -81,7 +94,7 @@ namespace WfaPictureViewer
             arrChkOptions[3] = new CheckBox[] { chkBatchFilterSepia, chkBatchFilterGrayscale };
             // Row 4, Channels
             arrChkOptions[4] = new CheckBox[] { chkBatchChannels};
-            
+                        
             // Channel options
             arrChannelOptions = new CheckBox[] { chkBatchChannelsR, chkBatchChannelsG, chkBatchChannelsB, chkBatchChannelsA };
 
@@ -110,17 +123,6 @@ namespace WfaPictureViewer
                 }
             }
                 return activeOptions;
-        }
-
-        // Populate checklist of images
-        private void PopulateList()
-        {
-            batchFileSelectionList.Items.Clear();
-            for (int i = 0; i < arrIsProcessed.Length; i++ )
-            {
-                // Add an item using the listLoadedImage collection's item names, prechecked
-                batchFileSelectionList.Items.Add(mainProgram.listLoadedImg[i].GetName(), true); 
-            }            
         }
 
         private void UpdateOptions()
@@ -167,6 +169,7 @@ namespace WfaPictureViewer
                 }
             }
             
+            // Disable the options associated with each major checkbox based on whether it is checked. 
             // Loop through collection of chkboxes
             for (int i = 0; i < arrChkOptions.Length; i++)
             {
@@ -202,9 +205,9 @@ namespace WfaPictureViewer
                         arrChkOptions[i][j].Enabled = wasChkBoxEnabled; 
                     }
                 }
-
-                UpdateCheckedStatus();
             }
+
+            GrabInputValues(); // calls UpdateCheckedStatus
 
             // If an active filter was found
             if (curFilterIndex != -1)
@@ -289,11 +292,10 @@ namespace WfaPictureViewer
             UpdateCheckedStatus();
 
             // Grab all the important values for use by mainProgram's algorithms
-            transpInput = (byte)txtBatchAdjTransparencyInput.Value;
+            transpInput = (byte)(slideBatchTransparency.Value);
             newFileDir = lblBatchFileFolder.Text;
 
-
-            // For each selected image in the electionlist, edit bool in that array position
+            // For each selected image in the selectionlist, edit bool in that array position
             // This array is used by menuBatch_Click
             for (int i = 0; i < arrIsProcessed.Length; i++)
             {
@@ -301,6 +303,36 @@ namespace WfaPictureViewer
                 {
                     arrIsProcessed[i] = true;
                 }
+                else
+                {
+                    arrIsProcessed[i] = false;
+                }
+            }
+
+            // Sort out rotation value
+            if (arrChkOptions[1][1].Checked)
+            {
+                transformRotation = 0;
+
+                if (radTransRotate90Clock.Checked)
+                {
+                    transformRotation = 90;
+                }
+                if (radTransRotate180.Checked)
+                {
+                    transformRotation = 180;
+                }
+                if (radTransRotate90Counter.Checked)
+                {
+                    transformRotation = 270;
+                }
+            }
+
+            // Sort out flip values
+            if (arrChkOptions[1][2].Checked)
+            {
+                flipH = chkTransFlipH.Checked;
+                flipV = chkTransFlipV.Checked;
             }
 
             if (arrChkOptions[3][1].Checked)
@@ -318,13 +350,22 @@ namespace WfaPictureViewer
             transformScale = (float)txtBatchScale.Value;
         }
 
-        private void btnBatch_Click(object sender, EventArgs e)
+        private void UpdateScaleValue(int passVal)
         {
-            GrabInputValues();
+            // Only update value if it passes validation
+            if (passVal > 0 && passVal <= 1000)
+            {
+                txtBatchScale.Value = passVal;
+            }            
         }
 
         // EVENT HANDLERS
         ////////////////////////////////////////////////////////////////////
+
+        private void btnBatch_Click(object sender, EventArgs e)
+        {
+            GrabInputValues();
+        }
 
         private void chkExport_CheckedChanged(object sender, EventArgs e)
         {
@@ -338,12 +379,6 @@ namespace WfaPictureViewer
 
         private void chkFileName_CheckedChanged(object sender, EventArgs e)
         {
-            //if (chkBatchFileExportNewName.Checked == true)
-            //{
-            //    provideName = true;
-            //}
-            //else
-            //    provideName = false;
             UpdateOptions();
         }
 
@@ -457,11 +492,27 @@ namespace WfaPictureViewer
         private void chkBatchTransRotate_CheckedChanged(object sender, EventArgs e)
         {
             UpdateOptions();
+            if (chkBatchTransFlip.Checked && chkBatchTransRotate.Checked)
+            {
+                batchTransFlipNotification.Visible = true;
+            }
+            else
+            {
+                batchTransFlipNotification.Visible = false;
+            }
         }
 
         private void chkBatchTransFlip_CheckedChanged(object sender, EventArgs e)
         {
             UpdateOptions();
+            if (chkBatchTransFlip.Checked && chkBatchTransRotate.Checked)
+            {
+                batchTransFlipNotification.Visible = true;
+            }
+            else
+            {
+                batchTransFlipNotification.Visible = false;
+            }
         }
 
         private void chkBatchChannels_CheckedChanged_1(object sender, EventArgs e)
@@ -477,6 +528,38 @@ namespace WfaPictureViewer
         private void radBatchChannelsABW_CheckedChanged(object sender, EventArgs e)
         {
             UpdateOptions();
+        }
+
+        private void radBatchFilterGrayscaleLum_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateOptions();
+        }
+
+        private void slideBatchScale_Scroll(object sender, EventArgs e)
+        {
+            int val = slideBatchScale.Value;
+            int passVal = 0;
+            if (val <= 10)
+            {
+                passVal = val * 10;
+            }
+            else if (val >= 11 && val <= 15)
+            {
+                passVal = 100 + ((val % 10) * 20);
+            }
+            else if (val >= 16)
+            {
+                passVal = 200 + ((val % 15) * 200);
+            }
+            UpdateScaleValue(passVal);
+        }
+
+        private void slideBatchTransparency_Scroll(object sender, EventArgs e)
+        {
+            // Whenever the slider is moved, the position & text of the label are changed based on the slider's value
+            // 64 is the furthest left position, and 64 + 347 is the furthest right. 255 is the max value of the slider
+            lblBatchTranspValue.Location = new Point((64 + (slideBatchTransparency.Value * 347/255)), 34);
+            lblBatchTranspValue.Text = (int)(slideBatchTransparency.Value * (100f/255f)) + "%";
         }
 
         private void radBatchChannelsATran_CheckedChanged(object sender, EventArgs e)
