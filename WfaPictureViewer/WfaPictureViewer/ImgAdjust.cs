@@ -19,6 +19,7 @@ namespace WfaPictureViewer
 
             // A pointer is directed to the address of the first piece of data, this is now an int that holds the ARGB data of a given pixel (I think). A printf returns an int
             IntPtr dataPointer = imgData.Scan0;
+            MessageBox.Show(dataPointer.ToString());
 
             // An EMPTY array that will hold all of the data that makes up the image
             byte[] pixelByteBuffer = new byte[imgData.Stride * imgData.Height];

@@ -136,6 +136,7 @@
             this.btnNavigateRight.TabIndex = 1;
             this.btnNavigateRight.Text = ">";
             this.btnNavigateRight.UseVisualStyleBackColor = true;
+            this.btnNavigateRight.Click += new System.EventHandler(this.btnNavigateRight_Click);
             // 
             // lblPicNotifier
             // 
@@ -154,6 +155,7 @@
             this.btnNavigateLeft.TabIndex = 0;
             this.btnNavigateLeft.Text = "<";
             this.btnNavigateLeft.UseVisualStyleBackColor = true;
+            this.btnNavigateLeft.Click += new System.EventHandler(this.btnNavigateLeft_Click);
             // 
             // pnlGallery
             // 

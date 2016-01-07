@@ -15,7 +15,6 @@ namespace WfaPictureViewer
     public partial class PicViewer : Form
     {
         string[] inputFileText = System.IO.File.ReadAllLines(@"..\..\input.txt"); // Initialise an array of each line of the input file
-        float picBoxRatio;
         Color defaultBG;
         public List<LoadedImage> listLoadedImg { get; private set; }
         int curImgIndex, curGalleryHeight; // The height of the flowGallery
@@ -28,18 +27,19 @@ namespace WfaPictureViewer
         public PicViewer()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.WindowsDefaultBounds;
+            
             // Allow the form to process key inputs
             this.KeyPreview = true;
-            this.KeyPress += new KeyPressEventHandler(Form1_KeyPress);
+            this.KeyPress += new KeyPressEventHandler(MainForm_KeyPress);
             // Allow the picbox to process mousewhel inputs
             this.picBoxMain.MouseWheel += new MouseEventHandler(PicboxMain_MouseWheel);
 
+            this.StartPosition = FormStartPosition.WindowsDefaultBounds;
             // "Size" is a struct, so you can't simply declare this.MinimumSize.Size = x,y
             this.MinimumSize = new Size(571, 325);
             // Rectangle storing the size of the current monitor's active area
             screen = Screen.GetWorkingArea(this);
-            this.Size = new Size((int)(screen.Width / 1.4), (int)(screen.Height / 1.4));
+            this.Size = new Size((int)(screen.Width * 0.66), (int)(screen.Height * 0.66));
             // Bool initialisors
             chkAspectLock.Enabled = false;
             // BG Colour stuff
@@ -88,7 +88,8 @@ namespace WfaPictureViewer
             picBoxMain.Image = img.GetBitmap("c");
 
             // Updating the display info
-            UpdatePicboxInfoAndSizeMode();
+            UpdateSizeMode();
+            UpdateLblInfo();
             UpdateText();
             UpdateImgOptions();
             UpdateGallery();
@@ -97,17 +98,12 @@ namespace WfaPictureViewer
             pnlPicBox.AutoScrollMinSize = new Size(img.GetBitmap("c").Width - 10, img.GetBitmap("c").Height - 10);
         }
 
-        private void UpdatePicBox(Bitmap onlyTheBitmap)
-        {
-            // Assign current img to current and picbox
+        // Update with a resized version of the bitmap
+        private void UpdatePicBoxResized(Bitmap onlyTheBitmap)
+        {// Assign current img to current and picbox
             picBoxMain.Image = onlyTheBitmap;
-
             // Updating the display info
-            UpdatePicboxInfoAndSizeMode();
-            UpdateText();
-            UpdateImgOptions();
-            UpdateGallery();
-
+            UpdateSizeMode();
             pnlPicBox.AutoScrollMinSize = new Size(onlyTheBitmap.Width - 10, onlyTheBitmap.Height - 10);
         }
 
@@ -178,17 +174,23 @@ namespace WfaPictureViewer
 
 
         // Combined method that updates the picbox label info display and the sizemode of the image
-        private void UpdatePicboxInfoAndSizeMode()
+        private void UpdateSizeMode()
         {
-            // Writing the file info to the label
             if (picBoxMain.Image != null)
-            {
-                lblPicInfo.Text = ("File Name: " + listLoadedImg[curImgIndex].GetName() + Environment.NewLine + "H: " + picBoxMain.Image.Height + Environment.NewLine + "W: " + picBoxMain.Image.Width + Environment.NewLine + "Aspect Ratio: " + GetPicBoxRatio() + Environment.NewLine + "Stretching: " + GetRatioDistortion());
-                // Note: "AutoSize" allows the use of the scroll bars
+            { 
                 if(picBoxMain.Size.Width < picBoxMain.Image.Width || picBoxMain.Size.Height < picBoxMain.Image.Height)
                     picBoxMain.SizeMode = PictureBoxSizeMode.AutoSize;
                 else // includes if picBoxMain > PicBoxMain.Image
                     picBoxMain.SizeMode = PictureBoxSizeMode.CenterImage;
+            }
+        }
+
+        private void UpdateLblInfo()
+        {
+            // Writing the file info to the label
+            if (picBoxMain.Image != null)
+            {
+                lblPicInfo.Text = listLoadedImg[curImgIndex].lblInfo;
             }
             else
                 lblPicInfo.Text = null;
@@ -229,52 +231,7 @@ namespace WfaPictureViewer
         // After resizing
         private void Form1_PostResize(object sender, EventArgs e)
         {
-            UpdatePicboxInfoAndSizeMode();
-        }
-
-        // Returns the aspect ratio of the image currently loaded in the picBox
-        private float GetPicBoxRatio()
-        {
-            // If there is actually an image loaded
-            if (picBoxMain.Image != null)
-            {
-                // Get the values of the pictureBox itself, as the iamge will match it
-                picBoxRatio = picBoxMain.Width / picBoxMain.Height;
-                return picBoxRatio;
-            }
-            else
-            {
-                return 0.0f;
-            }
-        }
-
-        // Compare the current stretched image's aspect ratio against it's original aspect ratio
-        private string GetRatioDistortion()
-        {
-            
-            // To avoid calling the function multiple times
-            double tempPicBoxRatio = GetPicBoxRatio();
-            double distortion;
-            double tmpCorrectRatio = listLoadedImg[curImgIndex].GetCorrectRatio();
-
-            // if the images 'correct' ratio (e.g. 1.43322) is less than current 
-            if (tmpCorrectRatio < tempPicBoxRatio)
-            {
-                Console.WriteLine("Correct < Current" + Environment.NewLine + "Correct: " + tmpCorrectRatio + "Current: " + tempPicBoxRatio);
-                distortion = tmpCorrectRatio / tempPicBoxRatio - 1;
-                return (distortion.ToString("0.000"));
-            }
-            else if (tmpCorrectRatio > tempPicBoxRatio)
-            {
-                Console.WriteLine("Correct > Current" + Environment.NewLine + "Correct: " + tmpCorrectRatio + "Current: " + tempPicBoxRatio);
-                distortion = tmpCorrectRatio / tempPicBoxRatio - 1;
-                return (distortion.ToString("0.000"));
-            }
-            else if (tmpCorrectRatio == tempPicBoxRatio)
-                return "Aspect ratio accurate!";
-
-            else
-                return "Error";
+            UpdateSizeMode();
         }
 
         // Update options that require an image to be loaded.
@@ -423,7 +380,34 @@ namespace WfaPictureViewer
         // EVENT HANDLERS
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        void Form1_KeyPress(object sender, KeyPressEventArgs key)
+        // This method overrides the usual method for handling keyInputs. 'Protected' means it's only accessible from within the class it is derived from (?)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            // The adjustment here allows the processing on /Up/Dn/Left/Right keys
+            if (keyData == Keys.Left)
+            {
+                StepThroughImgList(-1);
+                return true;
+            }
+            else if (keyData == Keys.Right)
+            {
+                StepThroughImgList(1);
+                return true;
+            }
+            else if (keyData == Keys.Up)
+            {
+                StepThroughImgList(-1);
+                return true;
+            }
+            else if (keyData == Keys.Down)
+            {
+                StepThroughImgList(1);
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        void MainForm_KeyPress(object sender, KeyPressEventArgs key)
         {
             if (key.KeyChar.ToString() == "f")
                 CycleMaximised();
@@ -445,7 +429,6 @@ namespace WfaPictureViewer
                 // only opens if the V user clicks OK
                 if (dlgOpen.ShowDialog() == DialogResult.OK)
                 {
-
                     // 'Filenames' is a property that holds an array of strings, iterating through the array each can be added to the LoadedImg list
                     foreach (string name in dlgOpen.FileNames)
                     {
@@ -454,8 +437,7 @@ namespace WfaPictureViewer
                     curImgIndex = 0; // change to equivalent of total length, or currently displayed??
                     UpdatePicbox(listLoadedImg[curImgIndex]);
                 }
-            }
-            
+            }            
         }
 
         // Run when a thumbnail picbox in the gallery is clicked, also applied to the label.
@@ -540,7 +522,8 @@ namespace WfaPictureViewer
                     // Updating needs to be done here, because UpdatePicbox wont be called
                     curImgIndex = 0;
                     UpdateText();
-                    UpdatePicboxInfoAndSizeMode();
+                    UpdateSizeMode();
+                    UpdateLblInfo();
                     UpdateImgOptions();
                 }
                 // If there is still an image loaded
@@ -759,15 +742,19 @@ namespace WfaPictureViewer
                             }
                         }
                     }
+                    UpdatePicbox(listLoadedImg[curImgIndex]);
                 }
-                else // if Batch window OK ("Batch that Shit") is not selected
+                else
                 {
-
+                    // If anything other than OK is selected, clear all the image previews
+                    foreach (LoadedImage img in listLoadedImg)
+                    {
+                        img.ClearPreview();   
+                    }
                 }
-            }
-            // Update the loaded picturebox window, in case there were any changes. 
-            if (listLoadedImg.Count != 0)
-                UpdatePicbox(listLoadedImg[curImgIndex]);
+                // Update the loaded picturebox window, in case there were any changes. 
+                //UpdatePicbox(listLoadedImg[curImgIndex]);
+            }            
         }
 
         // Apply the current set of effects from the BatchSettings window
@@ -1023,7 +1010,7 @@ namespace WfaPictureViewer
                 Image oldImg = picBoxMain.Image;
                 // For readability, the scaled version is created separately.
                 Bitmap bmp = adjustImg.GetScaledVer(listLoadedImg[curImgIndex].GetBitmap("c"), (float)txtImgWindowControl.Value, (float)txtImgWindowControl.Value, false);
-                UpdatePicBox(bmp); // utilises a separate overload that only updates the iamge, and not the class object
+                UpdatePicBoxResized(bmp); // utilises a separate overload that only updates the iamge, and not the class object
             }
         }
 

@@ -76,6 +76,9 @@
             this.pnlBatchAdjHead = new System.Windows.Forms.Panel();
             this.lblBatchAdjInstructions = new System.Windows.Forms.Label();
             this.pnlBatchAdjTrans = new System.Windows.Forms.Panel();
+            this.lblBatchTranspOpaque = new System.Windows.Forms.Label();
+            this.lblBatchTranspTransp = new System.Windows.Forms.Label();
+            this.lblBatchTranspValue = new System.Windows.Forms.Label();
             this.slideBatchTransparency = new System.Windows.Forms.TrackBar();
             this.chkBatchAdjTransparency = new System.Windows.Forms.CheckBox();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -115,9 +118,6 @@
             this.picBatchPreview = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.lblBatchTranspValue = new System.Windows.Forms.Label();
-            this.lblBatchTranspTransp = new System.Windows.Forms.Label();
-            this.lblBatchTranspOpaque = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabBatch.SuspendLayout();
             this.tabFile.SuspendLayout();
@@ -687,8 +687,35 @@
             this.pnlBatchAdjTrans.Location = new System.Drawing.Point(3, 31);
             this.pnlBatchAdjTrans.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.pnlBatchAdjTrans.Name = "pnlBatchAdjTrans";
-            this.pnlBatchAdjTrans.Size = new System.Drawing.Size(500, 201);
+            this.pnlBatchAdjTrans.Size = new System.Drawing.Size(500, 106);
             this.pnlBatchAdjTrans.TabIndex = 1;
+            // 
+            // lblBatchTranspOpaque
+            // 
+            this.lblBatchTranspOpaque.AutoSize = true;
+            this.lblBatchTranspOpaque.Location = new System.Drawing.Point(403, 70);
+            this.lblBatchTranspOpaque.Name = "lblBatchTranspOpaque";
+            this.lblBatchTranspOpaque.Size = new System.Drawing.Size(45, 13);
+            this.lblBatchTranspOpaque.TabIndex = 19;
+            this.lblBatchTranspOpaque.Text = "Opaque";
+            // 
+            // lblBatchTranspTransp
+            // 
+            this.lblBatchTranspTransp.AutoSize = true;
+            this.lblBatchTranspTransp.Location = new System.Drawing.Point(34, 70);
+            this.lblBatchTranspTransp.Name = "lblBatchTranspTransp";
+            this.lblBatchTranspTransp.Size = new System.Drawing.Size(64, 13);
+            this.lblBatchTranspTransp.TabIndex = 18;
+            this.lblBatchTranspTransp.Text = "Transparent";
+            // 
+            // lblBatchTranspValue
+            // 
+            this.lblBatchTranspValue.AutoSize = true;
+            this.lblBatchTranspValue.Location = new System.Drawing.Point(411, 34);
+            this.lblBatchTranspValue.Name = "lblBatchTranspValue";
+            this.lblBatchTranspValue.Size = new System.Drawing.Size(33, 13);
+            this.lblBatchTranspValue.TabIndex = 17;
+            this.lblBatchTranspValue.Text = "100%";
             // 
             // slideBatchTransparency
             // 
@@ -717,7 +744,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel3.Location = new System.Drawing.Point(3, 235);
+            this.panel3.Location = new System.Drawing.Point(3, 140);
             this.panel3.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(500, 100);
@@ -1038,6 +1065,7 @@
             this.button1.TabIndex = 11;
             this.button1.Text = "Cancel";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // folderBrowserDialog1
             // 
@@ -1105,33 +1133,6 @@
             this.button3.Text = "Get Scaled";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // lblBatchTranspValue
-            // 
-            this.lblBatchTranspValue.AutoSize = true;
-            this.lblBatchTranspValue.Location = new System.Drawing.Point(411, 34);
-            this.lblBatchTranspValue.Name = "lblBatchTranspValue";
-            this.lblBatchTranspValue.Size = new System.Drawing.Size(33, 13);
-            this.lblBatchTranspValue.TabIndex = 17;
-            this.lblBatchTranspValue.Text = "100%";
-            // 
-            // lblBatchTranspTransp
-            // 
-            this.lblBatchTranspTransp.AutoSize = true;
-            this.lblBatchTranspTransp.Location = new System.Drawing.Point(34, 70);
-            this.lblBatchTranspTransp.Name = "lblBatchTranspTransp";
-            this.lblBatchTranspTransp.Size = new System.Drawing.Size(64, 13);
-            this.lblBatchTranspTransp.TabIndex = 18;
-            this.lblBatchTranspTransp.Text = "Transparent";
-            // 
-            // lblBatchTranspOpaque
-            // 
-            this.lblBatchTranspOpaque.AutoSize = true;
-            this.lblBatchTranspOpaque.Location = new System.Drawing.Point(403, 70);
-            this.lblBatchTranspOpaque.Name = "lblBatchTranspOpaque";
-            this.lblBatchTranspOpaque.Size = new System.Drawing.Size(45, 13);
-            this.lblBatchTranspOpaque.TabIndex = 19;
-            this.lblBatchTranspOpaque.Text = "Opaque";
             // 
             // BatchSettings
             // 

@@ -70,8 +70,7 @@ namespace WfaPictureViewer
             imgForPreview = mainProgram.listLoadedImg[0].GetBitmap("c");
 
             // LoadedImage class object is created, it's previewVer is displayed in the thumbnail
-            // -999 & ../ are dummy values, they aren't used and are unimportant. 
-            previewLoadedImage = new LoadedImage("../", imgForPreview, mainProgram, -999);
+            previewLoadedImage = mainProgram.listLoadedImg[0];
             picBatchPreview.Image = previewLoadedImage.GetBitmap("p");
 
             comboBatchFileExportType.SelectedIndex = 0; // Creates a call to UpdateOptions();          
@@ -560,6 +559,11 @@ namespace WfaPictureViewer
             // 64 is the furthest left position, and 64 + 347 is the furthest right. 255 is the max value of the slider
             lblBatchTranspValue.Location = new Point((64 + (slideBatchTransparency.Value * 347/255)), 34);
             lblBatchTranspValue.Text = (int)(slideBatchTransparency.Value * (100f/255f)) + "%";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void radBatchChannelsATran_CheckedChanged(object sender, EventArgs e)

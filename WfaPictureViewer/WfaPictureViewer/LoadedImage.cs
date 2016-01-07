@@ -22,6 +22,7 @@ namespace WfaPictureViewer
         private double correctRatio { get; set; }
         private Stack<Bitmap> undo { get; set; }
         private Stack<Bitmap> redo { get; set; }
+        public string lblInfo { get; private set; }
 
         // CONSTRUCTOR
         public LoadedImage(string path, Bitmap baseImage, PicViewer sender, int index)
@@ -32,6 +33,7 @@ namespace WfaPictureViewer
 
             deaultName = Path.GetFileNameWithoutExtension(path);
             defaultDir = Path.GetDirectoryName(path);
+            
             originalFormat = baseImage.RawFormat;
             correctRatio = (float)currentVer.Width / (float)currentVer.Height;
 
@@ -47,7 +49,7 @@ namespace WfaPictureViewer
             UpdateThumbnail();
 
             // Names are given the index as a string, they will eventually be converted back to ints and used as indexing definitions.
-            //thumbnail.Name = lblThumb.Name = index.ToString();
+            // thumbnail.Name = lblThumb.Name = index.ToString();
 
             // Add eventhandler references to clicks
             thumbnail.Click += PicViewer.picBox_Click;
@@ -58,6 +60,11 @@ namespace WfaPictureViewer
 
             // previewVer will match currentVer when created
             UpdatePreview(currentVer);
+
+            // Divide h/w, convert to decimal, round to two decimal places
+            decimal aspectRatioRounded = Math.Round(Convert.ToDecimal(((float)baseImage.Width / (float)baseImage.Height)), 2);
+            lblInfo = "File Name: " + GetName() + Environment.NewLine + Environment.NewLine + "Height: " + baseImage.Height + Environment.NewLine + "Width: " + baseImage.Width + Environment.NewLine + Environment.NewLine + "Aspect Ratio:" + aspectRatioRounded;
+            
         }
 
         // Return one of the three bitmap properties.
@@ -154,6 +161,12 @@ namespace WfaPictureViewer
             previewVer = null; // consume previewVer after application to currentVer
             UpdateThumbnail();
             PicViewer.UpdateImgOptions();
+        }
+
+        public void ClearPreview()
+        {
+            if (previewVer != null)
+               previewVer.Dispose();
         }
 
         public string GetName()
